@@ -1,9 +1,11 @@
 {
-    "environments": [
-        {
-            "name": "production",
-            "configOverride": {},
-            "gitRef": "main"
-        }
-    ]
+  "environments": [
+    {
+      "name": "production",
+      "configOverride": {
+        "defaultSchema": "dataform_production"
+      },
+      "gitRef": "main"
+    }
+  ]
 }
