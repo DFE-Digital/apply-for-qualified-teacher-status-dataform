@@ -3,7 +3,7 @@
         {
             "name": "production",
             "configOverride": {},
-            "gitRef": "master"
+            "gitRef": "main"
         }
     ]
 }
