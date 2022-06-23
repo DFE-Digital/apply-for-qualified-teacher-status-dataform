@@ -5,6 +5,12 @@
       "configOverride": {
         "defaultSchema": "dataform_production"
       },
+      "schedules": [
+        {
+          "name": "run_all_queries",
+          "cron": "0 2 * * mon,tue,wed,thu,fri,sat,sun"
+        }
+      ],
       "gitRef": "main"
     }
   ]
