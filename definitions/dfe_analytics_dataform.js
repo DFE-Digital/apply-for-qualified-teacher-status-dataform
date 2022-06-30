@@ -11,7 +11,7 @@ dfeAnalyticsDataform({
     description: "",
     keys: [{
       keyName: "country_id",
-      dataType: "integer",
+      dataType: "string",
       description: "",
     }, {
       keyName: "name",
@@ -83,7 +83,7 @@ dfeAnalyticsDataform({
       description: "",
     }, {
       keyName: "region_id",
-      dataType: "integer",
+      dataType: "string",
       description: "",
     }, {
       keyName: "completed_at",
