@@ -78,6 +78,10 @@ dfeAnalyticsDataform({
       dataType: "boolean",
       description: "",
     }, {
+      keyName: "completed_requirements",
+      dataType: "boolean",
+      description: "",
+    }, {
       keyName: "country_code",
       dataType: "string",
       description: "",
