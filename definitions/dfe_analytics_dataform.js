@@ -277,6 +277,10 @@ dfeAnalyticsDataform({
       dataType: "string",
       description: ""
     }, {
+      keyName: "teaching_authority_other",
+      dataType: "string",
+      description: ""
+    }, {
       keyName: "legacy",
       dataType: "boolean",
       description: ""
