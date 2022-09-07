@@ -108,6 +108,10 @@ dfeAnalyticsDataform({
       keyName: "subjects",
       dataType: "string",
       description: "",
+    }, {
+      keyName: "submitted_at",
+      dataType: "date",
+      description: "",
     }]
   }, {
     entityTableName: "countries",
@@ -386,6 +390,43 @@ dfeAnalyticsDataform({
       description: "",
     }, {
       keyName: "unconfirmed_email",
+      dataType: "string",
+      description: "",
+    }]
+  }, {
+    entityTableName: "timeline_events",
+    description: "",
+    keys: [{
+      keyName: "event_type",
+      dataType: "string",
+      description: "",
+      alias: "qts_event_type"
+    }, {
+      keyName: "application_form_id",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "annotation",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "creator_id",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "creator_type",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "assignee_id",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "old_state",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "new_state",
       dataType: "string",
       description: "",
     }]
