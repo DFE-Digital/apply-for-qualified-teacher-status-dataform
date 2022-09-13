@@ -1,0 +1,12 @@
+config {
+  type: "table"
+}
+
+SELECT
+  *
+FROM
+  ${ref("regions_latest_apply-for-qts")} AS tableA
+INNER JOIN
+  ${ref("countries_latest_apply-for-qts")} AS tableB
+ON
+  tableA.country_id=tableB.id
