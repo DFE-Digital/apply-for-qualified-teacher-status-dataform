@@ -1,12 +1,25 @@
 config {
-  type: "table"
+  type: "table",
+  description: "Your description here.",
+  columns: {
+    id: "UID for this country",
+    region_id: "UID for this region"
+  }
 }
 
 SELECT
   *
+except(
+    id,
+    created_at,
+    updated_at,
+    teaching_authority_address,
+    teaching_authority_certificate,
+    teaching_authority_other,
+    last_streamed_event_type,
+    last_streamed_event_occurred_at
+  ),
+  tableA.id AS region_id
 FROM
   ${ref("regions_latest_apply-for-qts")} AS tableA
-INNER JOIN
-  ${ref("countries_latest_apply-for-qts")} AS tableB
-ON
-  tableA.country_id=tableB.id
+  INNER JOIN ${ref("countries_latest_apply-for-qts")} AS tableB ON tableA.country_id = tableB.id
