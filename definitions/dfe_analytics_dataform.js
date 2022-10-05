@@ -112,6 +112,10 @@ dfeAnalyticsDataform({
       keyName: "submitted_at",
       dataType: "date",
       description: "",
+    }, {
+      keyName: "working_days_since_submission",
+      dataType: "integer",
+      description: "",
     }]
   }, {
     entityTableName: "countries",
