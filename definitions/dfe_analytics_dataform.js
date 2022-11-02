@@ -5,7 +5,7 @@ dfeAnalyticsDataform({
   bqProjectName: "apply-for-qts-in-england",
   bqDatasetName: "events_production",
   bqEventsTableName: "events",
-  urlRegex: "apply-for-qts-in-england.education.gov.uk",
+  urlRegex: "www.apply-for-qts-in-england.education.gov.uk",
   dataSchema: [{
     entityTableName: "active_storage_variant_records",
     description: "",
@@ -116,6 +116,38 @@ dfeAnalyticsDataform({
     }, {
       keyName: "working_days_since_submission",
       dataType: "integer",
+      description: "",
+    }, {
+      keyName: "personal_information_status",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "identification_document_status",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "qualifications_status",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "age_range_status",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "subjects_status",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "work_history_status",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "registration_number_status",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "written_statement_status",
+      dataType: "string",
       description: "",
     }]
   }, {
