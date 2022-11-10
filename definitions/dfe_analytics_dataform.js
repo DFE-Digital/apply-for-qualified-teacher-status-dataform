@@ -58,7 +58,7 @@ dfeAnalyticsDataform({
       dataType: "string",
       description: "",
     }, {
-      keyName: "status",
+      keyName: "state",
       dataType: "string",
       description: "",
     }, {
