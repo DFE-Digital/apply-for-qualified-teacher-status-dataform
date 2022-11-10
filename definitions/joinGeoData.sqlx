@@ -1,9 +1,11 @@
 config {
   type: "table",
-  description: "Your description here.",
+  description: "Region and country table joined",
   columns: {
-    id: "UID for this country",
-    region_id: "UID for this region"
+    country_id: "UID for this country",
+    name: "region name",
+    code: "country code",
+    region_id: "region UID",
   }
 }
 
@@ -16,8 +18,16 @@ except(
     teaching_authority_address,
     teaching_authority_certificate,
     teaching_authority_other,
+    teaching_authority_website,
+    teaching_authority_email_address,
+    teaching_authority_websites,
+    teaching_authority_emails,
+    teaching_authority_name,
     last_streamed_event_type,
-    last_streamed_event_occurred_at
+    last_streamed_event_occurred_at,
+    sanction_check,
+    status_check,
+    legacy
   ),
   tableA.id AS region_id
 FROM
