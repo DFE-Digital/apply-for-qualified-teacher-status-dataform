@@ -27,9 +27,13 @@ except(
     last_streamed_event_occurred_at,
     sanction_check,
     status_check,
-    legacy
+    legacy,
+    string_field_0,
+    string_field_1
   ),
-  tableA.id AS region_id
+  tableA.id AS region_id,
+  string_field_1 AS country_name
 FROM
   ${ref("regions_latest_apply-for-qts")} AS tableA
   INNER JOIN ${ref("countries_latest_apply-for-qts")} AS tableB ON tableA.country_id = tableB.id
+  INNER JOIN `apply-for-qts-in-england.dataform_production.country_reference_code` AS tableC ON tableB.code = tableC.string_field_0
