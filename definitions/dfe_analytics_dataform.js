@@ -519,5 +519,81 @@ dfeAnalyticsDataform({
       dataType: "string",
       description: "",
     }]
+  }, {
+    entityTableName: "assessment_sections",
+    description: "",
+    keys: [{
+      keyName: "assessment_sections_id",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "assessment_id",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "key",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "passed",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "checks",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "failure_reasons",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "selected_failure_reasons",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "assessment_created_at",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "updated_at",
+      dataType: "string",
+      description: "",
+    }]
+  }, {
+    entityTableName: "further_information_requests",
+    description: "",
+    keys: [{
+      keyName: "further_information_requests_id",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "received_at",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "state",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "further_information_requests_created_at",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "update_at",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "assessment_id",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "passed",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "failure_reasons",
+      dataType: "string",
+      description: "",
+    }]
   }]
 });
