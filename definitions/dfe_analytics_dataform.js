@@ -523,10 +523,6 @@ dfeAnalyticsDataform({
     entityTableName: "assessment_sections",
     description: "",
     keys: [{
-      keyName: "assessment_sections_id",
-      dataType: "string",
-      description: "",
-    }, {
       keyName: "assessment_id",
       dataType: "string",
       description: "",
@@ -536,7 +532,7 @@ dfeAnalyticsDataform({
       description: "",
     }, {
       keyName: "passed",
-      dataType: "string",
+      dataType: "boolean",
       description: "",
     }, {
       keyName: "checks",
@@ -550,36 +546,16 @@ dfeAnalyticsDataform({
       keyName: "selected_failure_reasons",
       dataType: "string",
       description: "",
-    }, {
-      keyName: "assessment_sections_created_at",
-      dataType: "string",
-      description: "",
-    }, {
-      keyName: "assessment_sections_updated_at",
-      dataType: "string",
-      description: "",
     }]
   }, {
     entityTableName: "further_information_requests",
     description: "",
     keys: [{
-      keyName: "further_information_requests_id",
-      dataType: "string",
-      description: "",
-    }, {
       keyName: "received_at",
       dataType: "string",
       description: "",
     }, {
       keyName: "state",
-      dataType: "string",
-      description: "",
-    }, {
-      keyName: "further_information_requests_created_at",
-      dataType: "string",
-      description: "",
-    }, {
-      keyName: "further_information_requests_updated_at",
       dataType: "string",
       description: "",
     }, {
@@ -591,7 +567,7 @@ dfeAnalyticsDataform({
       dataType: "string",
       description: "",
     }, {
-      keyName: "failure_reasons",
+      keyName: "failure_reason",
       dataType: "string",
       description: "",
     }]
