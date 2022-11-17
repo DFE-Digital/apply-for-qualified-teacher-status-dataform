@@ -551,11 +551,11 @@ dfeAnalyticsDataform({
       dataType: "string",
       description: "",
     }, {
-      keyName: "assessment_created_at",
+      keyName: "assessment_sections_created_at",
       dataType: "string",
       description: "",
     }, {
-      keyName: "updated_at",
+      keyName: "assessment_sections_updated_at",
       dataType: "string",
       description: "",
     }]
@@ -579,7 +579,7 @@ dfeAnalyticsDataform({
       dataType: "string",
       description: "",
     }, {
-      keyName: "update_at",
+      keyName: "further_information_requests_updated_at",
       dataType: "string",
       description: "",
     }, {
