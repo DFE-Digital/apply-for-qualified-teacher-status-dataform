@@ -532,7 +532,7 @@ dfeAnalyticsDataform({
       description: "",
     }, {
       keyName: "age_range_min",
-      dataType: "boolean",
+      dataType: "integer",
       description: "",
     }, {
       keyName: "age_range_max",
