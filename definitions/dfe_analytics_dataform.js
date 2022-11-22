@@ -536,7 +536,7 @@ dfeAnalyticsDataform({
       description: "",
     }, {
       keyName: "age_range_max",
-      dataType: "string",
+      dataType: "integer",
       description: "",
     }, {
       keyName: "subjects",
