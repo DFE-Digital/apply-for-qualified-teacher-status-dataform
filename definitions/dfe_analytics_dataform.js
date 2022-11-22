@@ -520,6 +520,42 @@ dfeAnalyticsDataform({
       description: "",
     }]
   }, {
+    entityTableName: "assessments",
+    description: "",
+    keys: [{
+      keyName: "application_form_id",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "recommendation",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "age_range_min",
+      dataType: "boolean",
+      description: "",
+    }, {
+      keyName: "age_range_max",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "subjects",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "recommended_at",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "age_range_note",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "subjects_note",
+      dataType: "string",
+      description: "",
+    }]
+  }, {
     entityTableName: "assessment_sections",
     description: "",
     keys: [{
@@ -564,10 +600,34 @@ dfeAnalyticsDataform({
       description: "",
     }, {
       keyName: "passed",
+      dataType: "boolean",
+      description: "",
+    }, {
+      keyName: "failure_assessor_note",
+      dataType: "string",
+      description: "",
+    }]
+  }, {
+    entityTableName: "further_information_request_items",
+    description: "",
+    keys: [{
+      keyName: "further_information_request_id",
       dataType: "string",
       description: "",
     }, {
-      keyName: "failure_reason",
+      keyName: "failure_reason_assessor_feedback",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "information_type",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "response",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "failure_reason_key",
       dataType: "string",
       description: "",
     }]
