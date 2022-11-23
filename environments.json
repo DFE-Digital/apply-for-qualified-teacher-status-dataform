@@ -8,7 +8,7 @@
       "schedules": [
         {
           "name": "run_all_queries",
-          "cron": "0 2 * * mon,tue,wed,thu,fri,sat,sun"
+          "cron": "0 7 * * mon,tue,wed,thu,fri,sat,sun"
         }
       ],
       "gitRef": "main"
