@@ -544,7 +544,7 @@ dfeAnalyticsDataform({
       description: "",
     }, {
       keyName: "recommended_at",
-      dataType: "string",
+      dataType: "date",
       description: "",
     }, {
       keyName: "age_range_note",
