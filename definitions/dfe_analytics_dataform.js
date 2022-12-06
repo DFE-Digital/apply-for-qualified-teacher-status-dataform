@@ -430,7 +430,6 @@ dfeAnalyticsDataform({
       dataType: "string",
       description: "",
     }]
-  
   }, {
     entityTableName: "uploads",
     description: "",
