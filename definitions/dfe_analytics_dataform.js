@@ -431,43 +431,6 @@ dfeAnalyticsDataform({
       description: "",
     }]
   }, {
-    entityTableName: "timeline_events",
-    description: "",
-    keys: [{
-      keyName: "event_type",
-      dataType: "string",
-      description: "",
-      alias: "qts_event_type"
-    }, {
-      keyName: "application_form_id",
-      dataType: "string",
-      description: "",
-    }, {
-      keyName: "annotation",
-      dataType: "string",
-      description: "",
-    }, {
-      keyName: "creator_id",
-      dataType: "string",
-      description: "",
-    }, {
-      keyName: "creator_type",
-      dataType: "string",
-      description: "",
-    }, {
-      keyName: "assignee_id",
-      dataType: "string",
-      description: "",
-    }, {
-      keyName: "old_state",
-      dataType: "string",
-      description: "",
-    }, {
-      keyName: "new_state",
-      dataType: "string",
-      description: "",
-    }]
-  }, {
     entityTableName: "uploads",
     description: "",
     keys: [{
@@ -628,6 +591,54 @@ dfeAnalyticsDataform({
       description: "",
     }, {
       keyName: "failure_reason_key",
+      dataType: "string",
+      description: "",
+    }]
+  }, {
+    entityTableName: "timeline_events",
+    description: "",
+    keys: [{
+      keyName: "application_form_id",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "annotation",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "creator_id",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "creator_type",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "assignee_id",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "old_state",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "new_state",
+      dataType: "string",
+      description: "",
+    }]
+  }, {
+    entityTableName: "assessment_section_failure_reasons",
+    description: "",
+    keys: [{
+      keyName: "assessment_section_id",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "key",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "assessor_feedback",
       dataType: "string",
       description: "",
     }]
