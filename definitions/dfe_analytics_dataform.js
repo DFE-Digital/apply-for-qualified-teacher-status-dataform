@@ -114,23 +114,7 @@ dfeAnalyticsDataform({
       dataType: "date",
       description: "",
     }, {
-      keyName: "started_at",
-      dataType: "date",
-      description: "",
-    }, {
       keyName: "working_days_since_submission",
-      dataType: "integer",
-      description: "",
-    }, {
-      keyName: "working_days_submission_to_recommendation",
-      dataType: "integer",
-      description: "",
-    }, {
-      keyName: "working_days_submission_to_started",
-      dataType: "integer",
-      description: "",
-    }, {
-      keyName: "working_days_started_to_recommendation",
       dataType: "integer",
       description: "",
     }, {
@@ -445,6 +429,10 @@ dfeAnalyticsDataform({
       keyName: "unconfirmed_email",
       dataType: "string",
       description: "",
+    }, {
+      keyName: "trn",
+      dataType: "string",
+      description: "",
     }]
   }, {
     entityTableName: "uploads",
@@ -532,6 +520,22 @@ dfeAnalyticsDataform({
     }, {
       keyName: "subjects_note",
       dataType: "string",
+      description: "",
+    }, {
+      keyName: "working_days_submission_to_recommendation",
+      dataType: "integer",
+      description: "",
+    }, {
+      keyName: "working_days_submission_to_started",
+      dataType: "integer",
+      description: "",
+    }, {
+      keyName: "working_days_started_to_recommendation",
+      dataType: "integer",
+      description: "",
+    }, {
+      keyName: "started_at",
+      dataType: "date",
       description: "",
     }]
   }, {
