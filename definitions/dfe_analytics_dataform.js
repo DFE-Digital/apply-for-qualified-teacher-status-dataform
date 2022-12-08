@@ -114,7 +114,23 @@ dfeAnalyticsDataform({
       dataType: "date",
       description: "",
     }, {
+      keyName: "started_at",
+      dataType: "date",
+      description: "",
+    }, {
       keyName: "working_days_since_submission",
+      dataType: "integer",
+      description: "",
+    }, {
+      keyName: "working_days_submission_to_recommendation",
+      dataType: "integer",
+      description: "",
+    }, {
+      keyName: "working_days_submission_to_started",
+      dataType: "integer",
+      description: "",
+    }, {
+      keyName: "working_days_started_to_recommendation",
       dataType: "integer",
       description: "",
     }, {
@@ -551,7 +567,11 @@ dfeAnalyticsDataform({
     description: "",
     keys: [{
       keyName: "received_at",
-      dataType: "string",
+      dataType: "date",
+      description: "",
+    }, {
+      keyName: "working_days_received_to_recommendation",
+      dataType: "integer",
       description: "",
     }, {
       keyName: "state",
