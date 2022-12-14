@@ -537,6 +537,10 @@ dfeAnalyticsDataform({
       keyName: "started_at",
       dataType: "date",
       description: "",
+    }, {
+      keyName: "working_days_since_started",
+      dataType: "integer",
+      description: "",
     }]
   }, {
     entityTableName: "assessment_sections",
@@ -592,6 +596,10 @@ dfeAnalyticsDataform({
     }, {
       keyName: "failure_assessor_note",
       dataType: "string",
+      description: "",
+    }, {
+      keyName: "working_days_since_received",
+      dataType: "integer",
       description: "",
     }]
   }, {
