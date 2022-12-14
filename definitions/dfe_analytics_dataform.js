@@ -649,6 +649,11 @@ dfeAnalyticsDataform({
       keyName: "new_state",
       dataType: "string",
       description: "",
+    }, {
+      keyName: "event_type",
+      dataType: "string",
+      description: "",
+      alias: "event_type_aliased"
     }]
   }, {
     entityTableName: "assessment_section_failure_reasons",
