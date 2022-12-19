@@ -1,0 +1,33 @@
+config {
+  type: "table"
+}
+
+SELECT
+  *
+EXCEPT
+  (
+    id,
+    created_at,
+    region_id,
+    subjects,
+    last_streamed_event_occurred_at,
+    last_streamed_event_type,
+    updated_at,
+    state,
+    age_range_min,
+    age_range_max
+  ),
+  tableA.id AS id,
+  tableA.created_at AS created_at,
+  tableA.state AS state,
+  tableC.id AS assessment_latest_id,
+  tableC.created_at AS assessment_created_at,
+  tableA.region_id AS region_id,
+  tableA.updated_at AS updated_at,
+  tableC.updated_at AS assessment_updated_at,
+  tableD.state AS FI_state
+FROM
+  ${ref("application_forms_latest_apply-for-qts")} AS tableA
+  LEFT JOIN ${ref("joinGeoData")} AS tableB ON tableA.region_id = tableB.region_id
+  LEFT JOIN ${ref("assessments_latest_apply-for-qts")} AS tableC ON tableA.id = tableC.application_form_id
+  LEFT JOIN ${ref("further_information_requests_latest_apply-for-qts")} AS tableD ON tableC.id = tableD.assessment_id
