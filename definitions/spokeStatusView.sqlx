@@ -23,11 +23,15 @@ SELECT
   reference,
   state,
   teacher_id,
-  region_id,
+  tableA.region_id AS application_region_id,
   submitted_at,
   working_days_since_submission,
   spokes,
-  spoke_status
+  spoke_status,
+  country_id,
+  name AS region_name,
+  code,
+  country_name
   
 FROM
   ${ref("application_forms_latest_apply-for-qts")} UNPIVOT (
@@ -41,4 +45,8 @@ FROM
       registration_number_status,
       written_statement_status
     )
-  )
+  ) as tableA
+LEFT JOIN
+  ${ref("joinGeoData")} AS tableB
+ON
+  tableA.region_id = tableB.region_id

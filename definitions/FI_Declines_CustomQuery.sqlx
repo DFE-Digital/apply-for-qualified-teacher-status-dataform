@@ -1,0 +1,54 @@
+config {
+  type: "table"
+}
+
+SELECT
+  tableA.id,
+  tableA.created_at,
+  tableA.updated_at,
+  application_form_id,
+  recommendation,
+  recommended_at,
+  tableB.id AS section_id,
+  key,
+  tableB.passed,
+  selected_failure_reasons,
+  tableC.id as further_information_requests_id,
+  tableC.state,
+  received_at,
+  tableC.passed as further_information_requests_passed,
+  tableC.created_at as further_information_requests_created_at,
+  failure_reason_key,
+  tableD.id as further_information_request_items_id,
+  information_type,
+  tableD.failure_reason_key as further_information_request_items_failure_reason,
+  tableF.region_id,
+  country_name,
+  tableF.state as application_state,
+  tableG.name as region_name
+FROM
+  ${ref("assessments_latest_apply-for-qts")} AS tableA
+LEFT JOIN
+  ${ref("assessment_sections_latest_apply-for-qts")} AS tableB
+ON
+  tableA.id = tableB.assessment_id
+LEFT JOIN
+  ${ref("further_information_requests_latest_apply-for-qts")} AS tableC
+ON
+  tableA.id =tableC.assessment_id
+LEFT JOIN
+${ref("further_information_request_items_latest_apply-for-qts")} AS tableD
+ON
+tableC.id = tableD.further_information_request_id
+LEFT JOIN
+  ${ref("application_forms_latest_apply-for-qts")} AS tableF
+ON
+  tableA.application_form_id = tableF.id
+LEFT JOIN
+  ${ref("joinGeoData")} AS tableG
+ON
+tableF.region_id = tableG.region_id
+
+
+--where further_information_request_id is not null
+--where recommendation = "decline"
