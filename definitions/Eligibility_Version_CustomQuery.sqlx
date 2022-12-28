@@ -1,0 +1,10 @@
+config {
+  type: "table",
+  description: "Eligibility checks version table that includes only create entity events",
+}
+SELECT
+ *
+FROM
+  ${ref("eligibility_checks_version_apply-for-qts")}
+where country_code is not null 
+
