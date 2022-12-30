@@ -664,22 +664,6 @@ dfeAnalyticsDataform({
       alias: "event_type_aliased"
     }]
   }, {
-    entityTableName: "assessment_section_failure_reasons",
-    description: "",
-    keys: [{
-      keyName: "assessment_section_id",
-      dataType: "string",
-      description: "",
-    }, {
-      keyName: "key",
-      dataType: "string",
-      description: "",
-    }, {
-      keyName: "assessor_feedback",
-      dataType: "string",
-      description: "",
-    }]
-  }, {
     entityTableName: "selected_failure_reasons",
     description: "",
     keys: [{
