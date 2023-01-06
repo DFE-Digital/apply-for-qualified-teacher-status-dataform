@@ -9,6 +9,10 @@ SELECT
   application_form_id,
   recommendation,
   recommended_at,
+  working_days_received_to_recommendation,
+  working_days_submission_to_recommendation,
+  working_days_since_received,
+  working_days_since_submission,
   tableB.id AS section_id,
   tableB.passed,
   selected_failure_reasons,
@@ -28,7 +32,10 @@ SELECT
   tableF.submitted_at,
   tableA.started_at,
   tableF.state AS application_state,
-  tableH.key
+  tableH.key,
+  tableF.assessor_id,
+  
+  
 FROM
   ${ref("assessments_latest_apply-for-qts")} AS tableA
   LEFT JOIN ${ref("assessment_sections_latest_apply-for-qts")} AS tableB ON tableA.id = tableB.assessment_id
