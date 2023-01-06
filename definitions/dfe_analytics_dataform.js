@@ -149,6 +149,14 @@ dfeAnalyticsDataform({
       keyName: "written_statement_status",
       dataType: "string",
       description: "",
+    }, {
+      keyName: "assessor_id",
+      dataType: "string",
+      description: "",    
+    }, {
+      keyName: "reviewer_id",
+      dataType: "string",
+      description: "",
     }]
   }, {
     entityTableName: "countries",
