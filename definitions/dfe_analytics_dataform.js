@@ -519,7 +519,7 @@ dfeAnalyticsDataform({
       description: "",
     }, {
       keyName: "recommended_at",
-      dataType: "date",
+      dataType: "timestamp",
       description: "",
     }, {
       keyName: "age_range_note",
@@ -543,7 +543,7 @@ dfeAnalyticsDataform({
       description: "",
     }, {
       keyName: "started_at",
-      dataType: "date",
+      dataType: "timestamp",
       description: "",
     }, {
       keyName: "working_days_since_started",
