@@ -25,7 +25,9 @@ EXCEPT
   tableA.region_id AS region_id,
   tableA.updated_at AS updated_at,
   tableC.updated_at AS assessment_updated_at,
-  tableD.state AS FI_state
+  tableD.state AS FI_state,
+  ABS(TIME_DIFF(EXTRACT(TIME FROM started_at), EXTRACT(TIME FROM recommended_at), MINUTE)) as minutes_started_to_recommended,
+  ABS(TIME_DIFF(EXTRACT(TIME FROM started_at),CURRENT_TIME(),  MINUTE)) as minutes_since_started,
 FROM
   ${ref("application_forms_latest_apply-for-qts")} AS tableA
   LEFT JOIN ${ref("joinGeoData")} AS tableB ON tableA.region_id = tableB.region_id
