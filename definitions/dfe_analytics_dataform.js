@@ -583,7 +583,7 @@ dfeAnalyticsDataform({
     description: "",
     keys: [{
       keyName: "received_at",
-      dataType: "date",
+      dataType: "timestamp",
       description: "",
     }, {
       keyName: "working_days_received_to_recommendation",
