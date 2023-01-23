@@ -30,6 +30,7 @@ EXCEPT
   ABS(TIME_DIFF(EXTRACT(TIME FROM started_at), CURRENT_TIME(),  MINUTE)) as minutes_since_started,
   ABS(TIME_DIFF(EXTRACT(TIME FROM received_at), EXTRACT(TIME FROM recommended_at), MINUTE)) as minutes_received_to_recommended,
   ABS(TIME_DIFF(EXTRACT(TIME FROM received_at), CURRENT_TIME(),  MINUTE)) as minutes_since_received,
+  ABS(TIME_DIFF(EXTRACT(TIME FROM tableD.created_at), EXTRACT(TIME FROM started_at),  MINUTE)) as minutes_since_started_to_FIed,
 FROM
   ${ref("application_forms_latest_apply-for-qts")} AS tableA
   LEFT JOIN ${ref("joinGeoData")} AS tableB ON tableA.region_id = tableB.region_id
