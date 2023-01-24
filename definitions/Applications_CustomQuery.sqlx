@@ -26,6 +26,7 @@ EXCEPT
   tableA.updated_at AS updated_at,
   tableC.updated_at AS assessment_updated_at,
   tableD.state AS FI_state,
+  tableD.created_at AS further_information_requests_created_at,
   ABS(TIME_DIFF(EXTRACT(TIME FROM started_at), EXTRACT(TIME FROM recommended_at), MINUTE)) as minutes_started_to_recommended,
   ABS(TIME_DIFF(EXTRACT(TIME FROM started_at), CURRENT_TIME(),  MINUTE)) as minutes_since_started,
   ABS(TIME_DIFF(EXTRACT(TIME FROM received_at), EXTRACT(TIME FROM recommended_at), MINUTE)) as minutes_received_to_recommended,
