@@ -58,9 +58,10 @@ dfeAnalyticsDataform({
       dataType: "string",
       description: "",
     }, {
-      keyName: "state",
+      keyName: "status",
       dataType: "string",
       description: "",
+      alias: "state"
     }, {
       keyName: "teacher_id",
       dataType: "string",
