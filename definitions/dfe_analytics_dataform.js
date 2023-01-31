@@ -158,6 +158,108 @@ dfeAnalyticsDataform({
       keyName: "reviewer_id",
       dataType: "string",
       description: "",
+    }, {
+      keyName: "waiting_on_professional_standing",
+      dataType: "boolean",
+      description: "",
+    }, {
+      keyName: "received_professional_standing",
+      dataType: "boolean",
+      description: "",
+    }, {
+      keyName: "waiting_on_further_information",
+      dataType: "boolean",
+      description: "",
+    }, {
+      keyName: "received_further_information",
+      dataType: "boolean",
+      description: "",
+    }, {
+      keyName: "waiting_on_reference",
+      dataType: "boolean",
+      description: "",
+    }, {
+      keyName: "received_reference",
+      dataType: "boolean",
+      description: "",
+    }, {
+      keyName: "waiting_on_qualification",
+      dataType: "boolean",
+      description: "",
+    }, {
+      keyName: "received_qualification",
+      dataType: "boolean",
+      description: "",
+    }, {
+      keyName: "has_work_history",
+      dataType: "boolean",
+      description: "",
+    }, {
+      keyName: "awarded_at",
+      dataType: "timestamp",
+      description: "",
+    }, {
+      keyName: "declined_at",
+      dataType: "timestamp",
+      description: "",
+    }, {
+      keyName: "needs_work_history",
+      dataType: "boolean",
+      description: "",
+    }, {
+      keyName: "needs_written_statement",
+      dataType: "boolean",
+      description: "",
+    }, {
+      keyName: "needs_registration_number",
+      dataType: "boolean",
+      description: "",
+    }, {
+      keyName: "teaching_authority_provides_written_statement",
+      dataType: "boolean",
+      description: "",
+    }, {
+      keyName: "written_statement_confirmation",
+      dataType: "boolean",
+      description: "",
+    }, {
+      keyName: "confirmed_no_sanctions",
+      dataType: "boolean",
+      description: "",
+    }, {
+      keyName: "english_language_status",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "english_language_citizenship_exempt",
+      dataType: "boolean",
+      description: "",
+    }, {
+      keyName: "english_language_qualification_exempt",
+      dataType: "boolean",
+      description: "",
+    }, {
+      keyName: "english_language_proof_method",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "english_language_provider_id",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "english_language_provider_other",
+      dataType: "boolean",
+      description: "",
+    }, {
+      keyName: "english_language_provider_reference",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "reduced_evidence_accepted",
+      dataType: "boolean",
+      description: "",
+      
+
     }]
   }, {
     entityTableName: "countries",
@@ -241,6 +343,14 @@ dfeAnalyticsDataform({
     }, {
       keyName: "completed_at",
       dataType: "date",
+      description: "",
+    }, {
+      keyName: "work_experience",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "qualified_for_subject",
+      dataType: "boolean",
       description: "",
     }]
   }, {
@@ -550,6 +660,10 @@ dfeAnalyticsDataform({
       keyName: "working_days_since_started",
       dataType: "integer",
       description: "",
+    }, {
+      keyName: "induction_required",
+      dataType: "boolean",
+      description: "",
     }]
   }, {
     entityTableName: "assessment_sections",
@@ -578,6 +692,7 @@ dfeAnalyticsDataform({
       keyName: "selected_failure_reasons",
       dataType: "string",
       description: "",
+
     }]
   }, {
     entityTableName: "further_information_requests",
@@ -608,6 +723,10 @@ dfeAnalyticsDataform({
       description: "",
     }, {
       keyName: "working_days_since_received",
+      dataType: "integer",
+      description: "",
+    }, {
+      keyName: "working_days_assessment_started_to_creation",
       dataType: "integer",
       description: "",
     }]
@@ -686,6 +805,94 @@ dfeAnalyticsDataform({
     }, {
       keyName: "assessor_feedback",
       dataType: "string",
+      description: "",
+    }]
+  }, {
+    entityTableName: "professional_standing_requests",
+    description: "",
+    keys: [{
+      keyName: "assessment_id",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "state",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "received_at",
+      dataType: "timestamp",
+      description: "",
+    }, {
+      keyName: "location_note",
+      dataType: "string",
+      description: "",
+  }]
+  }, {
+    entityTableName: "qualification_requests",
+    description: "",
+    keys: [{
+      keyName: "assessment_id",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "qualification_id",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "state",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "received_at",
+      dataType: "timestamp",
+      description: "",
+    }, {
+      keyName: "location_note",
+      dataType: "string",
+      description: "",
+    }]
+  }, {
+    entityTableName: "reference_requests",
+    description: "",
+    keys: [{
+      keyName: "assessment_id",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "work_history_id",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "state",
+      dataType: "string",
+      description: "",
+    }, {
+      keyName: "received_at",
+      dataType: "timestamp",
+      description: "",
+    }, {
+      keyName: "dates_response",
+      dataType: "boolean",
+      description: "",
+    }, {
+      keyName: "hours_response",
+      dataType: "boolean",
+      description: "",
+    }, {
+      keyName: "children_response",
+      dataType: "boolean",
+      description: "",
+    }, {
+      keyName: "lessons_response",
+      dataType: "boolean",
+      description: "",
+    }, {
+      keyName: "reports_response",
+      dataType: "boolean",
+      description: "",
+    }, {
+      keyName: "additional_information_response",
+      dataType: "boolean",
       description: "",
     }]
   }]
