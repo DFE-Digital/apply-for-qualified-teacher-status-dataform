@@ -43,7 +43,8 @@ FROM
       subjects_status,
       work_history_status,
       registration_number_status,
-      written_statement_status
+      written_statement_status,
+      english_language_status
     )
   ) as tableA
 LEFT JOIN
