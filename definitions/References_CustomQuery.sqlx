@@ -1,0 +1,28 @@
+config {
+  type: "table"
+}
+
+SELECT
+  tableA.id,
+  tableA.created_at,
+  tableA.updated_at,
+  tableA.received_at,
+  tableA.assessment_id,
+  tableA.work_history_id,
+  tableA.state AS reference_state,
+  tableB.application_form_id,
+  tableC.region_id,
+  tableC.state,
+  tableC.reference,
+  tableD.country_name as Country,
+  tableD.country_route,
+  tableD.name AS Region,
+
+  
+
+FROM
+  ${ref("reference_requests_latest_apply-for-qts")} AS tableA
+  LEFT JOIN ${ref("assessments_latest_apply-for-qts")} AS tableB ON tableA.assessment_id = tableB.id
+  LEFT JOIN ${ref("application_forms_latest_apply-for-qts")} AS tableC ON tableB.application_form_id = tableC.id
+  LEFT JOIN ${ref("joinGeoData")} AS tableD ON tableC.region_id = tableD.region_id
+
