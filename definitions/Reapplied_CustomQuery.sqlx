@@ -1,0 +1,27 @@
+config {
+  type: "table"
+}
+
+SELECT
+  DISTINCT reference,
+  state,
+  teacher_id,
+  dup_count,
+  submitted_at,
+  tableG.country_name,
+  tableG.name AS region_name,
+FROM
+  (
+    SELECT
+      *,
+      COUNT(1) OVER(
+        PARTITION BY teacher_id
+        ORDER BY
+          teacher_id
+      ) dup_count,
+    FROM
+      ${ref("application_forms_latest_apply-for-qts")}
+    WHERE
+      state != "draft"
+  ) as tableF
+  LEFT JOIN ${ref("joinGeoData")} AS tableG ON tableF.region_id = tableG.region_id
