@@ -661,9 +661,13 @@ dfeAnalyticsDataform({
       dataType: "integer",
       description: "",
     }, {
-      keyName: "induction_required",
+      keyName: "preliminary_check_complete",
       dataType: "boolean",
       description: "",
+    }, {
+      keyName: "induction_required",
+      dataType: "boolean",
+      description: "",     
     }]
   }, {
     entityTableName: "assessment_sections",
