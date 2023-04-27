@@ -15,7 +15,8 @@ EXCEPT
     updated_at,
     state,
     age_range_min,
-    age_range_max
+    age_range_max,
+    jj
   ),
   tableA.id AS id,
   tableA.created_at AS created_at,
