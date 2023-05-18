@@ -1,0 +1,13 @@
+config {
+  type: "table"
+}
+
+
+select reference, state, assessor_id, tableA.region_id,country_name, min(valid_from) as actioned_on
+from ${ref("application_forms_version_apply-for-qts")} as tableA
+LEFT JOIN ${ref("joinGeoData")} AS tableB ON tableA.region_id = tableB.region_id
+where state != "draft"
+group by reference, state, assessor_id, tableA.region_id,country_name
+
+
+
