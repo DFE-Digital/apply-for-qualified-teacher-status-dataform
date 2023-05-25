@@ -6,7 +6,7 @@ SELECT
   tableA.id,
   tableA.created_at,
   tableA.updated_at,
-  application_form_id,
+  tableA.application_form_id,
   recommendation,
   recommended_at,
   working_days_received_to_recommendation,
@@ -35,7 +35,11 @@ SELECT
   tableH.key,
   tableF.assessor_id,
   tableF.teacher_id,
-  
+  tableI.id AS qualifications_id,
+  tableI.created_at AS qualifications_created_at,
+  tableI.title AS qualifications_title,
+  tableI.part_of_university_degree,
+
   
 FROM
   ${ref("assessments_latest_apply-for-qts")} AS tableA
@@ -45,6 +49,7 @@ FROM
   LEFT JOIN ${ref("application_forms_latest_apply-for-qts")} AS tableF ON tableA.application_form_id = tableF.id
   LEFT JOIN ${ref("joinGeoData")} AS tableG ON tableF.region_id = tableG.region_id
   LEFT JOIN ${ref("selected_failure_reasons_latest_apply-for-qts")} AS tableH ON tableB.id = tableH.assessment_section_id
+  LEFT JOIN ${ref("qualifications_latest_apply-for-qts")} AS tableI ON tableF.id = tableI.application_form_id
   --where further_information_request_id is not null
   --where recommendation = "decline"
 
