@@ -15,7 +15,13 @@ EXCEPT
     updated_at,
     state,
     age_range_min,
-    age_range_max
+    age_range_max,
+    institution_name,
+    start_date,
+    complete_date,
+    certificate_date,
+    application_form_id
+
   ),
   tableA.id AS id,
   tableA.created_at AS created_at,
@@ -28,6 +34,9 @@ EXCEPT
   tableD.state AS FI_state,
   tableD.created_at AS further_information_requests_created_at,
   tableC.subjects AS subjects,
+  tableE.id AS qualifications_id,
+  tableE.created_at AS qualifications_created_at,
+  tableE.title AS qualifications_title,
   ABS(TIME_DIFF(EXTRACT(TIME FROM started_at), EXTRACT(TIME FROM recommended_at), MINUTE)) as minutes_started_to_recommended,
   ABS(TIME_DIFF(EXTRACT(TIME FROM started_at), CURRENT_TIME(),  MINUTE)) as minutes_since_started,
   ABS(TIME_DIFF(EXTRACT(TIME FROM received_at), EXTRACT(TIME FROM recommended_at), MINUTE)) as minutes_received_to_recommended,
@@ -38,3 +47,4 @@ FROM
   LEFT JOIN ${ref("joinGeoData")} AS tableB ON tableA.region_id = tableB.region_id
   LEFT JOIN ${ref("assessments_latest_apply-for-qts")} AS tableC ON tableA.id = tableC.application_form_id
   LEFT JOIN ${ref("further_information_requests_latest_apply-for-qts")} AS tableD ON tableC.id = tableD.assessment_id
+  LEFT JOIN ${ref("qualifications_latest_apply-for-qts")} AS tableE ON tableA.id = tableE.application_form_id
