@@ -39,6 +39,7 @@ SELECT
   tableI.created_at AS qualifications_created_at,
   tableI.title AS qualifications_title,
   tableI.part_of_university_degree,
+  tableI.institution_country,
 
   
 FROM
