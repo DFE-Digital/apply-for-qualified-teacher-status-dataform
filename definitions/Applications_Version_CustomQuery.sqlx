@@ -1,9 +1,0 @@
-config {
-  type: "table",
-  description: "Application version table that includes only create entity events",
-}
-SELECT
- *
-FROM
-  ${ref("application_forms_version_apply-for-qts")}
-where event_type = "create_entity" 
