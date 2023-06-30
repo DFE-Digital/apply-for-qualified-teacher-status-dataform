@@ -696,7 +696,10 @@ dfeAnalyticsDataform({
       keyName: "selected_failure_reasons",
       dataType: "string",
       description: "",
-
+   }, {
+      keyName: "preliminary",
+      dataType: "boolean",
+      description: "",
     }]
   }, {
     entityTableName: "further_information_requests",
