@@ -61,7 +61,23 @@ dfeAnalyticsDataform({
       keyName: "status",
       dataType: "string",
       description: "",
-      alias: "state"
+      alias: "state",
+    }, {
+      keyName: "overdue_further_information",
+      dataType: "boolean",
+      description: "",
+    }, {
+      keyName: "overdue_professional_standing",
+      dataType: "boolean",
+      description: "",
+    }, {
+      keyName: "overdue_qualification",
+      dataType: "boolean",
+      description: "",
+    }, {
+      keyName: "overdue_reference",
+      dataType: "boolean",
+      description: "",
     }, {
       keyName: "teacher_id",
       dataType: "string",
@@ -153,7 +169,7 @@ dfeAnalyticsDataform({
     }, {
       keyName: "assessor_id",
       dataType: "string",
-      description: "",    
+      description: "",
     }, {
       keyName: "reviewer_id",
       dataType: "string",
@@ -258,7 +274,6 @@ dfeAnalyticsDataform({
       keyName: "reduced_evidence_accepted",
       dataType: "boolean",
       description: "",
-      
 
     }]
   }, {
@@ -667,7 +682,7 @@ dfeAnalyticsDataform({
     }, {
       keyName: "induction_required",
       dataType: "boolean",
-      description: "",     
+      description: "",
     }]
   }, {
     entityTableName: "assessment_sections",
@@ -696,7 +711,7 @@ dfeAnalyticsDataform({
       keyName: "selected_failure_reasons",
       dataType: "string",
       description: "",
-   }, {
+    }, {
       keyName: "preliminary",
       dataType: "boolean",
       description: "",
@@ -833,7 +848,7 @@ dfeAnalyticsDataform({
       keyName: "location_note",
       dataType: "string",
       description: "",
-  }]
+    }]
   }, {
     entityTableName: "qualification_requests",
     description: "",
