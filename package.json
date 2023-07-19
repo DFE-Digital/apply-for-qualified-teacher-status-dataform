@@ -1,6 +1,6 @@
 {
     "dependencies": {
-        "@dataform/core": "1.22.2",
+        "@dataform/core": "2.6.0",
         "dfe-analytics-dataform": "git+https://github.com/DFE-Digital/dfe-analytics-dataform.git#v.1.4.4"
     }
 }
