@@ -13,7 +13,7 @@ dfeAnalyticsDataform({
       keys: [
         {
           keyName: "blob_id",
-          dataType: "integer",
+          dataType: "string",
           description: "",
         },
         {
@@ -23,7 +23,7 @@ dfeAnalyticsDataform({
         },
         {
           keyName: "record_id",
-          dataType: "integer",
+          dataType: "string",
           description: "",
         },
         {
@@ -105,7 +105,7 @@ dfeAnalyticsDataform({
         },
         {
           keyName: "assessor_id",
-          dataType: "integer",
+          dataType: "string",
           description: "",
         },
         {
@@ -145,7 +145,7 @@ dfeAnalyticsDataform({
         },
         {
           keyName: "english_language_provider_id",
-          dataType: "integer",
+          dataType: "string",
           description: "",
         },
         {
@@ -290,7 +290,7 @@ dfeAnalyticsDataform({
         },
         {
           keyName: "reviewer_id",
-          dataType: "integer",
+          dataType: "string",
           description: "",
         },
         {
@@ -316,7 +316,7 @@ dfeAnalyticsDataform({
         },
         {
           keyName: "teacher_id",
-          dataType: "integer",
+          dataType: "string",
           description: "",
         },
         {
@@ -555,7 +555,7 @@ dfeAnalyticsDataform({
         },
         {
           keyName: "documentable_id",
-          dataType: "integer",
+          dataType: "string",
           description: "",
         },
         {
@@ -735,7 +735,7 @@ dfeAnalyticsDataform({
         },
         {
           keyName: "author_id",
-          dataType: "integer",
+          dataType: "string",
           description: "",
         },
         {
@@ -817,7 +817,7 @@ dfeAnalyticsDataform({
         },
         {
           keyName: "qualification_id",
-          dataType: "integer",
+          dataType: "string",
           description: "",
         },
         {
@@ -1019,7 +1019,7 @@ dfeAnalyticsDataform({
         },
         {
           keyName: "work_history_id",
-          dataType: "integer",
+          dataType: "string",
           description: "",
         },
       ],
@@ -1086,7 +1086,7 @@ dfeAnalyticsDataform({
       keys: [
         {
           keyName: "remindable_id",
-          dataType: "integer",
+          dataType: "string",
           description: "",
         },
         {
@@ -1102,7 +1102,7 @@ dfeAnalyticsDataform({
       keys: [
         {
           keyName: "assessment_section_id",
-          dataType: "integer",
+          dataType: "string",
           description: "",
         },
         {
@@ -1188,7 +1188,7 @@ dfeAnalyticsDataform({
         },
         {
           keyName: "invited_by_id",
-          dataType: "integer",
+          dataType: "string",
           description: "",
         },
         {
@@ -1340,12 +1340,12 @@ dfeAnalyticsDataform({
         },
         {
           keyName: "assessment_section_id",
-          dataType: "integer",
+          dataType: "string",
           description: "",
         },
         {
           keyName: "assignee_id",
-          dataType: "integer",
+          dataType: "string",
           description: "",
         },
         {
@@ -1355,7 +1355,7 @@ dfeAnalyticsDataform({
         },
         {
           keyName: "creator_id",
-          dataType: "integer",
+          dataType: "string",
           description: "",
         },
         {
@@ -1401,7 +1401,7 @@ dfeAnalyticsDataform({
         },
         {
           keyName: "note_id",
-          dataType: "integer",
+          dataType: "string",
           description: "",
         },
         {
@@ -1416,7 +1416,7 @@ dfeAnalyticsDataform({
         },
         {
           keyName: "requestable_id",
-          dataType: "integer",
+          dataType: "string",
           description: "",
         },
         {
@@ -1447,7 +1447,7 @@ dfeAnalyticsDataform({
       keys: [
         {
           keyName: "document_id",
-          dataType: "integer",
+          dataType: "string",
           description: "",
         },
         {
