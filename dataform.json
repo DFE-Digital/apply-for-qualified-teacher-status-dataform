@@ -1,6 +1,7 @@
 {
     "warehouse": "bigquery",
+    "defaultDatabase": "apply-for-qts-in-england",
     "defaultSchema": "dataform_production",
-    "assertionSchema": "dataform_assertions",
-    "defaultDatabase": "apply-for-qts-in-england"
+    "defaultLocation": "europe-west2",
+    "assertionSchema": "dataform_assertions"
 }
