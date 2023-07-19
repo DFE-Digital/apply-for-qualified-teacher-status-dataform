@@ -382,7 +382,7 @@ dfeAnalyticsDataform({
       keys: [
         {
           keyName: "assessment_id",
-          dataType: "integer",
+          dataType: "string",
           description: "",
         },
         {
@@ -433,7 +433,7 @@ dfeAnalyticsDataform({
         },
         {
           keyName: "application_form_id",
-          dataType: "integer",
+          dataType: "string",
           description: "",
         },
         {
@@ -571,7 +571,7 @@ dfeAnalyticsDataform({
       keys: [
         {
           keyName: "application_form_id",
-          dataType: "integer",
+          dataType: "string",
           description: "",
         },
         {
@@ -658,7 +658,7 @@ dfeAnalyticsDataform({
         },
         {
           keyName: "further_information_request_id",
-          dataType: "integer",
+          dataType: "string",
           description: "",
         },
         {
@@ -679,7 +679,7 @@ dfeAnalyticsDataform({
       keys: [
         {
           keyName: "assessment_id",
-          dataType: "integer",
+          dataType: "string",
           description: "",
         },
         {
@@ -730,7 +730,7 @@ dfeAnalyticsDataform({
       keys: [
         {
           keyName: "application_form_id",
-          dataType: "integer",
+          dataType: "string",
           description: "",
         },
         {
@@ -751,7 +751,7 @@ dfeAnalyticsDataform({
       keys: [
         {
           keyName: "assessment_id",
-          dataType: "integer",
+          dataType: "string",
           description: "",
         },
         {
@@ -797,7 +797,7 @@ dfeAnalyticsDataform({
       keys: [
         {
           keyName: "assessment_id",
-          dataType: "integer",
+          dataType: "string",
           description: "",
         },
         {
@@ -843,7 +843,7 @@ dfeAnalyticsDataform({
       keys: [
         {
           keyName: "application_form_id",
-          dataType: "integer",
+          dataType: "string",
           description: "",
         },
         {
@@ -894,7 +894,7 @@ dfeAnalyticsDataform({
         },
         {
           keyName: "assessment_id",
-          dataType: "integer",
+          dataType: "string",
           description: "",
         },
         {
@@ -1330,12 +1330,12 @@ dfeAnalyticsDataform({
         },
         {
           keyName: "application_form_id",
-          dataType: "integer",
+          dataType: "string",
           description: "",
         },
         {
           keyName: "assessment_id",
-          dataType: "integer",
+          dataType: "string",
           description: "",
         },
         {
@@ -1473,7 +1473,7 @@ dfeAnalyticsDataform({
       keys: [
         {
           keyName: "application_form_id",
-          dataType: "integer",
+          dataType: "string",
           description: "",
         },
         {
