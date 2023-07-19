@@ -15,7 +15,6 @@ SELECT
   working_days_since_submission,
   tableB.id AS section_id,
   tableB.passed,
-  selected_failure_reasons,
   tableC.id AS further_information_requests_id,
   tableC.state,
   received_at,
@@ -39,7 +38,7 @@ SELECT
   tableI.created_at AS qualifications_created_at,
   tableI.title AS qualifications_title,
   tableI.part_of_university_degree,
-  tableI.institution_country,
+  tableI.institution_country_code,
 
   
 FROM
