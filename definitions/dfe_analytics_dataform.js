@@ -270,7 +270,7 @@ dfeAnalyticsDataform({
         },
         {
           keyName: "region_id",
-          dataType: "integer",
+          dataType: "string",
           description: "",
         },
         {
@@ -626,7 +626,7 @@ dfeAnalyticsDataform({
         },
         {
           keyName: "region_id",
-          dataType: "integer",
+          dataType: "string",
           description: "",
         },
         {
