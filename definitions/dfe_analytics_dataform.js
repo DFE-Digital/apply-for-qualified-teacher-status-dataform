@@ -297,6 +297,7 @@ dfeAnalyticsDataform({
           keyName: "status",
           dataType: "string",
           description: "",
+          alias: "state",
         },
         {
           keyName: "subjects",
