@@ -1,7 +1,7 @@
 const dfeAnalyticsDataform = require("dfe-analytics-dataform");
 
 dfeAnalyticsDataform({
-  eventSourceName: "apply-for-qts",
+  eventSourceName: "afqts",
   bqProjectName: "apply-for-qts-in-england",
   bqDatasetName: "events_production",
   bqEventsTableName: "events",

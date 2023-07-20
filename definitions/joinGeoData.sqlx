@@ -37,6 +37,6 @@ except(
   string_field_2 AS country_route
 
 FROM
-  ${ref("regions_latest_apply-for-qts")} AS tableA
-  INNER JOIN ${ref("countries_latest_apply-for-qts")} AS tableB ON tableA.country_id = tableB.id
+  ${ref("regions_latest_afqts")} AS tableA
+  INNER JOIN ${ref("countries_latest_afqts")} AS tableB ON tableA.country_id = tableB.id
   INNER JOIN `apply-for-qts-in-england.dataform_production.country_reference_code` AS tableC ON tableB.code = tableC.string_field_0

@@ -20,7 +20,7 @@ FROM
           teacher_id
       ) dup_count,
     FROM
-      ${ref("application_forms_latest_apply-for-qts")}
+      ${ref("application_forms_latest_afqts")}
     WHERE
       state != "draft"
   ) as tableF

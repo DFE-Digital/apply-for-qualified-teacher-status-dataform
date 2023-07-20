@@ -21,8 +21,8 @@ SELECT
   
 
 FROM
-  ${ref("reference_requests_latest_apply-for-qts")} AS tableA
-  LEFT JOIN ${ref("assessments_latest_apply-for-qts")} AS tableB ON tableA.assessment_id = tableB.id
-  LEFT JOIN ${ref("application_forms_latest_apply-for-qts")} AS tableC ON tableB.application_form_id = tableC.id
+  ${ref("reference_requests_latest_afqts")} AS tableA
+  LEFT JOIN ${ref("assessments_latest_afqts")} AS tableB ON tableA.assessment_id = tableB.id
+  LEFT JOIN ${ref("application_forms_latest_afqts")} AS tableC ON tableB.application_form_id = tableC.id
   LEFT JOIN ${ref("joinGeoData")} AS tableD ON tableC.region_id = tableD.region_id
 

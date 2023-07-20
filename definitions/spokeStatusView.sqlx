@@ -34,7 +34,7 @@ SELECT
   country_name
   
 FROM
-  ${ref("application_forms_latest_apply-for-qts")} UNPIVOT (
+  ${ref("application_forms_latest_afqts")} UNPIVOT (
     spoke_status FOR spokes IN (
       personal_information_status,
       identification_document_status,

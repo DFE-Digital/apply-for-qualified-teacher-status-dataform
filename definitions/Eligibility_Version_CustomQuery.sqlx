@@ -5,6 +5,6 @@ config {
 SELECT
  *
 FROM
-  ${ref("eligibility_checks_version_apply-for-qts")}
+  ${ref("eligibility_checks_version_afqts")}
 where country_code is not null 
 

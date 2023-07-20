@@ -8,5 +8,5 @@ EXCEPT
   (region_id, name, code, country_id),
   tableB.name AS region,
 FROM
-  ${ref("eligibility_checks_latest_apply-for-qts")} AS tableA
+  ${ref("eligibility_checks_latest_afqts")} AS tableA
   LEFT JOIN ${ref("joinGeoData")} AS tableB ON tableA.region_id = tableB.region_id
