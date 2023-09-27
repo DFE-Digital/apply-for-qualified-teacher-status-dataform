@@ -1,0 +1,146 @@
+config {
+  type: "table",
+  tags: ["zendesk"],
+  assertions: {
+    uniqueKey: ["ticket_id"],
+  },
+  description: "Table of each TRA support ticket in Zendesk with details of categorisations and resolution metrics",
+  columns: {
+    ticket_id: "UID of each support ticket",
+    assignee_id: "UID of the assigned agent on this ticket",
+    reference_id: "UID of the reference on this ticket",
+    created_at: "Date and time of that this ticket was logged in Zendesk",
+    country_of_origin: "Country of origin - custom_fields_0_value",
+    issue_type_value_0: "Issue type - custom_fields_1_value_0",
+    issue_type_value_1: "Issue type - custom_fields_1_value_1",
+    issue_type_value_2: "Issue type - custom_fields_1_value_2",
+    school_type: "School type - custom_fields_2_value",
+    trello_card_id: "Trello Card ID - custom_fields_3_value",
+    organization_id: "UID of the organisation",
+    recipient: "DfE email address of the service this ticket relates to e.g. becomingateacher@digital.education.gov.uk",
+    satisfaction_rating_score: "Rating of satisfaction to this ticket i.e. good, bad, unoffered",
+    status: "Resolution status of this ticket i.e. solved, open, new",
+    type: "Categorisation of the ticket type i.e. question, problem, incident",
+    via_channel: "Source that this ticket was first created from i.e. email, chat, web, api",
+    group_id: "UID of the service group of this ticket",
+    agent_wait_time_in_minutes_business: "Time between an agent sending a message and a requester replying within business hours",
+    agent_wait_time_in_minutes_calendar: "Time between an agent sending a message and a requester replying including outside business hours",
+    assigned_at: "Date and time this ticket was assigned at",
+    first_resolution_time_in_minutes_business: "Time (minutes) between ticket creation and marked 'solved' within business hours",
+    first_resolution_time_in_minutes_calendar: "Time (minutes) between ticket creation and marked 'solved' including outside business hours",
+    full_resolution_time_in_minutes_business: "Time (minutes) between ticket creation and resolution if ticket 'Reopened' within business hours",
+    full_resolution_time_in_minutes_calendar: "Time (minutes) between ticket creation and resolution if ticket 'Reopened' including outside business hours",
+    initially_assigned_at: "Date and time this ticket is first assigned to an agent",
+    on_hold_time_in_minutes_business: "Time (minutes) the ticket has been on hold within business hours",
+    on_hold_time_in_minutes_calendar: "Time (minutes) the ticket has been on hold including outside business hours",
+    reopens: "Number of times this ticket has been reopened after being marked as 'solved'",
+    replies: "Number of replies on this ticket",
+    reply_time_in_minutes_business: "Latest time between an agent sending a message and a Requester replying within business hours",
+    reply_time_in_minutes_calendar: "Latest time between an agent sending a message and a Requester replying including outside business hours",
+    requester_updated_at: "Date and Time that the requester sent the latest reply",
+    requester_wait_time_in_minutes_business: "Time (minutes) between a requester sending a message and an agent replying within business hours",
+    requester_wait_time_in_minutes_calendar: "Time (minutes) between a requester sending a message and an agent replying including outside business hours",
+    solved_at: "Date and time this ticket was resolved",
+    status_updated_at: "Date and time this ticket's status was last updated",
+    resolution_minutes: "Resolution time in minutes",
+    agent_details: {
+      description: "An ARRAY_AGG of STRUCTS, for the most recent agent and their team assigned to the ticket",
+      columns: {
+            agent_name: "Name of the assigned agent on this ticket",
+            agent_team: "Team name of the assigned agent on this ticket",
+      }
+    },
+    one_touch_ticket: "TRUE if ticket has less than 1 reply and has been marked as solved",
+    multi_touch_ticket: "TRUE if ticket has more than 1 reply and has not been reopened",
+    reopened_ticket: "TRUE if ticket has been reopened at least once",
+    updated_at: "Timestamp of the last update to this ticket",
+    group_name: "Name of group this ticket relates to e.g. Second line support",
+    first_reply_time_business_in_hours: "First response of this ticket in business hours.",
+    first_reply_time_calendar_in_hours: "First response of this ticket in calendar hours."
+  }
+}
+
+WITH ticket_data AS (
+  SELECT
+    id AS ticket_id,
+    CAST(assignee_id AS INT) AS assignee_id,
+    created_at,
+   -- CAST(organization_id AS INT) AS organization_id,
+    recipient,
+    satisfaction_rating.score AS satisfaction_rating_score,
+    status,
+    type,
+    via.channel AS via_channel,
+    CAST(group_id AS INT) AS group_id,
+    updated_at
+  FROM
+    ${ref("tickets")} ),
+    
+combined_metrics AS (
+  SELECT
+    ticket_id,
+    agent_wait_time_in_minutes.business AS agent_wait_time_in_minutes_business,
+    agent_wait_time_in_minutes.calendar AS agent_wait_time_in_minutes_calendar,
+    assigned_at,
+    first_resolution_time_in_minutes.business AS first_resolution_time_in_minutes_business,
+    first_resolution_time_in_minutes.calendar AS first_resolution_time_in_minutes_calendar,
+    full_resolution_time_in_minutes.business AS full_resolution_time_in_minutes_business,
+    full_resolution_time_in_minutes.calendar AS full_resolution_time_in_minutes_calendar,
+    initially_assigned_at,
+    on_hold_time_in_minutes.business AS on_hold_time_in_minutes_business,
+    on_hold_time_in_minutes.calendar AS on_hold_time_in_minutes_calendar,
+    reopens,
+    replies,
+    reply_time_in_minutes.business AS reply_time_in_minutes_business,
+    reply_time_in_minutes.calendar AS reply_time_in_minutes_calendar,
+    requester_updated_at,
+    requester_wait_time_in_minutes.business AS requester_wait_time_in_minutes_business,
+    requester_wait_time_in_minutes.calendar AS requester_wait_time_in_minutes_calendar,
+    solved_at,
+    status_updated_at,
+    CAST(id AS INT) AS reference_id,
+    full_resolution_time_in_minutes.business / (24 * 60) AS resolution_minutes,
+    -- Dividing by hours in a day and minutes in an hour to convert resolution time into minutes
+    full_resolution_time_in_minutes.business /60 AS resolution_hours,
+    replies <= 1 as one_touch_ticket,
+    replies > 1
+    AND reopens = 0 AS multi_touch_ticket,
+    reopens > 0
+    AND replies > 1 AS reopened_ticket,
+    reply_time_in_minutes.business/60 AS first_reply_time_business_in_hours,
+    reply_time_in_minutes.calendar/60 AS first_reply_time_calendar_in_hours
+  FROM
+    ${ref("ticket_metrics")}
+),
+service_and_group_names AS (
+  SELECT
+    id AS group_id,
+    name AS group_name
+  FROM
+    ${ref("groups")}
+),
+agents AS (
+  SELECT
+    id AS assignee_id,
+    ARRAY_AGG(STRUCT(name AS agent_name --,
+    --team AS agent_team
+    )) AS agent_details
+  FROM
+    ${ref("users")}
+  GROUP BY
+    assignee_id
+)
+SELECT
+  ticket_data.*,
+  combined_metrics.*
+EXCEPT
+  (ticket_id),
+  service_and_group_names.*
+EXCEPT
+  (group_id),
+  agent_details
+FROM
+  ticket_data
+  LEFT JOIN combined_metrics USING (ticket_id)
+  LEFT JOIN service_and_group_names USING (group_id)
+  LEFT JOIN agents USING (assignee_id)
