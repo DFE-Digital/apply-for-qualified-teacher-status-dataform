@@ -78,6 +78,11 @@ dfeAnalyticsDataform({
       entityTableName: "application_forms",
       description: "",
       keys: [
+         {
+          keyName: "action_required_by",
+          dataType: "string",
+          description: "Action that needs to be taken by someone on an application",
+        },
         {
           keyName: "age_range_max",
           dataType: "string",
@@ -294,10 +299,20 @@ dfeAnalyticsDataform({
           description: "",
         },
         {
+          keyName: "stage",
+          dataType: "string",
+          description: "Point of the application journey an application is in",
+        },
+        {
           keyName: "status",
           dataType: "string",
           description: "",
           alias: "state",
+        },
+        {
+          keyName: "statuses",
+          dataType: "string",
+          description: "Status or statuses an application is in",
         },
         {
           keyName: "subjects",
@@ -462,6 +477,11 @@ dfeAnalyticsDataform({
           description: "",
         },
         {
+          keyName: "scotland_full_registration",
+          dataType: "boolean",
+          description: "",
+        },
+        {
           keyName: "started_at",
           dataType: "timestamp",
           description: "",
@@ -543,6 +563,11 @@ dfeAnalyticsDataform({
       entityTableName: "documents",
       description: "",
       keys: [
+        {
+          keyName: "available",
+          dataType: "boolean",
+          description: "",
+        },
         {
           keyName: "completed",
           dataType: "boolean",
@@ -647,6 +672,21 @@ dfeAnalyticsDataform({
       description: "",
       keys: [
         {
+          keyName: "contact_email",
+          dataType: "string",
+          description: "",
+        },
+        {
+          keyName: "contact_job",
+          dataType: "string",
+          description: "",
+        },
+        {
+          keyName: "contact_name",
+          dataType: "string",
+          description: "",
+        },
+        {
           keyName: "failure_reason_assessor_feedback",
           dataType: "string",
           description: "",
@@ -671,6 +711,11 @@ dfeAnalyticsDataform({
           dataType: "string",
           description: "",
         },
+        {
+          keyName: "work_history_id",
+          dataType: "string",
+          description: "",
+        },
       ],
     },
     {
@@ -680,6 +725,11 @@ dfeAnalyticsDataform({
         {
           keyName: "assessment_id",
           dataType: "string",
+          description: "",
+        },
+           {
+          keyName: "expired_at",
+          dataType: "timestamp",
           description: "",
         },
         {
@@ -694,6 +744,11 @@ dfeAnalyticsDataform({
         },
         {
           keyName: "received_at",
+          dataType: "timestamp",
+          description: "",
+        },
+           {
+          keyName: "requested_at",
           dataType: "timestamp",
           description: "",
         },
@@ -754,6 +809,11 @@ dfeAnalyticsDataform({
           dataType: "string",
           description: "",
         },
+          {
+          keyName: "expired_at",
+          dataType: "timestamp",
+          description: "",
+        },
         {
           keyName: "failure_assessor_note",
           dataType: "string",
@@ -779,6 +839,11 @@ dfeAnalyticsDataform({
           dataType: "timestamp",
           description: "",
         },
+          {
+          keyName: "requested_at",
+          dataType: "timestamp",
+          description: "",
+        },
         {
           keyName: "reviewed_at",
           dataType: "string",
@@ -798,6 +863,11 @@ dfeAnalyticsDataform({
         {
           keyName: "assessment_id",
           dataType: "string",
+          description: "",
+        },
+        {
+          keyName: "expired_at",
+          dataType: "timestamp",
           description: "",
         },
         {
@@ -822,6 +892,11 @@ dfeAnalyticsDataform({
         },
         {
           keyName: "received_at",
+          dataType: "timestamp",
+          description: "",
+        },
+          {
+          keyName: "requested_at",
           dataType: "timestamp",
           description: "",
         },
@@ -937,6 +1012,11 @@ dfeAnalyticsDataform({
           dataType: "boolean",
           description: "",
         },
+          {
+          keyName: "expired_at",
+          dataType: "timestamp",
+          description: "",
+        },
         {
           keyName: "failure_assessor_note",
           dataType: "string",
@@ -990,6 +1070,11 @@ dfeAnalyticsDataform({
         {
           keyName: "reports_response",
           dataType: "boolean",
+          description: "",
+        },
+          {
+          keyName: "requested_at",
+          dataType: "timestamp",
           description: "",
         },
         {
@@ -1131,6 +1216,16 @@ dfeAnalyticsDataform({
           dataType: "string",
           description: "",
         },
+          {
+          keyName: "change_name_permission",
+          dataType: "boolean",
+          description: "",
+        },
+             {
+          keyName: "change_work_history_permission",
+          dataType: "boolean",
+          description: "",
+        },
         {
           keyName: "confirmation_sent_at",
           dataType: "timestamp",
@@ -1232,6 +1327,11 @@ dfeAnalyticsDataform({
           description: "",
         },
         {
+          keyName: "reverse_decision_permission",
+          dataType: "boolean",
+          description: "",
+        },
+        {
           keyName: "sign_in_count",
           dataType: "integer",
           description: "",
@@ -1244,6 +1344,16 @@ dfeAnalyticsDataform({
         {
           keyName: "unconfirmed_email",
           dataType: "string",
+          description: "",
+        },
+          {
+          keyName: "verify_permission",
+          dataType: "boolean",
+          description: "",
+        },
+          {
+          keyName: "withdraw_permission",
+          dataType: "boolean",
           description: "",
         },
       ],
