@@ -709,6 +709,22 @@ dfeAnalyticsDataform({
       ],
     },
     {
+      entityTableName: "feature_flag_features",
+      description: "",
+      keys: [
+        {
+          keyName: "active",
+          dataType: "string",
+          description: "",
+        },
+        {
+          keyName: "name",
+          dataType: "string",
+          description: "",
+        },
+      ],
+    },
+    {
       entityTableName: "further_information_request_items",
       description: "",
       keys: [
