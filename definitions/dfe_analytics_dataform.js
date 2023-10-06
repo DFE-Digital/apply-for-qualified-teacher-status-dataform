@@ -736,23 +736,15 @@ dfeAnalyticsDataform({
           keyName: "review_note",
           dataType: "string",
           description: "",
-        },
-          {
-          keyName: "failure_assessor_note",
-          dataType: "string",
-          description: "",
+          pastKeyNames: ['failure_assessor_note'],
         },
         {
           keyName: "review_passed",
           dataType: "boolean",
           description: "",
+          pastKeyNames: ['passed'],
         },
-           {
-          keyName: "passed",
-          dataType: "boolean",
-          description: "",
-        },
-        {
+                {
           keyName: "received_at",
           dataType: "timestamp",
           description: "",
@@ -828,26 +820,18 @@ dfeAnalyticsDataform({
           keyName: "review_note",
           dataType: "string",
           description: "",
-        },
-          {
-          keyName: "failure_assessor_note",
-          dataType: "string",
-          description: "",
+          pastKeyNames: ['failure_assessor_note']
         },
         {
           keyName: "location_note",
           dataType: "string",
           description: "",
         },
-        {
+         {
           keyName: "review_passed",
-          dataType: "string",
+          dataType: "boolean",
           description: "",
-        },
-           {
-          keyName: "passed",
-          dataType: "string",
-          description: "",
+          pastKeyNames: ['passed'],
         },
         {
           keyName: "ready_for_review",
@@ -909,11 +893,7 @@ dfeAnalyticsDataform({
           keyName: "review_note",
           dataType: "string",
           description: "",
-        },
-           {
-          keyName: "failure_assessor_note",
-          dataType: "string",
-          description: "",
+          pastKeyNames: ['failure_assessor_note']
         },
         {
           keyName: "location_note",
@@ -924,11 +904,7 @@ dfeAnalyticsDataform({
           keyName: "review_passed",
           dataType: "boolean",
           description: "",
-        },
-           {
-          keyName: "passed",
-          dataType: "boolean",
-          description: "",
+          pastKeyNames: ['passed'],
         },
         {
           keyName: "qualification_id",
@@ -1076,11 +1052,7 @@ dfeAnalyticsDataform({
           keyName: "review_note",
           dataType: "string",
           description: "",
-        },
-           {
-          keyName: "failure_assessor_note",
-          dataType: "string",
-          description: "",
+          pastKeyNames: ['failure_assessor_note']
         },
         {
           keyName: "hours_comment",
@@ -1112,15 +1084,11 @@ dfeAnalyticsDataform({
           dataType: "boolean",
           description: "",
         },
-        {
+       {
           keyName: "review_passed",
           dataType: "boolean",
           description: "",
-        },
-           {
-          keyName: "passed",
-          dataType: "boolean",
-          description: "",
+          pastKeyNames: ['passed'],
         },
         {
           keyName: "received_at",
