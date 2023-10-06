@@ -829,6 +829,11 @@ dfeAnalyticsDataform({
           dataType: "string",
           description: "",
         },
+          {
+          keyName: "failure_assessor_note",
+          dataType: "string",
+          description: "",
+        },
         {
           keyName: "location_note",
           dataType: "string",
@@ -836,6 +841,11 @@ dfeAnalyticsDataform({
         },
         {
           keyName: "review_passed",
+          dataType: "string",
+          description: "",
+        },
+           {
+          keyName: "passed",
           dataType: "string",
           description: "",
         },
@@ -856,6 +866,11 @@ dfeAnalyticsDataform({
         },
         {
           keyName: "reviewed_at",
+          dataType: "string",
+          description: "",
+        },
+              {
+          keyName: "state",
           dataType: "string",
           description: "",
         },
