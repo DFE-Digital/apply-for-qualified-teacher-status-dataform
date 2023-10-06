@@ -760,7 +760,7 @@ dfeAnalyticsDataform({
       keys: [
         {
           keyName: "active",
-          dataType: "string",
+          dataType: "boolean",
           description: "",
         },
         {
