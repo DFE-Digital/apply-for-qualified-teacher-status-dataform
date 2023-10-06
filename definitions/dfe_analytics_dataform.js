@@ -858,7 +858,7 @@ dfeAnalyticsDataform({
           keyName: "state",
           dataType: "string",
           description: "",
-          historic: true
+          historic: true,
         },
          {
           keyName: "verified_at",
@@ -1136,7 +1136,7 @@ dfeAnalyticsDataform({
           keyName: "state",
           dataType: "string",
           description: "",
-          historic: true
+          historic: true,
         },
          {
           keyName: "verified_at",
