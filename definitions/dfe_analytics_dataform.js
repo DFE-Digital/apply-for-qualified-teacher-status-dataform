@@ -709,6 +709,52 @@ dfeAnalyticsDataform({
       ],
     },
     {
+      entityTableName: "english_language_providers",
+      description: "",
+      keys: [
+        {
+          keyName: "accepted_tests",
+          dataType: "string",
+          description: "",
+        },
+        {
+          keyName: "b2_level_requirement",
+          dataType: "string",
+          description: "",
+        },
+         {
+          keyName: "b2_level_requirement_prefix",
+          dataType: "string",
+          description: "",
+        },
+        {
+          keyName: "check_url",
+          dataType: "string",
+          description: "",
+        },
+         {
+          keyName: "name",
+          dataType: "string",
+          description: "",
+        },
+        {
+          keyName: "reference_hint",
+          dataType: "string",
+          description: "",
+        },
+         {
+          keyName: "reference_name",
+          dataType: "string",
+          description: "",
+        },
+        {
+          keyName: "url",
+          dataType: "string",
+          description: "",
+        },
+      ],
+    },
+    {
       entityTableName: "feature_flag_features",
       description: "",
       keys: [
