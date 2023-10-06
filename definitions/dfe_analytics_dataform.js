@@ -755,7 +755,7 @@ dfeAnalyticsDataform({
       ],
     },
     {
-      entityTableName: "feature_flag_features",
+      entityTableName: "feature_flags_features",
       description: "",
       keys: [
         {
