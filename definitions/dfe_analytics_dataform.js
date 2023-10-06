@@ -1268,12 +1268,42 @@ dfeAnalyticsDataform({
       description: "",
       keys: [
         {
+          keyName: "application_form_skip_work_history",
+          dataType: "boolean",
+          description: "",
+        },
+         {
           keyName: "country_id",
           dataType: "string",
           description: "",
         },
         {
           keyName: "name",
+          dataType: "string",
+          description: "",
+        },
+        {
+          keyName: "other_information",
+          dataType: "string",
+          description: "",
+        },
+        {
+          keyName: "qualifications_information",
+          dataType: "string",
+          description: "",
+        },
+           {
+          keyName: "requires_preliminary_check",
+          dataType: "boolean",
+          description: "",
+        },
+              {
+          keyName: "reduced_evidence_accepted",
+          dataType: "boolean",
+          description: "",
+        },
+          {
+          keyName: "sanction_information",
           dataType: "string",
           description: "",
         },
@@ -1287,8 +1317,18 @@ dfeAnalyticsDataform({
           dataType: "string",
           description: "",
         },
+           {
+          keyName: "status_information",
+          dataType: "string",
+          description: "",
+        },
         {
           keyName: "teaching_authority_certificate",
+          dataType: "string",
+          description: "",
+        },
+        {
+          keyName: "teaching_authority_emails",
           dataType: "string",
           description: "",
         },
@@ -1298,9 +1338,30 @@ dfeAnalyticsDataform({
           description: "",
         },
         {
-          keyName: "teaching_authority_website",
+          keyName: "teaching_authority_name",
           dataType: "string",
           description: "",
+        },
+           {
+          keyName: "teaching_authority_online_checker_url",
+          dataType: "string",
+          description: "",
+        },
+        {
+          keyName: "teaching_authority_provides_written_statement",
+          dataType: "string",
+          description: "",
+        },
+          {
+          keyName: "teaching_authority_requires_submission_email",
+          dataType: "string",
+          description: "",
+        },
+        {
+          keyName: "teaching_authority_websites",
+          dataType: "string",
+          description: "",
+          pastKeyNames: ['teaching_authority_website']
         },
         {
           keyName: "teaching_authority_email_address",
@@ -1310,6 +1371,11 @@ dfeAnalyticsDataform({
         {
           keyName: "teaching_authority_other",
           dataType: "string",
+          description: "",
+        },
+        {
+          keyName: "written_statement_optional",
+          dataType: "boolean",
           description: "",
         },
         {
