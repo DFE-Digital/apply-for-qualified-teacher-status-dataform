@@ -18,7 +18,7 @@ SELECT
   tableC.id AS further_information_requests_id,
   tableC.state,
   received_at,
-  tableC.passed AS further_information_requests_passed,
+  tableC.review_passed AS further_information_requests_passed,
   tableC.created_at AS further_information_requests_created_at,
   tableD.id AS further_information_request_items_id,
   information_type,
