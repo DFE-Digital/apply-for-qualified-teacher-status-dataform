@@ -747,6 +747,11 @@ dfeAnalyticsDataform({
           dataType: "boolean",
           description: "",
         },
+           {
+          keyName: "passed",
+          dataType: "boolean",
+          description: "",
+        },
         {
           keyName: "received_at",
           dataType: "timestamp",
@@ -760,6 +765,11 @@ dfeAnalyticsDataform({
         {
           keyName: "reviewed_at",
           dataType: "timestamp",
+          description: "",
+        },
+           {
+          keyName: "state",
+          dataType: "string",
           description: "",
         },
         {
