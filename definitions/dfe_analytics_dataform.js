@@ -910,6 +910,11 @@ dfeAnalyticsDataform({
           dataType: "string",
           description: "",
         },
+           {
+          keyName: "failure_assessor_note",
+          dataType: "string",
+          description: "",
+        },
         {
           keyName: "location_note",
           dataType: "string",
@@ -917,6 +922,11 @@ dfeAnalyticsDataform({
         },
         {
           keyName: "review_passed",
+          dataType: "boolean",
+          description: "",
+        },
+           {
+          keyName: "passed",
           dataType: "boolean",
           description: "",
         },
@@ -1067,6 +1077,11 @@ dfeAnalyticsDataform({
           dataType: "string",
           description: "",
         },
+           {
+          keyName: "failure_assessor_note",
+          dataType: "string",
+          description: "",
+        },
         {
           keyName: "hours_comment",
           dataType: "string",
@@ -1099,6 +1114,11 @@ dfeAnalyticsDataform({
         },
         {
           keyName: "review_passed",
+          dataType: "boolean",
+          description: "",
+        },
+           {
+          keyName: passed",
           dataType: "boolean",
           description: "",
         },
@@ -1139,6 +1159,11 @@ dfeAnalyticsDataform({
         },
         {
           keyName: "slug",
+          dataType: "string",
+          description: "",
+        },
+           {
+          keyName: "state",
           dataType: "string",
           description: "",
         },
