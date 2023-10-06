@@ -528,34 +528,75 @@ dfeAnalyticsDataform({
           description: "",
         },
         {
+          keyName: "eligibility_enabled",
+          dataType: "boolean",
+          description: "",
+        },
+        {
+          keyName: "eligibility_skip_questions",
+          dataType: "boolean",
+          description: "",
+        },
+        {
+          keyName: "other_information",
+          dataType: "string",
+          description: "",
+        },
+        {
+          keyName: "sanction_information",
+          dataType: "string",
+          description: "",
+        },
+        {
+          keyName: "status_information",
+          dataType: "string",
+          description: "",
+        },
+        {
+          keyName: "qualifications_information",
+          dataType: "string",
+          description: "",
+        },
+            {
+          keyName: "subject_limited",
+          dataType: "boolean",
+          description: "",
+        },
+        {
           keyName: "teaching_authority_address",
           dataType: "string",
           description: "",
+          historic: true,
         },
         {
           keyName: "teaching_authority_emails",
           dataType: "string",
           description: "",
+          historic: true,
         },
         {
           keyName: "teaching_authority_websites",
           dataType: "string",
           description: "",
+          historic: true,
         },
         {
           keyName: "teaching_authority_certificate",
           dataType: "string",
           description: "",
+          historic: true,
         },
         {
           keyName: "teaching_authority_other",
           dataType: "string",
           description: "",
+          historic: true,
         },
         {
           keyName: "teaching_authority_name",
           dataType: "string",
           description: "",
+          historic: true,
         },
       ],
     },
@@ -668,6 +709,68 @@ dfeAnalyticsDataform({
       ],
     },
     {
+      entityTableName: "english_language_providers",
+      description: "",
+      keys: [
+        {
+          keyName: "accepted_tests",
+          dataType: "string",
+          description: "",
+        },
+        {
+          keyName: "b2_level_requirement",
+          dataType: "string",
+          description: "",
+        },
+         {
+          keyName: "b2_level_requirement_prefix",
+          dataType: "string",
+          description: "",
+        },
+        {
+          keyName: "check_url",
+          dataType: "string",
+          description: "",
+        },
+         {
+          keyName: "name",
+          dataType: "string",
+          description: "",
+        },
+        {
+          keyName: "reference_hint",
+          dataType: "string",
+          description: "",
+        },
+         {
+          keyName: "reference_name",
+          dataType: "string",
+          description: "",
+        },
+        {
+          keyName: "url",
+          dataType: "string",
+          description: "",
+        },
+      ],
+    },
+    {
+      entityTableName: "feature_flags_features",
+      description: "",
+      keys: [
+        {
+          keyName: "active",
+          dataType: "boolean",
+          description: "",
+        },
+        {
+          keyName: "name",
+          dataType: "string",
+          description: "",
+        },
+      ],
+    },
+    {
       entityTableName: "further_information_request_items",
       description: "",
       keys: [
@@ -733,16 +836,18 @@ dfeAnalyticsDataform({
           description: "",
         },
         {
-          keyName: "failure_assessor_note",
+          keyName: "review_note",
           dataType: "string",
           description: "",
+          pastKeyNames: ['failure_assessor_note'],
         },
         {
-          keyName: "passed",
+          keyName: "review_passed",
           dataType: "boolean",
           description: "",
+          pastKeyNames: ['passed'],
         },
-        {
+                {
           keyName: "received_at",
           dataType: "timestamp",
           description: "",
@@ -757,10 +862,11 @@ dfeAnalyticsDataform({
           dataType: "timestamp",
           description: "",
         },
-        {
+           {
           keyName: "state",
           dataType: "string",
           description: "",
+          historic: true,
         },
         {
           keyName: "working_days_assessment_started_to_creation",
@@ -815,19 +921,21 @@ dfeAnalyticsDataform({
           description: "",
         },
         {
-          keyName: "failure_assessor_note",
+          keyName: "review_note",
           dataType: "string",
           description: "",
+          pastKeyNames: ['failure_assessor_note']
         },
         {
           keyName: "location_note",
           dataType: "string",
           description: "",
         },
-        {
-          keyName: "passed",
-          dataType: "string",
+         {
+          keyName: "review_passed",
+          dataType: "boolean",
           description: "",
+          pastKeyNames: ['passed'],
         },
         {
           keyName: "ready_for_review",
@@ -849,12 +957,28 @@ dfeAnalyticsDataform({
           dataType: "string",
           description: "",
         },
-        {
+              {
           keyName: "state",
           dataType: "string",
           description: "",
+          historic: true,
         },
-      ],
+         {
+          keyName: "verified_at",
+          dataType: "timestamp",
+          description: "",
+        },
+          {
+          keyName: "verify_note",
+          dataType: "string",
+          description: "",
+        },
+          {
+          keyName: "verify_passed",
+          dataType: "boolean",
+          description: "",
+        },
+        ],
     },
     {
       entityTableName: "qualification_requests",
@@ -871,9 +995,10 @@ dfeAnalyticsDataform({
           description: "",
         },
         {
-          keyName: "failure_assessor_note",
+          keyName: "review_note",
           dataType: "string",
           description: "",
+          pastKeyNames: ['failure_assessor_note']
         },
         {
           keyName: "location_note",
@@ -881,9 +1006,10 @@ dfeAnalyticsDataform({
           description: "",
         },
         {
-          keyName: "passed",
+          keyName: "review_passed",
           dataType: "boolean",
           description: "",
+          pastKeyNames: ['passed'],
         },
         {
           keyName: "qualification_id",
@@ -905,12 +1031,22 @@ dfeAnalyticsDataform({
           dataType: "timestamp",
           description: "",
         },
-        {
-          keyName: "state",
+          {
+          keyName: "verified_at",
+          dataType: "timestamp",
+          description: "",
+        },
+          {
+          keyName: "verify_note",
           dataType: "string",
           description: "",
         },
-      ],
+          {
+          keyName: "verify_passed",
+          dataType: "boolean",
+          description: "",
+        },
+        ],
     },
     {
       entityTableName: "qualifications",
@@ -1018,9 +1154,10 @@ dfeAnalyticsDataform({
           description: "",
         },
         {
-          keyName: "failure_assessor_note",
+          keyName: "review_note",
           dataType: "string",
           description: "",
+          pastKeyNames: ['failure_assessor_note']
         },
         {
           keyName: "hours_comment",
@@ -1052,10 +1189,11 @@ dfeAnalyticsDataform({
           dataType: "boolean",
           description: "",
         },
-        {
-          keyName: "passed",
+       {
+          keyName: "review_passed",
           dataType: "boolean",
           description: "",
+          pastKeyNames: ['passed'],
         },
         {
           keyName: "received_at",
@@ -1097,9 +1235,25 @@ dfeAnalyticsDataform({
           dataType: "string",
           description: "",
         },
-        {
+           {
           keyName: "state",
           dataType: "string",
+          description: "",
+          historic: true,
+        },
+         {
+          keyName: "verified_at",
+          dataType: "timestamp",
+          description: "",
+        },
+          {
+          keyName: "verify_note",
+          dataType: "string",
+          description: "",
+        },
+          {
+          keyName: "verify_passed",
+          dataType: "boolean",
           description: "",
         },
         {
@@ -1114,12 +1268,42 @@ dfeAnalyticsDataform({
       description: "",
       keys: [
         {
+          keyName: "application_form_skip_work_history",
+          dataType: "boolean",
+          description: "",
+        },
+         {
           keyName: "country_id",
           dataType: "string",
           description: "",
         },
         {
           keyName: "name",
+          dataType: "string",
+          description: "",
+        },
+        {
+          keyName: "other_information",
+          dataType: "string",
+          description: "",
+        },
+        {
+          keyName: "qualifications_information",
+          dataType: "string",
+          description: "",
+        },
+           {
+          keyName: "requires_preliminary_check",
+          dataType: "boolean",
+          description: "",
+        },
+              {
+          keyName: "reduced_evidence_accepted",
+          dataType: "boolean",
+          description: "",
+        },
+          {
+          keyName: "sanction_information",
           dataType: "string",
           description: "",
         },
@@ -1133,8 +1317,18 @@ dfeAnalyticsDataform({
           dataType: "string",
           description: "",
         },
+           {
+          keyName: "status_information",
+          dataType: "string",
+          description: "",
+        },
         {
           keyName: "teaching_authority_certificate",
+          dataType: "string",
+          description: "",
+        },
+        {
+          keyName: "teaching_authority_emails",
           dataType: "string",
           description: "",
         },
@@ -1144,9 +1338,30 @@ dfeAnalyticsDataform({
           description: "",
         },
         {
-          keyName: "teaching_authority_website",
+          keyName: "teaching_authority_name",
           dataType: "string",
           description: "",
+        },
+           {
+          keyName: "teaching_authority_online_checker_url",
+          dataType: "string",
+          description: "",
+        },
+        {
+          keyName: "teaching_authority_provides_written_statement",
+          dataType: "string",
+          description: "",
+        },
+          {
+          keyName: "teaching_authority_requires_submission_email",
+          dataType: "string",
+          description: "",
+        },
+        {
+          keyName: "teaching_authority_websites",
+          dataType: "string",
+          description: "",
+          pastKeyNames: ['teaching_authority_website']
         },
         {
           keyName: "teaching_authority_email_address",
@@ -1156,6 +1371,11 @@ dfeAnalyticsDataform({
         {
           keyName: "teaching_authority_other",
           dataType: "string",
+          description: "",
+        },
+        {
+          keyName: "written_statement_optional",
+          dataType: "boolean",
           description: "",
         },
         {
