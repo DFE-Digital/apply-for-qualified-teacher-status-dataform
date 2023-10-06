@@ -1118,7 +1118,7 @@ dfeAnalyticsDataform({
           description: "",
         },
            {
-          keyName: passed",
+          keyName: "passed",
           dataType: "boolean",
           description: "",
         },
