@@ -18,7 +18,6 @@ except(
     teaching_authority_address,
     teaching_authority_certificate,
     teaching_authority_other,
-    teaching_authority_website,
     teaching_authority_email_address,
     teaching_authority_websites,
     teaching_authority_emails,
