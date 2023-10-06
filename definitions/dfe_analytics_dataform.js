@@ -737,6 +737,11 @@ dfeAnalyticsDataform({
           dataType: "string",
           description: "",
         },
+          {
+          keyName: "failure_assessor_note",
+          dataType: "string",
+          description: "",
+        },
         {
           keyName: "review_passed",
           dataType: "boolean",
