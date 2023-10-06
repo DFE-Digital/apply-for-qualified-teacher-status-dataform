@@ -763,6 +763,7 @@ dfeAnalyticsDataform({
           keyName: "state",
           dataType: "string",
           description: "",
+          historic: true,
         },
         {
           keyName: "working_days_assessment_started_to_creation",
@@ -857,6 +858,7 @@ dfeAnalyticsDataform({
           keyName: "state",
           dataType: "string",
           description: "",
+          historic: true
         },
          {
           keyName: "verified_at",
@@ -1134,6 +1136,7 @@ dfeAnalyticsDataform({
           keyName: "state",
           dataType: "string",
           description: "",
+          historic: true
         },
          {
           keyName: "verified_at",
