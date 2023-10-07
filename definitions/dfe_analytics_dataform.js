@@ -1308,6 +1308,7 @@ dfeAnalyticsDataform({
           keyName: "reduced_evidence_accepted",
           dataType: "boolean",
           description: "",
+          alias: "regions_reduced_evidence_accepted",
         },
           {
           keyName: "sanction_information",
