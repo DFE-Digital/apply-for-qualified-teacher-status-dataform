@@ -1361,6 +1361,7 @@ dfeAnalyticsDataform({
           keyName: "teaching_authority_provides_written_statement",
           dataType: "string",
           description: "",
+           alias: "regions_teaching_authority_provides_written_statement",
         },
           {
           keyName: "teaching_authority_requires_submission_email",
