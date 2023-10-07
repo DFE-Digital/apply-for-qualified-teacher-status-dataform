@@ -541,21 +541,25 @@ dfeAnalyticsDataform({
           keyName: "other_information",
           dataType: "string",
           description: "",
+           alias: "countries_other_information",
         },
         {
           keyName: "sanction_information",
           dataType: "string",
           description: "",
+          alias: "countries_sanction_information",
         },
         {
           keyName: "status_information",
           dataType: "string",
           description: "",
+          alias: "countries_status_information",
         },
         {
           keyName: "qualifications_information",
           dataType: "string",
           description: "",
+          alias: "countries_qualifications_information",
         },
             {
           keyName: "subject_limited",
@@ -1286,11 +1290,13 @@ dfeAnalyticsDataform({
           keyName: "other_information",
           dataType: "string",
           description: "",
+          alias: "regions_other_information",
         },
         {
           keyName: "qualifications_information",
           dataType: "string",
           description: "",
+           alias: "regions_qualifications_information",
         },
            {
           keyName: "requires_preliminary_check",
@@ -1306,6 +1312,7 @@ dfeAnalyticsDataform({
           keyName: "sanction_information",
           dataType: "string",
           description: "",
+           alias: "regions_sanction_information",
         },
         {
           keyName: "sanction_check",
@@ -1321,6 +1328,7 @@ dfeAnalyticsDataform({
           keyName: "status_information",
           dataType: "string",
           description: "",
+           alias: "regions_status_information",
         },
         {
           keyName: "teaching_authority_certificate",
