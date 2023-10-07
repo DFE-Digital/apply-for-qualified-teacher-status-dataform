@@ -1302,6 +1302,7 @@ dfeAnalyticsDataform({
           keyName: "requires_preliminary_check",
           dataType: "boolean",
           description: "",
+           alias: "regions_requires_preliminary_check",
         },
               {
           keyName: "reduced_evidence_accepted",
