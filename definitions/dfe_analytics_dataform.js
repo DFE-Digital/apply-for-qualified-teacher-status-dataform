@@ -1388,6 +1388,7 @@ dfeAnalyticsDataform({
           keyName: "written_statement_optional",
           dataType: "boolean",
           description: "",
+            alias: "regions_written_statement_optional",
         },
         {
           keyName: "legacy",
