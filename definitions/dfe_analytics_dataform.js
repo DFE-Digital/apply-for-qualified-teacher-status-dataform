@@ -541,21 +541,25 @@ dfeAnalyticsDataform({
           keyName: "other_information",
           dataType: "string",
           description: "",
+           alias: "countries_other_information",
         },
         {
           keyName: "sanction_information",
           dataType: "string",
           description: "",
+          alias: "countries_sanction_information",
         },
         {
           keyName: "status_information",
           dataType: "string",
           description: "",
+          alias: "countries_status_information",
         },
         {
           keyName: "qualifications_information",
           dataType: "string",
           description: "",
+          alias: "countries_qualifications_information",
         },
             {
           keyName: "subject_limited",
@@ -1286,26 +1290,31 @@ dfeAnalyticsDataform({
           keyName: "other_information",
           dataType: "string",
           description: "",
+          alias: "regions_other_information",
         },
         {
           keyName: "qualifications_information",
           dataType: "string",
           description: "",
+           alias: "regions_qualifications_information",
         },
            {
           keyName: "requires_preliminary_check",
           dataType: "boolean",
           description: "",
+           alias: "regions_requires_preliminary_check",
         },
               {
           keyName: "reduced_evidence_accepted",
           dataType: "boolean",
           description: "",
+          alias: "regions_reduced_evidence_accepted",
         },
           {
           keyName: "sanction_information",
           dataType: "string",
           description: "",
+           alias: "regions_sanction_information",
         },
         {
           keyName: "sanction_check",
@@ -1321,6 +1330,7 @@ dfeAnalyticsDataform({
           keyName: "status_information",
           dataType: "string",
           description: "",
+           alias: "regions_status_information",
         },
         {
           keyName: "teaching_authority_certificate",
@@ -1351,6 +1361,7 @@ dfeAnalyticsDataform({
           keyName: "teaching_authority_provides_written_statement",
           dataType: "string",
           description: "",
+           alias: "regions_teaching_authority_provides_written_statement",
         },
           {
           keyName: "teaching_authority_requires_submission_email",
@@ -1377,6 +1388,7 @@ dfeAnalyticsDataform({
           keyName: "written_statement_optional",
           dataType: "boolean",
           description: "",
+            alias: "regions_written_statement_optional",
         },
         {
           keyName: "legacy",
