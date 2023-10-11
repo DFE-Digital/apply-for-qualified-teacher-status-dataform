@@ -1,0 +1,278 @@
+config {
+  type: "table"
+}
+WITH Applications_CustomQuery_Duplicate AS (
+
+SELECT
+  *
+EXCEPT
+  (
+    id,
+    created_at,
+    region_id,
+    subjects,
+    last_streamed_event_occurred_at,
+    last_streamed_event_type,
+    updated_at,
+    state,
+    age_range_min,
+    age_range_max
+  ),
+  tableA.id AS id,
+  tableA.created_at AS created_at,
+  tableA.state AS state,
+  tableC.id AS assessment_latest_id,
+  tableC.created_at AS assessment_created_at,
+  tableA.region_id AS region_id,
+  tableA.updated_at AS updated_at,
+  tableC.updated_at AS assessment_updated_at,
+  tableD.state AS FI_state,
+  tableD.created_at AS further_information_requests_created_at,
+  tableC.subjects AS subjects,
+  ABS(TIME_DIFF(EXTRACT(TIME FROM started_at), EXTRACT(TIME FROM recommended_at), MINUTE)) as minutes_started_to_recommended,
+  ABS(TIME_DIFF(EXTRACT(TIME FROM started_at), CURRENT_TIME(),  MINUTE)) as minutes_since_started,
+  ABS(TIME_DIFF(EXTRACT(TIME FROM received_at), EXTRACT(TIME FROM recommended_at), MINUTE)) as minutes_received_to_recommended,
+  ABS(TIME_DIFF(EXTRACT(TIME FROM received_at), CURRENT_TIME(),  MINUTE)) as minutes_since_received,
+  ABS(TIME_DIFF(EXTRACT(TIME FROM tableD.created_at), EXTRACT(TIME FROM started_at),  MINUTE)) as minutes_since_started_to_FIed,
+FROM
+  ${ref("application_forms_latest_afqts")} AS tableA
+  LEFT JOIN ${ref("joinGeoData")} AS tableB ON tableA.region_id = tableB.region_id
+  LEFT JOIN ${ref("assessments_latest_afqts")} AS tableC ON tableA.id = tableC.application_form_id
+  LEFT JOIN ${ref("further_information_requests_latest_afqts")} AS tableD ON tableC.id = tableD.assessment_id
+),
+
+  -- NEW applications IN FULL quarter 
+  apps AS (
+SELECT
+  DATE(submitted_at) AS date_submitted_at,
+  requires_preliminary_check,
+  COUNT(*) AS app_count
+FROM
+  Applications_CustomQuery_Duplicate
+WHERE
+  DATE_DIFF(CURRENT_DATE(), DATE(submitted_at), MONTH) > 0
+  AND DATE_DIFF(CURRENT_DATE(), DATE(submitted_at), MONTH) <= 3
+GROUP BY
+  DATE(submitted_at),
+  requires_preliminary_check ),
+  prelims AS ( 
+    -- NEW prelims IN FULL quarter per day
+  SELECT
+    date_submitted_at,
+    SUM(app_count) AS prelim_apps
+  FROM
+    apps
+  WHERE
+    requires_preliminary_check IS TRUE
+  GROUP BY
+    date_submitted_at ),
+  assess AS ( 
+    -- NEW assessments IN FULL quarter per day
+  SELECT
+    date_submitted_at,
+    SUM(app_count) AS assess_apps
+  FROM
+    apps
+  WHERE
+    requires_preliminary_check IS FALSE
+  GROUP BY
+    date_submitted_at ),
+  avg_apps AS ( 
+    -- average prelims AND assessments IN FULL quarter per day
+  SELECT
+    CAST(ROUND(AVG(prelim_apps) + AVG(assess_apps),0) AS INT64) AS avg_new_apps_per_day,
+    CAST(ROUND(AVG(prelim_apps),0) AS INT64) AS avg_new_prelim_apps_per_day,
+    CAST(ROUND(AVG(assess_apps),0) AS INT64) AS avg_new_assess_apps_per_day
+  FROM
+    prelims
+  JOIN
+    assess
+  USING
+    (date_submitted_at) ),
+  current_assess_backlog AS 
+  -- assessment backlog including LOPS
+   (
+SELECT
+  COUNT(*) AS assess_backlog
+FROM
+Applications_CustomQuery_Duplicate
+WHERE
+  stage = 'not_started'
+  OR (stage = 'pre_assessment'
+    AND NOT REGEXP_CONTAINS(statuses, r"preliminary_check")) ),
+  current_prelim_backlog AS 
+  -- prelim backlog 
+  (
+SELECT
+  COUNT(*) AS prelim_backlog
+FROM
+Applications_CustomQuery_Duplicate
+WHERE
+  stage = 'pre_assessment'
+  AND REGEXP_CONTAINS(statuses, r"preliminary_check") ),
+  prelims_in_qtr AS ( 
+    -- identify ALL prelims IN this quarter
+  SELECT
+    reference,
+    state,
+    stage,
+    statuses,
+    assessor_id,
+    DATE(MIN(valid_from)) AS actioned_on
+  FROM
+   ${ref("application_forms_version_afqts")}
+  WHERE
+    DATE_DIFF(CURRENT_DATE(), DATE(valid_from), MONTH) > 0
+    AND DATE_DIFF(CURRENT_DATE(), DATE(valid_from), MONTH) <= 3
+    AND assessor_id IS NOT NULL
+    AND ( state = 'preliminary_check'
+      OR (stage = 'pre_assessment'
+        AND statuses LIKE '%preliminary_check%'))
+  GROUP BY
+    reference,
+    state,
+    stage,
+    statuses,
+    assessor_id ),
+  counts_per_day AS ( 
+    -- count assessors per day AND count OF assessments
+  SELECT
+    actioned_on,
+    COUNT(DISTINCT assessor_id) AS count_of_assessors,
+    COUNT(assessor_id) AS count_of_prelims
+  FROM
+    prelims_in_qtr
+  GROUP BY
+    actioned_on ),
+  -- get averages 
+  totals AS (
+SELECT
+  AVG(count_of_prelims) AS avg_count_of_prelims_ass_per_day,
+  AVG(count_of_assessors) AS avg_count_of_assessors,
+  APPROX_QUANTILES(count_of_prelims, 5) AS quantiles_prelims,
+  APPROX_QUANTILES(count_of_assessors, 5) AS quantiles_assessors,
+  COUNT(DISTINCT actioned_on) AS count_of_prelim_days,
+FROM
+  counts_per_day ),
+  prelim_parameters AS (
+  SELECT
+    ROUND(avg_count_of_prelims_ass_per_day,1) AS avg_count_of_prelims_ass_per_day,
+    quantiles_prelims[
+  OFFSET
+    (2)] AS median_count_of_prelims_ass_per_day,
+    ROUND(avg_count_of_assessors,1) AS avg_count_of_assessors_per_day,
+    quantiles_assessors[
+  OFFSET
+    (2)] AS median_count_of_assessors_per_day -- count_of_prelim_days
+  FROM
+    totals ),
+  assess_per_day_in_qtr AS (
+  SELECT
+    DATE(started_at) AS date_started_at,
+    COUNT(*) AS ass_count
+  FROM
+ Applications_CustomQuery_Duplicate
+  WHERE
+    DATE_DIFF(CURRENT_DATE(), DATE(started_at), MONTH) > 0
+    AND DATE_DIFF(CURRENT_DATE(), DATE(started_at), MONTH) <= 3
+    AND ( ( DATE_DIFF(CURRENT_DATE(), DATE(declined_at), MONTH) > 0
+        AND DATE_DIFF(CURRENT_DATE(), DATE(declined_at), MONTH) <= 3 )
+      OR ( DATE_DIFF(CURRENT_DATE(), DATE(awarded_at), MONTH) > 0
+        AND DATE_DIFF(CURRENT_DATE(), DATE(awarded_at), MONTH) <= 3 )
+      OR ( (awarded_at IS NULL
+          AND declined_at IS NULL)
+        AND ( waiting_on_professional_standing IS TRUE
+          OR waiting_on_qualification IS TRUE
+          OR waiting_on_reference IS TRUE ) ) )
+  GROUP BY
+    date_started_at ),
+  avg_median_assess_per_day AS (
+  SELECT
+    ROUND(AVG(ass_count), 1) AS avg_assess_per_day,
+    APPROX_QUANTILES(ass_count, 5)[
+  OFFSET
+    (2)] AS median_count_of_assess_per_day
+  FROM
+    assess_per_day_in_qtr ),
+  assessors_in_qtr AS 
+  -- applications_assessor active ON  each day IN quarter
+   (
+  SELECT
+    reference,
+    state,
+    stage,
+    statuses,
+    assessor_id,
+    DATE((valid_from)) AS actioned_on,
+  FROM
+ ${ref("application_forms_version_afqts")}
+  WHERE
+    DATE_DIFF(CURRENT_DATE(), DATE(valid_from), MONTH) > 0
+    AND DATE_DIFF(CURRENT_DATE(), DATE(valid_from), MONTH) <= 3
+    AND assessor_id IS NOT NULL
+    AND (state = 'assessment_in_progress'
+      OR statuses LIKE ('assess_ment_in_progress'))
+  ORDER BY
+    valid_from ),
+  assessors_per_day_in_qtr AS 
+  -- assessors active each day IN qtr 
+  (
+SELECT
+  actioned_on,
+  COUNT(DISTINCT assessor_id) AS assessors_per_day
+FROM
+  assessors_in_qtr
+GROUP BY
+  actioned_on
+ORDER BY
+  actioned_on ),
+  -- average assessors per day 
+  average_assessors_per_day AS (
+SELECT
+  ROUND(AVG(assessors_per_day),1) AS avg_assessors_per_day,
+  APPROX_QUANTILES(assessors_per_day, 2)[
+OFFSET
+  (1)] AS median_assessors_per_day
+FROM
+  assessors_per_day_in_qtr ),
+  status_after_prelim_per_field_update AS (
+  SELECT
+    entity_id,
+  IF
+    (new_state = 'declined', 'false', NULL) AS assess_after_prelim_false,
+  IF
+    (new_state != 'declined'
+      AND new_state IS NOT NULL, 'true', NULL) AS assess_after_prelim_true,
+    key_updated,
+    previous_state,
+    new_state,
+    DATE(occurred_at)
+  FROM
+ ${ref("application_forms_field_updates_afqts")}
+  WHERE
+    DATE_DIFF(CURRENT_DATE(), DATE(occurred_at), MONTH) > 0
+    AND DATE_DIFF(CURRENT_DATE(), DATE(occurred_at), MONTH) <= 3
+    AND key_updated = 'status'
+    AND previous_state = 'preliminary_check'
+  ORDER BY
+    entity_id ),
+  percent_prelims_to_assess AS (
+  SELECT
+    -- COUNT(assessment_after_prelim_false) AS count_false,
+    --COUNT(assessment_after_prelim_true) AS count_true,
+    ROUND( SUM(
+      IF
+        (assess_after_prelim_false = 'false', 1, 0)) *100 / (COUNT(assess_after_prelim_false) + COUNT(assess_after_prelim_true)),1) AS percent_assess_after_prelim
+  FROM
+    status_after_prelim_per_field_update)
+SELECT
+  *,
+  CAST(ROUND((avg_new_assess_apps_per_day * 100 / (avg_new_assess_apps_per_day + avg_new_prelim_apps_per_day)),0) AS INT64) AS percent_new_applic_for_assess
+FROM
+  avg_apps,
+  current_assess_backlog,
+  current_prelim_backlog,
+  prelim_parameters,
+  avg_median_assess_per_day,
+  average_assessors_per_day,
+  percent_prelims_to_assess
