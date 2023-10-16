@@ -230,8 +230,8 @@ percentage_assessments_after_a_prelim_per_day,
 new_apps_per_day,
 new_apps_assessments_per_day,
 new_apps_prelim_per_day,
-assessment_backlog,
-prelim_backlog
+COALESCE(CAST(assessment_backlog AS STRING), '0') AS assessment_backlog,
+COALESCE(CAST(prelim_backlog AS STRING), '0') AS prelim_backlog
 from new_app_per_day_count as na
 left join percentage_assessments_after_a_prelim aaap ON aaap.date_occurred_at = na.date_submitted_at
 left join new_app_assessment_per_day_count naa ON naa.date_submitted_at =  na.date_submitted_at
