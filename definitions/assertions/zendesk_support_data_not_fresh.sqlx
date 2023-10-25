@@ -1,0 +1,13 @@
+config {
+    type: "assertion",
+    disabled: false,
+    description: "This assertion alerts us if a number of days have passed and no new support tickets have been sent from Zendesk to BigQuey via the Hevo pipeline. The number of days is set based on expected activity, see commented out notes below"
+}
+
+SELECT
+  MAX(DATE(created_at)) AS data_last_streamed_at
+FROM
+  ${ref("support_ticket_details")}
+HAVING
+  data_last_streamed_at < TIMESTAMP_SUB(CURRENT_DATE, INTERVAL 2 DAY)
+  -- set to 2 days with no support tickets being sent to BigQuery
