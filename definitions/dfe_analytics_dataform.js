@@ -1418,7 +1418,7 @@ dfeAnalyticsDataform({
             keys: [
 
                 {
-                    keyName: "access_permission",
+                    keyName: "assess_permission",
                     dataType: "boolean",
                     description: "",
                 },
