@@ -1,4 +1,8 @@
--- QUERY 2 - %  OF AWARDS OUT OF APPLICATIONS ASSESSED
+config {
+    type: "table"
+}
+
+  -- QUERY 2 - %  OF AWARDS OUT OF APPLICATIONS ASSESSED
   -- This is percentage of applications awarded QTS, where awardees are exempt from induction, they were assessed between 01-02-23 and 31-07-23 and they submitted their applications between 01-02-23 and 31-07-23
 WITH
   assessments_counts_in_period AS (

@@ -1,4 +1,8 @@
--- QUERY 3
+config {
+    type: "table"
+}
+
+  -- QUERY 3
   -- This is the total number of applicants awarded QTS, by EBacc and non_EBacc subject classifications, between 01-02-23 and 31-07-23, and who submitted their applications between 01-2-23 and 23-07-31.
   -- This CTE identifies each subject combination and its count. there can be 1,2 or 3 subjects, separated by commas
 WITH
@@ -7,9 +11,9 @@ WITH
     ala.subjects,
     COUNT(*) AS subject_count
   FROM
-    ${ref("application_forms_latest_afqts")}  AS afl
+    ${ref("application_forms_latest_afqts")} AS afl
   LEFT JOIN
-     ${ref("assessments_latest_afqts")} AS ala
+    ${ref("assessments_latest_afqts")} AS ala
   ON
     ala.application_form_id = afl.id
   WHERE
