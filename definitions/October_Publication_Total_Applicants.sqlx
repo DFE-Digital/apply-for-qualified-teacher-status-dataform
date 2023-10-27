@@ -5,7 +5,7 @@
 SELECT
   COUNT(DISTINCT teacher_id)
 FROM
-  `apply-for-qts-in-england.dataform_production.application_forms_latest_afqts` AS afl
+  ${ref("application_forms_latest_afqts")} AS afl
 WHERE
   DATE(submitted_at) BETWEEN '2023-02-01'
   AND '2023-07-31'
