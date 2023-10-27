@@ -7,9 +7,9 @@ WITH
     ala.subjects,
     COUNT(*) AS subject_count
   FROM
-    `apply-for-qts-in-england.dataform_production.application_forms_latest_afqts` AS afl
+    ${ref("application_forms_latest_afqts")}  AS afl
   LEFT JOIN
-    `apply-for-qts-in-england.dataform_production.assessments_latest_afqts` AS ala
+     ${ref("assessments_latest_afqts")} AS ala
   ON
     ala.application_form_id = afl.id
   WHERE
