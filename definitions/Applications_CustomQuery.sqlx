@@ -1,5 +1,8 @@
 config {
-  type: "table"
+  type: "table",
+ /* assertions: {
+    uniqueKey: ["id"],
+  },*/
 }
 
 SELECT

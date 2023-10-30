@@ -1,0 +1,14 @@
+config {
+    type: "view",
+    description: "This is the total of applicants who have submitted applications between 01-02-23 and 31-07-23."
+}
+
+  -- Use of the distinct teacher_id ensures that we only count applicants and not application forms submitted, as we do receive duplicates.
+  -- Teacher_id is a system generated field that identifies the same teacher as an applicant having the same email address.
+SELECT
+  COUNT(DISTINCT teacher_id) AS count_of_applicants
+FROM
+  ${ref("application_forms_latest_afqts")}
+WHERE
+  DATE(submitted_at) BETWEEN '2023-02-01'
+  AND '2023-07-31'
