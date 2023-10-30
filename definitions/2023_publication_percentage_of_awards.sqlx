@@ -1,33 +1,32 @@
 config {
-    type: "table"
+    type: "view",
+    description: "This is percentage of applications awarded QTS, where awardees are exempt from induction, they were assessed between 01-02-23 and 31-07-23 and they submitted their applications between 01-02-23 and 31-07-23."
 }
 
-  -- QUERY 2 - %  OF AWARDS OUT OF APPLICATIONS ASSESSED
-  -- This is percentage of applications awarded QTS, where awardees are exempt from induction, they were assessed between 01-02-23 and 31-07-23 and they submitted their applications between 01-02-23 and 31-07-23
 WITH
   assessments_counts_in_period AS (
   SELECT
     COUNT(DISTINCT
       CASE
-        WHEN awarded_at IS NOT NULL AND state = 'awarded' THEN afl.id
+        WHEN awarded_at IS NOT NULL AND state = 'awarded' THEN application_forms.id
     END
       ) AS awarded_count,
     COUNT(DISTINCT
       CASE
-        WHEN declined_at IS NOT NULL AND state = 'declined' THEN afl.id
+        WHEN declined_at IS NOT NULL AND state = 'declined' THEN application_forms.id
     END
       ) AS declined_count,
     COUNT(DISTINCT
       CASE
-        WHEN induction_required = TRUE AND state = 'awarded' THEN ala.id
+        WHEN induction_required = TRUE AND state = 'awarded' THEN assessments.id
     END
       ) AS induction_required_count
   FROM
-    ${ref("application_forms_latest_afqts")} AS afl
+    ${ref("application_forms_latest_afqts")} AS application_forms
   LEFT JOIN
-    ${ref("assessments_latest_afqts")} AS ala
+    ${ref("assessments_latest_afqts")} AS assessments
   ON
-    ala.application_form_id = afl.id
+    assessments.application_form_id = application_forms.id
   WHERE
     -- date assessed must be BETWEEN 1 Feb 2023 AND 31 July 2023
     (DATE(awarded_at) BETWEEN '2023-02-01'
@@ -39,8 +38,6 @@ WITH
     AND '2023-07-31') )
     -- calculate the % awards
 SELECT
-  /* declined_count,induction_required_count,
-  ROUND((awarded_count) / (awarded_count + declined_count) *100,0) AS percentage_awards,*/
   awarded_count,
   CAST(ROUND((awarded_count-induction_required_count) / (awarded_count ) *100,1) AS INT64) AS percentage_awards_induction_exempt,
   CAST(ROUND((induction_required_count) / (awarded_count) *100,1) AS INT64) AS percentage_awards_induction_required,
