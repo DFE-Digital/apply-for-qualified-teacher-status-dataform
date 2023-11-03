@@ -1,6 +1,6 @@
 config {
     type: "table",
-    description: "Counts assessments per day and the assessors per day, Part 1 - identifying applications that assessors have finished working on, and Part 2 - identifying the statuses of assessment in progress."
+    description: "Counts assessments per day and the assessors per day, Part 1 - identifying applications that assessors have finished working on, and Part 2 - identifying applications with assessment in progress."
 }
 
   -- Part 1 outputs the action_required aggregate fields
