@@ -5,6 +5,7 @@ config {
 
   -- Part 1 outputs the action_required aggregate fields
   -- identify fields where the action required by field is no longer assessor, denoting end of assessment
+
 WITH
   action_required_by_assessor_change AS (
   SELECT
@@ -15,7 +16,7 @@ WITH
     new_action_required_by,
     occurred_at
   FROM
-    `apply-for-qts-in-england.dataform_production.application_forms_field_updates_afqts` AS application_forms_field_updates
+ ${ref("application_forms_field_updates_afqts")} AS application_forms_field_updates
   WHERE
     key_updated IN ('action_required_by')
     AND previous_action_required_by = 'assessor'
@@ -59,26 +60,19 @@ GROUP BY
   -- identifies the applications that have a status of assessment in progress
   assessor_workload AS (
 SELECT
-  reference,
-  state,
-  stage,
-  statuses,
-  action_required_by,
+  DISTINCT reference,
   assessor_id,
   DATE(MIN(valid_from)) AS date_actioned_at
 FROM
-  `apply-for-qts-in-england.dataform_production.application_forms_version_afqts` AS application_forms
+   ${ref("application_forms_version_afqts")} AS application_forms
 WHERE
-  stage = 'assessment'
-  AND statuses IN ('assessment_in_progress')
-  AND action_required_by = 'assessor'
+  ((state = 'assessment_in_progress' )
+    OR ( stage = 'assessment'
+      AND statuses IN ('assessment_in_progress')
+      AND action_required_by = 'assessor'))
   AND assessor_id IS NOT NULL
 GROUP BY
   reference,
-  state,
-  stage,
-  statuses,
-  action_required_by,
   assessor_id),
   -- aggregated the assessments and assessors by day
   assessments_by_status AS (
@@ -102,7 +96,7 @@ SELECT
   average_assessments_per_assessor_by_action_required
 FROM
   assessments_by_status
-LEFT JOIN
+FULL OUTER JOIN
   assessors_by_action_required_by
 ON
   assessors_by_action_required_by.date_actioned_at = assessments_by_status.date_actioned_at
