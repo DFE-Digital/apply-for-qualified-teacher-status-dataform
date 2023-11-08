@@ -1,5 +1,5 @@
 config {
-    type: "view",
+    type: "table",
     description: "This is the total number of applicants awarded QTS, by EBacc and non_EBacc subject classifications, between 01-02-23 and 31-07-23, and who submitted their applications between 01-02-23 and 23-07-31."
 }
 
