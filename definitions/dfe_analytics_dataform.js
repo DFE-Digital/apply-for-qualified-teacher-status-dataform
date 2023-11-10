@@ -929,6 +929,8 @@ dfeAnalyticsDataform({
                     keyName: "ready_for_review",
                     dataType: "boolean",
                     description: "",
+                    historic: true,
+
                 },
                 {
                     keyName: "received_at",
@@ -1045,12 +1047,12 @@ dfeAnalyticsDataform({
                 },
                 {
                     keyName: "certificate_date",
-                    dataType: "string",
+                    dataType: "timestamp",
                     description: "",
                 },
                 {
                     keyName: "complete_date",
-                    dataType: "string",
+                    dataType: "timestamp",
                     description: "",
                 },
                 {
@@ -1070,7 +1072,7 @@ dfeAnalyticsDataform({
                 },
                 {
                     keyName: "start_date",
-                    dataType: "string",
+                    dataType: "timestamp",
                     description: "",
                 },
                 {
@@ -1830,7 +1832,7 @@ dfeAnalyticsDataform({
                 },
                 {
                     keyName: "end_date",
-                    dataType: "string",
+                    dataType: "timestamp",
                     description: "",
                 },
                 {
@@ -1855,7 +1857,7 @@ dfeAnalyticsDataform({
                 },
                 {
                     keyName: "start_date",
-                    dataType: "string",
+                    dataType: "timestamp",
                     description: "",
                 },
                 {
