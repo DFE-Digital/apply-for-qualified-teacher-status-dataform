@@ -929,7 +929,7 @@ dfeAnalyticsDataform({
                     keyName: "ready_for_review",
                     dataType: "boolean",
                     description: "",
-                    historic: "true",
+                    historic: true,
 
                 },
                 {
