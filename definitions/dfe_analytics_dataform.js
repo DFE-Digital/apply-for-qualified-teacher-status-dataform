@@ -1047,12 +1047,12 @@ dfeAnalyticsDataform({
                 },
                 {
                     keyName: "certificate_date",
-                    dataType: "string",
+                    dataType: "timestamp",
                     description: "",
                 },
                 {
                     keyName: "complete_date",
-                    dataType: "string",
+                    dataType: "timestamp",
                     description: "",
                 },
                 {
@@ -1072,7 +1072,7 @@ dfeAnalyticsDataform({
                 },
                 {
                     keyName: "start_date",
-                    dataType: "string",
+                    dataType: "timestamp",
                     description: "",
                 },
                 {
@@ -1832,7 +1832,7 @@ dfeAnalyticsDataform({
                 },
                 {
                     keyName: "end_date",
-                    dataType: "string",
+                    dataType: "timestamp",
                     description: "",
                 },
                 {
@@ -1857,7 +1857,7 @@ dfeAnalyticsDataform({
                 },
                 {
                     keyName: "start_date",
-                    dataType: "string",
+                    dataType: "timestamp",
                     description: "",
                 },
                 {
