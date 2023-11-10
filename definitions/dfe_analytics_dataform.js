@@ -929,6 +929,7 @@ dfeAnalyticsDataform({
                     keyName: "ready_for_review",
                     dataType: "boolean",
                     description: "",
+                    historic: true,
                 },
                 {
                     keyName: "received_at",
