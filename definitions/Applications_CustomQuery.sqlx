@@ -14,8 +14,21 @@ SELECT
     last_streamed_event_type,
     updated_at,
     state,
+    assessment_id,
+    expired_at,
+    location_note,
+    ready_for_review,
+    verified_at,
+    verify_note,
+    verify_passed,
+    review_note,
+    received_at,
+    requested_at,
+    reviewed_at,
     age_range_min,
     age_range_max ),
+  assessments.id AS assessment_id,
+  professional_standing.expired_at AS ps_expired_at,
   application_forms.id AS id,
   application_forms.created_at AS created_at,
   application_forms.state AS state,
@@ -26,6 +39,11 @@ SELECT
   assessments.updated_at AS assessment_updated_at,
   further_information_requests.state AS FI_state,
   further_information_requests.created_at AS further_information_requests_created_at,
+  further_information_requests.expired_at AS expired_at,
+  further_information_requests.review_note AS review_note,
+  further_information_requests.received_at AS received_at,
+  further_information_requests.requested_at AS requested_at,
+  further_information_requests.reviewed_at AS reviewed_at,
   assessments.subjects AS subjects,
   ABS(TIME_DIFF(EXTRACT(TIME
       FROM
@@ -47,17 +65,7 @@ SELECT
       FROM
         further_information_requests.created_at), EXTRACT(TIME
       FROM
-        started_at), MINUTE)) AS minutes_since_started_to_FIed,
-        professional_standing.expired_at as professional_standing_expired_at,
-     professional_standing.expired_at as professional_standing_expired_at,
-     professional_standing.received_at as professional_standing_received_at,
-     professional_standing.assessment_id as professional_standing_assessment_id,
-     professional_standing.review_note as professional_standing_review_note,
-     professional_standing.requested_at as professional_standing_requested_at,
-  professional_standing.reviewed_at as professional_standing_reviewed_at
- 
-
-
+        started_at), MINUTE)) AS minutes_since_started_to_FIed
 FROM
   ${ref("application_forms_latest_afqts")} AS application_forms
 LEFT JOIN
