@@ -48,7 +48,16 @@ SELECT
         further_information_requests.created_at), EXTRACT(TIME
       FROM
         started_at), MINUTE)) AS minutes_since_started_to_FIed,
-        professional_standing.expired_at as professional_standing_expired_at
+        professional_standing.expired_at as professional_standing_expired_at,
+     professional_standing.expired_at as professional_standing_expired_at,
+     professional_standing.received_at as professional_standing_received_at,
+     professional_standing.assessment_id as professional_standing_assessment_id,
+     professional_standing.review_note as professional_standing_review_note,
+     professional_standing.requested_at as professional_standing_requested_at,
+  professional_standing.reviewed_at as professional_standing_reviewed_at
+ 
+
+
 FROM
   ${ref("application_forms_latest_afqts")} AS application_forms
 LEFT JOIN
