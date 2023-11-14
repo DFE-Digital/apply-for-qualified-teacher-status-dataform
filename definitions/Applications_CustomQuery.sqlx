@@ -1,15 +1,12 @@
 config {
-  type: "table",
- /* assertions: {
-    uniqueKey: ["id"],
-  },*/
+    type: "table",
+    /* assertions: {
+       uniqueKey: ["id"],
+     },*/
 }
 
 SELECT
-  *
-EXCEPT
-  (
-    id,
+  * EXCEPT ( id,
     created_at,
     region_id,
     subjects,
@@ -18,27 +15,55 @@ EXCEPT
     updated_at,
     state,
     age_range_min,
-    age_range_max
-  ),
-  tableA.id AS id,
-  tableA.created_at AS created_at,
-  tableA.state AS state,
-  tableC.id AS assessment_latest_id,
-  tableC.created_at AS assessment_created_at,
-  tableA.region_id AS region_id,
-  tableA.updated_at AS updated_at,
-  tableC.updated_at AS assessment_updated_at,
-  tableD.state AS FI_state,
-  tableD.created_at AS further_information_requests_created_at,
-  tableC.subjects AS subjects,
-  ABS(TIME_DIFF(EXTRACT(TIME FROM started_at), EXTRACT(TIME FROM recommended_at), MINUTE)) as minutes_started_to_recommended,
-  ABS(TIME_DIFF(EXTRACT(TIME FROM started_at), CURRENT_TIME(),  MINUTE)) as minutes_since_started,
-  ABS(TIME_DIFF(EXTRACT(TIME FROM received_at), EXTRACT(TIME FROM recommended_at), MINUTE)) as minutes_received_to_recommended,
-  ABS(TIME_DIFF(EXTRACT(TIME FROM received_at), CURRENT_TIME(),  MINUTE)) as minutes_since_received,
-  ABS(TIME_DIFF(EXTRACT(TIME FROM tableD.created_at), EXTRACT(TIME FROM started_at),  MINUTE)) as minutes_since_started_to_FIed,
+    age_range_max ),
+  application_forms.id AS id,
+  application_forms.created_at AS created_at,
+  application_forms.state AS state,
+  assessments.id AS assessment_latest_id,
+  assessments.created_at AS assessment_created_at,
+  application_forms.region_id AS region_id,
+  application_forms.updated_at AS updated_at,
+  assessments.updated_at AS assessment_updated_at,
+  further_information_requests.state AS FI_state,
+  further_information_requests.created_at AS further_information_requests_created_at,
+  assessments.subjects AS subjects,
+  ABS(TIME_DIFF(EXTRACT(TIME
+      FROM
+        started_at), EXTRACT(TIME
+      FROM
+        recommended_at), MINUTE)) AS minutes_started_to_recommended,
+  ABS(TIME_DIFF(EXTRACT(TIME
+      FROM
+        started_at), CURRENT_TIME(), MINUTE)) AS minutes_since_started,
+  ABS(TIME_DIFF(EXTRACT(TIME
+      FROM
+        further_information_requests.received_at), EXTRACT(TIME
+      FROM
+        recommended_at), MINUTE)) AS minutes_received_to_recommended,
+  ABS(TIME_DIFF(EXTRACT(TIME
+      FROM
+        further_information_requests.received_at), CURRENT_TIME(), MINUTE)) AS minutes_since_received,
+  ABS(TIME_DIFF(EXTRACT(TIME
+      FROM
+        further_information_requests.created_at), EXTRACT(TIME
+      FROM
+        started_at), MINUTE)) AS minutes_since_started_to_FIed,
+        professional_standing.expired_at as professional_standing_expired_at
 FROM
-  ${ref("application_forms_latest_afqts")} AS tableA
-  LEFT JOIN ${ref("joinGeoData")} AS tableB ON tableA.region_id = tableB.region_id
-  LEFT JOIN ${ref("assessments_latest_afqts")} AS tableC ON tableA.id = tableC.application_form_id
-  LEFT JOIN ${ref("further_information_requests_latest_afqts")} AS tableD ON tableC.id = tableD.assessment_id
-
+  ${ref("application_forms_latest_afqts")} AS application_forms
+LEFT JOIN
+  ${ref("joinGeoData")} AS joinGeoData
+ON
+  application_forms.region_id = joinGeoData.region_id
+LEFT JOIN
+  ${ref("assessments_latest_afqts")} AS assessments
+ON
+  application_forms.id = assessments.application_form_id
+LEFT JOIN
+  ${ref("further_information_requests_latest_afqts")} AS further_information_requests
+ON
+  assessments.id = further_information_requests.assessment_id
+LEFT JOIN
+  ${ref("professional_standing_requests_latest_afqts")} AS professional_standing
+ON
+  professional_standing.assessment_id = assessments.id
