@@ -25,6 +25,7 @@ SELECT
     received_at,
     requested_at,
     reviewed_at,
+    review_passed,
     age_range_min,
     age_range_max ),
   assessments.id AS assessment_id,
@@ -44,6 +45,7 @@ SELECT
   further_information_requests.received_at AS received_at,
   further_information_requests.requested_at AS requested_at,
   further_information_requests.reviewed_at AS reviewed_at,
+  further_information_requests.review_passed AS review_passed,
   assessments.subjects AS subjects,
   ABS(TIME_DIFF(EXTRACT(TIME
       FROM
