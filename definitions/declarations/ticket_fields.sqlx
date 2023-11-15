@@ -1,0 +1,6 @@
+config {
+  type: "declaration",
+  database: "rugged-abacus-218110",
+  schema: "zendesk",
+  name: "ticket_fields"
+}
