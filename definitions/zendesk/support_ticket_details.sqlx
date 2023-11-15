@@ -10,13 +10,7 @@ config {
         assignee_id: "UID of the assigned agent on this ticket",
         reference_id: "UID of the reference on this ticket",
         created_at: "Date and time of that this ticket was logged in Zendesk",
-        country_of_origin: "Country of origin",
-        school_type: "School type",
-        issue_type: "ARRAY of issue types selected for this ticket_id",
-        candidate_email_address: "Unknown - ask Support team",
-        candidate_name: "Unknown - ask Support team",
-        summary_of_escalation: "Unknown - ask Support team",
-        tpuk_agent_name: "Unknown - ask Support team",
+        enquiry_type: "ARRAY of enquiry types selected for this ticket_id",
         recipient: "DfE email address of the service this ticket relates to e.g. becomingateacher@digital.education.gov.uk",
         satisfaction_rating_score: "Rating of satisfaction to this ticket i.e. good, bad, unoffered",
         status: "Resolution status of this ticket i.e. solved, open, new",
@@ -186,56 +180,7 @@ SELECT
   FROM
     UNNEST(ticket_with_custom_fields_deduped.custom_fields) AS pair
   WHERE
-    pair.ticket_field_title = 'Issue Type') AS issue_type,
-  (
-  SELECT
-    custom_value
-  FROM
-    UNNEST(ticket_with_custom_fields_deduped.custom_fields) AS pair
-  WHERE
-    pair.ticket_field_title = 'School Type') AS school_type,
-  (
-  SELECT
-    custom_value
-  FROM
-    UNNEST(ticket_with_custom_fields_deduped.custom_fields) AS pair
-  WHERE
-    pair.ticket_field_title = 'Country of Origin') AS country_of_origin,
-  (
-  SELECT
-    custom_value
-  FROM
-    UNNEST(ticket_with_custom_fields_deduped.custom_fields) AS pair
-  WHERE
-    pair.ticket_field_title = "Candidate's email address") AS candidate_email_address,
-  (
-  SELECT
-    custom_value
-  FROM
-    UNNEST(ticket_with_custom_fields_deduped.custom_fields) AS pair
-  WHERE
-    pair.ticket_field_title = "Candidate's name") AS candidate_name,
-  (
-  SELECT
-    custom_value
-  FROM
-    UNNEST(ticket_with_custom_fields_deduped.custom_fields) AS pair
-  WHERE
-    pair.ticket_field_title = 'Summary of escalation') AS summary_of_escalation,
-  (
-  SELECT
-    custom_value
-  FROM
-    UNNEST(ticket_with_custom_fields_deduped.custom_fields) AS pair
-  WHERE
-    pair.ticket_field_title = 'TPUK Agent Name') AS tpuk_agent_name,
-  (
-  SELECT
-    custom_value
-  FROM
-    UNNEST(ticket_with_custom_fields_deduped.custom_fields) AS pair
-  WHERE
-    pair.ticket_field_title = 'Trello Card ID') AS trello_card_id,
+    pair.ticket_field_title = 'Enquiry Type') AS enquiry_type,
   combined_metrics.* EXCEPT (id),
   service_and_group_names.* EXCEPT (group_id),
   agent_details,
