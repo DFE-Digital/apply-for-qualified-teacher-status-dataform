@@ -1,0 +1,73 @@
+config {
+    type: "table",
+    description: "This is the total number of applicants awarded QTS, by EBacc and non_EBacc subject classifications, between 01-02-23 and 31-07-23, and who submitted their applications between 01-02-23 and 23-07-31."
+}
+
+  -- This CTE identifies each subject combination and its count. There can be 1,2 or 3 subjects, separated by commas
+WITH
+  subject_combination_counts AS (
+  SELECT
+    assessments.subjects,
+    COUNT(*) AS subject_count
+  FROM
+    ${ref("application_forms_latest_afqts")} AS application_forms
+  LEFT JOIN
+    ${ref("assessments_latest_afqts")} AS assessments
+  ON
+    assessments.application_form_id = application_forms.id
+  WHERE
+    -- date assessed must be between 1 Feb 2023 and 31 July 2023
+    (DATE(awarded_at) BETWEEN '2023-02-01'
+    AND '2023-07-31')
+    -- date application submitted must be between 1 Feb 2023 and 31 July 2023
+  AND (DATE(submitted_at) BETWEEN '2023-02-01'
+    AND '2023-07-31')
+GROUP BY
+  assessments.subjects ),
+  -- This is the list of subjects we have classified as EBacc subjects or not Ebacc subjects.Strictly there is no need for both lists but included to show that subjects have been definitatively included somewhere and not missed off.
+  subject_combinations_ebacc_check AS (
+SELECT
+  subject_combination_counts.*,
+  CASE
+    WHEN ( SELECT COUNT(*) FROM UNNEST(SPLIT(subject_combination_counts.subjects, ',')) AS subject WHERE subject IN ( 'applied_biology', 'ancient_hebrew', 'applied_chemistry',  'applied_physics', 'arabic_languages', 'biology', 'chinese_languages', 'computer_science' ,'english_studies', 'environmental_sciences', 'french_language', 'general_sciences', 'geography', 'german_language', 'history',  'italian_language', 'latin_language', 'materials_science',  'mathematics', 'portuguese_language', 'spanish_language',  'statistics', 'modern_languages', 'russian_languages', 'physics', 'chemistry' ) ) > 0 THEN TRUE
+  ELSE
+  FALSE
+END
+  AS ebacc_subject,
+  CASE
+    WHEN ( SELECT COUNT(*) FROM UNNEST(SPLIT(subject_combination_counts.subjects, ',')) AS subject WHERE subject IN ( 'applied_computing','art_and_design', 'business_management', 'business_studies', 'child_development', 'citizenship', 'classical_greek_studies', 'classical_studies', 'construction_and_the_built_environment', 'dance', 'design', 'design_and_technology', 'drama', 'early_years_teaching', 'economics', 'food_and_beverage_studies', 'general_or_integrated_engineering', 'graphic_design', 'hair_and_beauty_sciences', 'health_and_social_care', 'health_studies', 'historical_linguistics', 'hospitality', 'information_technology','law', 'manufacturing_engineering', 'media_and_communication_studies', 'music_education_and_teaching', 'performing_arts', 'philosophy', 'physical_education', 'primary_teaching', 'product_design', 'production_and_manufacturing_engineering', 'psychology', 'public_services', 'recreation_and_leisure_studies', 'religious_studies', 'retail_management', 'specialist_teaching_primary_with_mathematics','social_sciences', 'sport_and_exercise_sciences', 'sports_management', 'textiles_technology', 'travel_and_tourism', 'uk_government_parliamentary_studies','welsh_language' ) ) > 0 THEN TRUE
+  ELSE
+  FALSE
+END
+  AS non_ebacc_subject,
+  CASE
+    WHEN REGEXP_CONTAINS(subjects, r'.*,.*') THEN TRUE
+  ELSE
+  FALSE
+END
+  AS multiple_subjects
+FROM
+  subject_combination_counts )
+  -- this section creates the required counts for publication
+SELECT
+  SUM(CASE
+      WHEN (ebacc_subject AND NOT multiple_subjects) THEN subject_count
+    ELSE
+    0
+  END
+    ) AS applicants_with_an_ebacc_subject,
+  SUM(CASE
+      WHEN ebacc_subject AND multiple_subjects THEN subject_count
+    ELSE
+    0
+  END
+    ) AS awardees_with_a_mix_of_subjects_at_least_one_is_ebacc,
+  SUM(CASE
+      WHEN NOT ebacc_subject THEN subject_count
+    ELSE
+    0
+  END
+    ) AS applicants_with_no_ebacc_subjects,
+  SUM(COALESCE(subject_count, 0)) AS total_awards
+FROM
+  subject_combinations_ebacc_check

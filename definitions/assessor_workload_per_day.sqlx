@@ -1,0 +1,104 @@
+config {
+    type: "table",
+    description: "Counts assessments per day and the assessors per day, Part 1 - identifying applications that assessors have finished working on, and Part 2 - identifying applications with assessment in progress."
+}
+
+  -- Part 1 outputs the action_required aggregate fields
+  -- identify fields where the action required by field is no longer assessor, denoting end of assessment
+
+WITH
+  action_required_by_assessor_change AS (
+  SELECT
+    entity_id,
+    key_updated,
+    new_assessor_id,
+    previous_action_required_by,
+    new_action_required_by,
+    occurred_at
+  FROM
+ ${ref("application_forms_field_updates_afqts")} AS application_forms_field_updates
+  WHERE
+    key_updated IN ('action_required_by')
+    AND previous_action_required_by = 'assessor'
+    AND new_action_required_by != 'assessor' ),
+  -- rank and select the latest record for an application
+  ranked_records_assessor_change AS (
+SELECT
+  entity_id,
+  key_updated,
+  previous_action_required_by,
+  new_action_required_by,
+  new_assessor_id,
+  occurred_at,
+  ROW_NUMBER() OVER (PARTITION BY entity_id ORDER BY occurred_at DESC) AS rn
+FROM
+  action_required_by_assessor_change ),
+  latest_assessor_change AS (
+  SELECT
+    entity_id,
+    key_updated,
+    new_assessor_id,
+    previous_action_required_by,
+    new_action_required_by,
+    DATE(occurred_at) AS date_actioned_at
+  FROM
+    ranked_records_assessor_change
+  WHERE
+    rn = 1 ),
+  -- aggregate the assessments and assessors per day
+  assessors_by_action_required_by AS (
+SELECT
+  date_actioned_at,
+  count (*) AS count_of_assessments_by_action_required,
+  COUNT(DISTINCT new_assessor_id) AS count_of_assessors_by_action_required,
+  CAST(ROUND(COUNT(*) / COUNT(DISTINCT new_assessor_id),0) AS INT64) AS average_assessments_per_assessor_by_action_required
+FROM
+  latest_assessor_change
+GROUP BY
+  date_actioned_at ),
+  -- Part 2 outputs the by_status aggregate fields
+  -- identifies the applications that have a status of assessment in progress
+  assessor_workload AS (
+SELECT
+  DISTINCT reference,
+  assessor_id,
+  DATE(MIN(valid_from)) AS date_actioned_at
+FROM
+   ${ref("application_forms_version_afqts")} AS application_forms
+WHERE
+  ((state = 'assessment_in_progress' )
+    OR ( stage = 'assessment'
+      AND statuses IN ('assessment_in_progress')
+      AND action_required_by = 'assessor'))
+  AND assessor_id IS NOT NULL
+GROUP BY
+  reference,
+  assessor_id),
+  -- aggregated the assessments and assessors by day
+  assessments_by_status AS (
+SELECT
+  date_actioned_at,
+  COUNT(DISTINCT reference) AS count_of_assessments_by_status,
+  COUNT(DISTINCT assessor_id) AS count_of_assessors_by_status,
+  CAST(ROUND(COUNT(DISTINCT reference) / COUNT(DISTINCT assessor_id),0)AS int64) AS average_assessments_per_assessor_by_status
+FROM
+  assessor_workload
+GROUP BY
+  assessor_workload.date_actioned_at)
+  -- combines the outputs from part 1 required by and part 2 by status
+SELECT
+  assessments_by_status.date_actioned_at,
+  count_of_assessments_by_status,
+  count_of_assessors_by_status,
+  average_assessments_per_assessor_by_status,
+  count_of_assessments_by_action_required,
+  count_of_assessors_by_action_required,
+  average_assessments_per_assessor_by_action_required
+FROM
+  assessments_by_status
+FULL OUTER JOIN
+  assessors_by_action_required_by
+ON
+  assessors_by_action_required_by.date_actioned_at = assessments_by_status.date_actioned_at
+ORDER BY
+  assessments_by_status.date_actioned_at DESC
