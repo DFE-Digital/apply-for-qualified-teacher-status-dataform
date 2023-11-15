@@ -1,10 +1,10 @@
 config {
-  type: "table",
-  tags: ["zendesk"],
-  assertions: {
-    uniqueKey: ["ticket_id"],
-  },
-  description: "Table of each TRA support ticket in Zendesk with details of categorisations and resolution metrics",
+    type: "table",
+    tags: ["zendesk"],
+    assertions: {
+        uniqueKey: ["ticket_id"],
+    },
+    description: "Table of each TRA support ticket in Zendesk with details of categorisations and resolution metrics",
     columns: {
         ticket_id: "UID of each support ticket",
         assignee_id: "UID of the assigned agent on this ticket",
@@ -17,7 +17,6 @@ config {
         candidate_name: "Unknown - ask Support team",
         summary_of_escalation: "Unknown - ask Support team",
         tpuk_agent_name: "Unknown - ask Support team",
-        organization_id: "UID of the organisation",
         recipient: "DfE email address of the service this ticket relates to e.g. becomingateacher@digital.education.gov.uk",
         satisfaction_rating_score: "Rating of satisfaction to this ticket i.e. good, bad, unoffered",
         status: "Resolution status of this ticket i.e. solved, open, new",
@@ -82,16 +81,16 @@ WITH
     UNNEST (custom_field_options) custom_field_options),
   ticket_with_custom_fields AS (
   SELECT
-    id,
-    JSON_VALUE(custom_field,"$.id") AS custom_field_id,
-    COALESCE(JSON_VALUE(custom_field,"$.value"), JSON_EXTRACT(custom_field,"$.value")) AS custom_value,
+    tickets.id,
+    custom_field.id AS custom_field_id,
+    COALESCE(custom_field.value, custom_field.value) AS custom_value,
   FROM
     ${ref("tickets")} tickets
   LEFT JOIN
     UNNEST(custom_fields) custom_field),
   ticket_with_aggregated_custom_fields AS (
   SELECT
-    id,
+    tickets.id,
     ARRAY_AGG(STRUCT( ticket_field_title,
         custom_value )) AS ticket_custom_fields
   FROM
@@ -100,12 +99,12 @@ WITH
     UNNEST (custom_fields)
   LEFT JOIN
     ticket_with_custom_fields
-  USING
-    (id)
+  ON
+    ticket_with_custom_fields.id = tickets.id
   LEFT JOIN
     ticket_fields
   ON
-    CAST(ticket_fields.ticket_field_id AS STRING) = ticket_with_custom_fields.custom_field_id
+    ticket_fields.ticket_field_id = ticket_with_custom_fields.custom_field_id
   GROUP BY
     id),
   ticket_with_custom_fields_deduped AS (
@@ -120,9 +119,9 @@ WITH
       ticket_field_title, custom_value ) AS custom_fields
   FROM
     ticket_with_aggregated_custom_fields ),
-combined_metrics AS (
+  combined_metrics AS (
   SELECT
-    ticket_id,
+    ticket_id AS id,
     agent_wait_time_in_minutes.business AS agent_wait_time_in_minutes_business,
     agent_wait_time_in_minutes.calendar AS agent_wait_time_in_minutes_calendar,
     assigned_at,
@@ -146,7 +145,7 @@ combined_metrics AS (
     full_resolution_time_in_minutes.business / (24 * 60) AS resolution_minutes,
     -- Dividing by hours in a day and minutes in an hour to convert resolution time into minutes
     full_resolution_time_in_minutes.business /60 AS resolution_hours,
-    replies <= 1 as one_touch_ticket,
+    replies <= 1 AS one_touch_ticket,
     replies > 1
     AND reopens = 0 AS multi_touch_ticket,
     reopens > 0
@@ -154,35 +153,92 @@ combined_metrics AS (
     reply_time_in_minutes.business/60 AS first_reply_time_business_in_hours,
     reply_time_in_minutes.calendar/60 AS first_reply_time_calendar_in_hours
   FROM
-    ${ref("ticket_metrics")}
-),
-service_and_group_names AS (
+    ${ref("ticket_metrics")} ),
+  service_and_group_names AS (
   SELECT
     id AS group_id,
-    name AS group_name
+    name AS group_name,
   FROM
-    ${ref("groups")}
-),
-agents AS (
+    ${ref("groups")} ),
+  agents AS (
   SELECT
     id AS assignee_id,
-    ARRAY_AGG(STRUCT(name AS agent_name --,
-    --team AS agent_team
-    )) AS agent_details
+    ARRAY_AGG(STRUCT(name AS agent_name)) AS agent_details
   FROM
     ${ref("users")}
   GROUP BY
-    assignee_id
-)
+    assignee_id )
 SELECT
-  ticket_data.*,
-  combined_metrics.*
-EXCEPT
-  (ticket_id),
-  service_and_group_names.*
-EXCEPT
-  (group_id),
-  agent_details
+  id AS ticket_id,
+  CAST(assignee_id AS INT) AS assignee_id,
+  created_at,
+  recipient,
+  satisfaction_rating.score AS satisfaction_rating_score,
+  status,
+  type,
+  via.channel AS via_channel,
+  CAST(group_id AS INT) AS group_id,
+  updated_at,
+  ticket_with_custom_fields_deduped.custom_fields,
+  (
+  SELECT
+    REGEXP_EXTRACT_ALL(custom_value, r'[0-9a-zA-Z][^"]+')
+  FROM
+    UNNEST(ticket_with_custom_fields_deduped.custom_fields) AS pair
+  WHERE
+    pair.ticket_field_title = 'Issue Type') AS issue_type,
+  (
+  SELECT
+    custom_value
+  FROM
+    UNNEST(ticket_with_custom_fields_deduped.custom_fields) AS pair
+  WHERE
+    pair.ticket_field_title = 'School Type') AS school_type,
+  (
+  SELECT
+    custom_value
+  FROM
+    UNNEST(ticket_with_custom_fields_deduped.custom_fields) AS pair
+  WHERE
+    pair.ticket_field_title = 'Country of Origin') AS country_of_origin,
+  (
+  SELECT
+    custom_value
+  FROM
+    UNNEST(ticket_with_custom_fields_deduped.custom_fields) AS pair
+  WHERE
+    pair.ticket_field_title = "Candidate's email address") AS candidate_email_address,
+  (
+  SELECT
+    custom_value
+  FROM
+    UNNEST(ticket_with_custom_fields_deduped.custom_fields) AS pair
+  WHERE
+    pair.ticket_field_title = "Candidate's name") AS candidate_name,
+  (
+  SELECT
+    custom_value
+  FROM
+    UNNEST(ticket_with_custom_fields_deduped.custom_fields) AS pair
+  WHERE
+    pair.ticket_field_title = 'Summary of escalation') AS summary_of_escalation,
+  (
+  SELECT
+    custom_value
+  FROM
+    UNNEST(ticket_with_custom_fields_deduped.custom_fields) AS pair
+  WHERE
+    pair.ticket_field_title = 'TPUK Agent Name') AS tpuk_agent_name,
+  (
+  SELECT
+    custom_value
+  FROM
+    UNNEST(ticket_with_custom_fields_deduped.custom_fields) AS pair
+  WHERE
+    pair.ticket_field_title = 'Trello Card ID') AS trello_card_id,
+  combined_metrics.* EXCEPT (id),
+  service_and_group_names.* EXCEPT (group_id),
+  agent_details,
 FROM
   ${ref("tickets")} tickets
 LEFT JOIN
