@@ -1392,6 +1392,11 @@ dfeAnalyticsDataform({
                     dataType: "string",
                     description: "",
                 },
+                {
+                    keyName: "name",
+                    dataType: "string",
+                    description: "",
+                },
             ],
         },
         {
