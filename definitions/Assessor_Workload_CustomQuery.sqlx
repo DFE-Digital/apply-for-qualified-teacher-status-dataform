@@ -1,13 +1,29 @@
 config {
-  type: "table"
+    type: "table"
 }
 
-
-select reference, state, assessor_id, tableA.region_id,country_name, min(valid_from) as actioned_on
-from ${ref("application_forms_version_afqts")} as tableA
-LEFT JOIN ${ref("joinGeoData")} AS tableB ON tableA.region_id = tableB.region_id
-where state != "draft"
-group by reference, state, assessor_id, tableA.region_id,country_name
-
-
-
+SELECT
+  reference,
+  state,
+  stage,
+  statuses,
+  assessor_id,
+  application_forms.region_id,
+  country_name,
+  MIN(valid_from) AS actioned_on
+FROM
+  ${ref("application_forms_version_afqts")} AS application_forms
+LEFT JOIN
+  ${ref("joinGeoData")} AS joinGeoData
+ON
+  application_forms.region_id = joinGeoData.region_id
+WHERE
+  state != "draft" or stage != 'draft'
+GROUP BY
+  reference,
+  state,
+  stage,
+  statuses,
+  assessor_id,
+  application_forms.region_id,
+  country_name
