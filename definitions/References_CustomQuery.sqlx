@@ -1,28 +1,41 @@
 config {
-  type: "table"
+    type: "table"
 }
 
 SELECT
-  tableA.id,
-  tableA.created_at,
-  tableA.updated_at,
-  tableA.received_at,
-  tableA.assessment_id,
-  tableA.work_history_id,
-  tableA.state AS reference_state,
-  tableB.application_form_id,
-  tableC.region_id,
-  tableC.state,
-  tableC.reference,
-  tableD.country_name as Country,
-  tableD.country_route,
-  tableD.name AS Region,
-
-  
-
+  reference_requests.id,
+  reference_requests.created_at,
+  reference_requests.updated_at,
+  reference_requests.received_at,
+  reference_requests.assessment_id,
+  reference_requests.work_history_id,
+  reference_requests.state AS reference_state,
+  reference_requests.review_passed,
+  reference_requests.requested_at,
+  reference_requests.reviewed_at,
+  reference_requests.verified_at,
+  reference_requests.expired_at,
+  reference_requests.verify_passed,
+  assessments.application_form_id,
+  application_forms.region_id,
+  application_forms.state,
+  application_forms.stage,
+  application_forms.statuses,
+  application_forms.reference,
+  joinGeoData.country_name AS Country,
+  joinGeoData.country_route,
+  joinGeoData.name AS Region,
 FROM
-  ${ref("reference_requests_latest_afqts")} AS tableA
-  LEFT JOIN ${ref("assessments_latest_afqts")} AS tableB ON tableA.assessment_id = tableB.id
-  LEFT JOIN ${ref("application_forms_latest_afqts")} AS tableC ON tableB.application_form_id = tableC.id
-  LEFT JOIN ${ref("joinGeoData")} AS tableD ON tableC.region_id = tableD.region_id
-
+  ${ref("reference_requests_latest_afqts")} AS reference_requests
+LEFT JOIN
+  ${ref("assessments_latest_afqts")} AS assessments
+ON
+  reference_requests.assessment_id = assessments.id
+LEFT JOIN
+  ${ref("application_forms_latest_afqts")} AS application_forms
+ON
+  assessments.application_form_id = application_forms.id
+LEFT JOIN
+  ${ref("joinGeoData")} AS joinGeoData
+ON
+  application_forms.region_id = joinGeoData.region_id
