@@ -3,53 +3,52 @@ config {
 }
 
 SELECT
-  tableA.id,
-  tableA.created_at,
-  tableA.updated_at,
-  tableA.application_form_id,
+  assessments.id,
+  assessments.created_at,
+  assessments.updated_at,
+  assessments.application_form_id,
   recommendation,
   recommended_at,
   working_days_received_to_recommendation,
   working_days_submission_to_recommendation,
   working_days_since_received,
   working_days_since_submission,
-  tableB.id AS section_id,
-  tableB.passed,
-  tableC.id AS further_information_requests_id,
-  tableC.state,
+  assessment_sections.id AS section_id,
+  assessment_sections.passed,
+  further_information_requests.id AS further_information_requests_id,
+  further_information_requests.state,
   received_at,
-  tableC.review_passed AS further_information_requests_passed,
-  tableC.created_at AS further_information_requests_created_at,
-  tableD.id AS further_information_request_items_id,
+  further_information_requests.review_passed AS further_information_requests_passed,
+  further_information_requests.created_at AS further_information_requests_created_at,
+  further_information_request_items.id AS further_information_request_items_id,
   information_type,
-  tableD.failure_reason_key,
-  tableF.region_id,
-  tableG.country_name,
-  tableG.country_route,
-  tableG.name AS region_name,
-  tableF.reference,
-  tableF.submitted_at,
-  tableA.started_at,
-  tableF.state AS application_state,
-  tableH.key,
-  tableF.assessor_id,
-  tableF.teacher_id,
-  tableI.id AS qualifications_id,
-  tableI.created_at AS qualifications_created_at,
-  tableI.title AS qualifications_title,
-  tableI.part_of_university_degree,
-  tableI.institution_country_code,
+  further_information_request_items.failure_reason_key,
+  application_forms_latest.region_id,
+  joinGeoData.country_name,
+  joinGeoData.country_route,
+  joinGeoData.name AS region_name,
+  application_forms_latest.reference,
+  application_forms_latest.submitted_at,
+  assessments.started_at,
+  application_forms_latest.state AS application_state,
+  selected_failure_reasons.key,
+  application_forms_latest.assessor_id,
+  application_forms_latest.teacher_id,
+  qualifications.id AS qualifications_id,
+  qualifications.created_at AS qualifications_created_at,
+  qualifications.title AS qualifications_title,
+  qualifications.part_of_university_degree,
+  qualifications.institution_country_code,
 
   
 FROM
-  ${ref("assessments_latest_afqts")} AS tableA
-  LEFT JOIN ${ref("assessment_sections_latest_afqts")} AS tableB ON tableA.id = tableB.assessment_id
-  LEFT JOIN ${ref("further_information_requests_latest_afqts")} AS tableC ON tableA.id = tableC.assessment_id
-  LEFT JOIN ${ref("further_information_request_items_latest_afqts")} AS tableD ON tableC.id = tableD.further_information_request_id
-  LEFT JOIN ${ref("application_forms_latest_afqts")} AS tableF ON tableA.application_form_id = tableF.id
-  LEFT JOIN ${ref("joinGeoData")} AS tableG ON tableF.region_id = tableG.region_id
-  LEFT JOIN ${ref("selected_failure_reasons_latest_afqts")} AS tableH ON tableB.id = tableH.assessment_section_id
-  LEFT JOIN ${ref("qualifications_latest_afqts")} AS tableI ON tableF.id = tableI.application_form_id
-  --where further_information_request_id is not null
-  --where recommendation = "decline"
+  ${ref("assessments_latest_afqts")} AS assessments
+  LEFT JOIN ${ref("assessment_sections_latest_afqts")} AS assessment_sections ON assessments.id = assessment_sections.assessment_id
+  LEFT JOIN ${ref("further_information_requests_latest_afqts")} AS further_information_requests ON assessments.id = further_information_requests.assessment_id
+  LEFT JOIN ${ref("further_information_request_items_latest_afqts")} AS further_information_request_items ON further_information_requests.id = further_information_request_items.further_information_request_id
+  LEFT JOIN ${ref("application_forms_latest_afqts")} AS application_forms_latest ON assessments.application_form_id = application_forms_latest.id
+  LEFT JOIN ${ref("joinGeoData")} AS joinGeoData ON application_forms_latest.region_id = joinGeoData.region_id
+  LEFT JOIN ${ref("selected_failure_reasons_latest_afqts")} AS selected_failure_reasons ON assessment_sections.id = selected_failure_reasons.assessment_section_id
+  LEFT JOIN ${ref("qualifications_latest_afqts")} AS qualifications ON application_forms_latest.id = qualifications.application_form_id
+
 
