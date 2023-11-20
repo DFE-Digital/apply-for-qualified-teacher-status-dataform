@@ -1,27 +1,26 @@
 config {
-  type: "table"
+    type: "table"
 }
 
 SELECT
   DISTINCT reference,
-  state,
+  submitted_application_forms.state,
+  submitted_application_forms.stage,
+  submitted_application_forms.statuses,
   teacher_id,
   dup_count,
   submitted_at,
-  tableG.country_name,
-  tableG.name AS region_name,
-FROM
-  (
-    SELECT
-      *,
-      COUNT(1) OVER(
-        PARTITION BY teacher_id
-        ORDER BY
-          teacher_id
-      ) dup_count,
-    FROM
-      ${ref("application_forms_latest_afqts")}
-    WHERE
-      state != "draft"
-  ) as tableF
-  LEFT JOIN ${ref("joinGeoData")} AS tableG ON tableF.region_id = tableG.region_id
+  joinGeoData.country_name,
+  joinGeoData.name AS region_name
+FROM (
+  SELECT
+    *,
+    COUNT(1) OVER(PARTITION BY teacher_id ORDER BY teacher_id ) dup_count,
+  FROM
+    ${ref("application_forms_latest_afqts")}
+  WHERE
+    state != "draft" ) AS submitted_application_forms
+LEFT JOIN
+  ${ref("joinGeoData")} AS joinGeoData
+ON
+  submitted_application_forms.region_id = joinGeoData.region_id

@@ -1,19 +1,19 @@
 config {
-  type: "table",
-  description: "QTS Application data with spokes unpivoted",
-  columns: {
-    id: "UID for wach application",
-    created_at: "Date application was created",
-    updated_at: "Date application was updated",
-    reference: "QTS application reference",
-    state: "Application state",
-    teacher_id: "UID of teacher",
-    region_id: "UID for region",
-    submitted_at: "Date application was submitted",
-    working_days_since_submission: "Working days since application was created",
-    spokes: "Application spoke",
-    spoke_status: "Status of application spoke"
-  }
+    type: "table",
+    description: "QTS Application data with spokes unpivoted",
+    columns: {
+        id: "UID for wach application",
+        created_at: "Date application was created",
+        updated_at: "Date application was updated",
+        reference: "QTS application reference",
+        state: "Application state",
+        teacher_id: "UID of teacher",
+        region_id: "UID for region",
+        submitted_at: "Date application was submitted",
+        working_days_since_submission: "Working days since application was created",
+        spokes: "Application spoke",
+        spoke_status: "Status of application spoke"
+    }
 }
 
 SELECT
@@ -22,8 +22,10 @@ SELECT
   updated_at,
   reference,
   state,
+  stage,
+  statuses,
   teacher_id,
-  tableA.region_id AS application_region_id,
+  application_forms.region_id AS application_region_id,
   submitted_at,
   working_days_since_submission,
   spokes,
@@ -32,11 +34,8 @@ SELECT
   name AS region_name,
   code,
   country_name
-  
 FROM
-  ${ref("application_forms_latest_afqts")} UNPIVOT (
-    spoke_status FOR spokes IN (
-      personal_information_status,
+  ${ref("application_forms_latest_afqts")} UNPIVOT ( spoke_status FOR spokes IN ( personal_information_status,
       identification_document_status,
       qualifications_status,
       age_range_status,
@@ -44,10 +43,8 @@ FROM
       work_history_status,
       registration_number_status,
       written_statement_status,
-      english_language_status
-    )
-  ) as tableA
+      english_language_status ) ) AS application_forms
 LEFT JOIN
-  ${ref("joinGeoData")} AS tableB
+  ${ref("joinGeoData")} AS joinGeoData
 ON
-  tableA.region_id = tableB.region_id
+  application_forms.region_id = joinGeoData.region_id
