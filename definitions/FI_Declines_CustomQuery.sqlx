@@ -23,17 +23,17 @@ SELECT
   further_information_request_items.id AS further_information_request_items_id,
   information_type,
   further_information_request_items.failure_reason_key,
-  application_forms_latest.region_id,
+  application_forms.region_id,
   joinGeoData.country_name,
   joinGeoData.country_route,
   joinGeoData.name AS region_name,
-  application_forms_latest.reference,
-  application_forms_latest.submitted_at,
+  application_forms.reference,
+  application_forms.submitted_at,
   assessments.started_at,
-  application_forms_latest.state AS application_state,
+  application_forms.state AS application_state,
   selected_failure_reasons.key,
-  application_forms_latest.assessor_id,
-  application_forms_latest.teacher_id,
+  application_forms.assessor_id,
+  application_forms.teacher_id,
   qualifications.id AS qualifications_id,
   qualifications.created_at AS qualifications_created_at,
   qualifications.title AS qualifications_title,
@@ -46,9 +46,9 @@ FROM
   LEFT JOIN ${ref("assessment_sections_latest_afqts")} AS assessment_sections ON assessments.id = assessment_sections.assessment_id
   LEFT JOIN ${ref("further_information_requests_latest_afqts")} AS further_information_requests ON assessments.id = further_information_requests.assessment_id
   LEFT JOIN ${ref("further_information_request_items_latest_afqts")} AS further_information_request_items ON further_information_requests.id = further_information_request_items.further_information_request_id
-  LEFT JOIN ${ref("application_forms_latest_afqts")} AS application_forms_latest ON assessments.application_form_id = application_forms_latest.id
-  LEFT JOIN ${ref("joinGeoData")} AS joinGeoData ON application_forms_latest.region_id = joinGeoData.region_id
+  LEFT JOIN ${ref("application_forms_latest_afqts")} AS application_forms ON assessments.application_form_id = application_forms.id
+  LEFT JOIN ${ref("joinGeoData")} AS joinGeoData ON application_forms.region_id = joinGeoData.region_id
   LEFT JOIN ${ref("selected_failure_reasons_latest_afqts")} AS selected_failure_reasons ON assessment_sections.id = selected_failure_reasons.assessment_section_id
-  LEFT JOIN ${ref("qualifications_latest_afqts")} AS qualifications ON application_forms_latest.id = qualifications.application_form_id
+  LEFT JOIN ${ref("qualifications_latest_afqts")} AS qualifications ON application_forms.id = qualifications.application_form_id
 
 
