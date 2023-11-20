@@ -4,7 +4,9 @@ config {
 
 SELECT
   DISTINCT reference,
-  state,
+  submitted_application_forms.state,
+  submitted_application_forms.stage,
+  submitted_application_forms.statuses,
   teacher_id,
   dup_count,
   submitted_at,
