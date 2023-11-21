@@ -1,0 +1,110 @@
+config {
+    type: "table"
+}
+
+WITH
+  identifies_duplicates_and_first_last_applications AS (
+  SELECT
+    id,
+    region_id,
+    reference,
+    stage,
+    statuses,
+    teacher_id,
+    submitted_at,
+    COUNT(1) OVER (PARTITION BY teacher_id) AS dup_count,
+    MIN(submitted_at) OVER (PARTITION BY teacher_id ORDER BY submitted_at) AS earliest_submitted_at,
+    MAX(submitted_at) OVER (PARTITION BY teacher_id) AS latest_submitted_at,
+    MIN(reference) OVER (PARTITION BY teacher_id ORDER BY reference) AS earliest_reference,
+    MAX(reference) OVER (PARTITION BY teacher_id ORDER BY reference DESC) AS latest_reference,
+    CAST(MIN(CAST(id AS INT64)) OVER (PARTITION BY teacher_id ORDER BY CAST(id AS INT64) ASC) AS STRING) AS earliest_application_form_id,
+    CAST(MAX(CAST(id AS INT64)) OVER (PARTITION BY teacher_id ORDER BY CAST(id AS INT64) DESC) AS STRING) AS latest_application_form_id
+  FROM
+    ${ref("application_forms_latest_afqts")}
+  WHERE
+    stage != "draft" ),
+  stage_of_earliest_application AS (
+  SELECT
+    afla.stage AS earliest_stage,
+    afla.statuses AS earliest_statuses,
+    identifies_duplicates_and_first_last_applications.id,
+    identifies_duplicates_and_first_last_applications.region_id,
+    identifies_duplicates_and_first_last_applications.reference,
+    identifies_duplicates_and_first_last_applications.teacher_id,
+    identifies_duplicates_and_first_last_applications.submitted_at,
+    identifies_duplicates_and_first_last_applications.dup_count,
+    identifies_duplicates_and_first_last_applications.earliest_reference,
+    identifies_duplicates_and_first_last_applications.latest_reference,
+    earliest_application_form_id,
+    latest_application_form_id
+  FROM
+    ${ref("application_forms_latest_afqts")} AS afla
+  LEFT JOIN
+    identifies_duplicates_and_first_last_applications
+  ON
+    identifies_duplicates_and_first_last_applications.earliest_reference = afla.reference
+  WHERE
+    afla.stage != "draft" ),
+  stage_of_latest_application AS (
+  SELECT
+    afla.stage AS latest_stage,
+    afla.statuses AS latest_statuses,
+    afla.reference,
+  FROM
+    ${ref("application_forms_latest_afqts")} AS afla
+  LEFT JOIN
+    identifies_duplicates_and_first_last_applications
+  ON
+    identifies_duplicates_and_first_last_applications.latest_reference = afla.reference
+  WHERE
+    afla.stage != "draft" )
+SELECT
+  DISTINCT DATE(earliest_submitted_at) AS earliest_submitted_at_date,
+  DATE(latest_submitted_at) AS latest_submitted_at_date,
+  DATE_DIFF(latest_submitted_at, earliest_submitted_at, DAY) AS days_between_applications,
+  stage_of_earliest_application.teacher_id,
+  stage_of_earliest_application.dup_count,
+  stage_of_earliest_application.earliest_reference,
+  stage_of_earliest_application.latest_reference,
+  stage_of_earliest_application.earliest_application_form_id,
+  earliest_stage,
+  earliest_statuses,
+  latest_stage,
+  latest_statuses,
+  sfr.key AS selected_failure_reasons_key,
+  assessment_sections.passed,
+  joinGeoData.country_name,
+  joinGeoData.name AS region_name
+FROM
+  identifies_duplicates_and_first_last_applications
+LEFT JOIN
+  ${ref("joinGeoData")} AS joinGeoData
+ON
+  identifies_duplicates_and_first_last_applications.region_id = joinGeoData.region_id
+LEFT JOIN
+  ${ref("assessments_latest_afqts")} AS assessments
+ON
+  assessments.application_form_id = earliest_application_form_id
+LEFT JOIN
+  ${ref("assessment_sections_latest_afqts")} AS assessment_sections
+ON
+  assessment_sections.assessment_id = assessments.id
+LEFT JOIN
+  ${ref("selected_failure_reasons_latest_afqts")} AS sfr
+ON
+  sfr.id = assessment_sections.assessment_id
+LEFT JOIN
+  stage_of_earliest_application
+ON
+  stage_of_earliest_application.reference = identifies_duplicates_and_first_last_applications.earliest_reference
+LEFT JOIN
+  stage_of_latest_application
+ON
+  stage_of_latest_application.reference = identifies_duplicates_and_first_last_applications.latest_reference
+WHERE
+  identifies_duplicates_and_first_last_applications.dup_count > 1
+  AND (sfr.key IN ('teaching_qualification_subjects_criteria',
+      'teaching_qualifications_not_at_required_level')
+    OR passed IS FALSE)
+ORDER BY
+  teacher_id
