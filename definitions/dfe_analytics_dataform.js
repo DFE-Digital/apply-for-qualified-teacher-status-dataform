@@ -77,7 +77,7 @@ dfeAnalyticsDataform({
             keys: [{
                     keyName: "action_required_by",
                     dataType: "string",
-                    description: "Action that needs to be taken by someone on an application",
+                    description: "Action that needs to be taken by an admin, assessor, or external organisation or person on an application",
                 },
                 {
                     keyName: "age_range_max",
@@ -213,21 +213,25 @@ dfeAnalyticsDataform({
                     keyName: "overdue_further_information",
                     dataType: "boolean",
                     description: "",
+                     historic: true,
                 },
                 {
                     keyName: "overdue_professional_standing",
                     dataType: "boolean",
                     description: "",
+                     historic: true,
                 },
                 {
                     keyName: "overdue_qualification",
                     dataType: "boolean",
                     description: "",
+                     historic: true,
                 },
                 {
                     keyName: "overdue_reference",
                     dataType: "boolean",
                     description: "",
+                     historic: true,
                 },
                 {
                     keyName: "personal_information_status",
@@ -243,21 +247,25 @@ dfeAnalyticsDataform({
                     keyName: "received_further_information",
                     dataType: "boolean",
                     description: "",
+                     historic: true,
                 },
                 {
                     keyName: "received_professional_standing",
                     dataType: "boolean",
                     description: "",
+                     historic: true,
                 },
                 {
                     keyName: "received_qualification",
                     dataType: "boolean",
                     description: "",
+                     historic: true,
                 },
                 {
                     keyName: "received_reference",
                     dataType: "boolean",
                     description: "",
+                     historic: true,
                 },
                 {
                     keyName: "reduced_evidence_accepted",
@@ -297,7 +305,7 @@ dfeAnalyticsDataform({
                 {
                     keyName: "stage",
                     dataType: "string",
-                    description: "Point of the application journey an application is in",
+                    description: "Lifecycle of the application journey - draft, pre_assessment, not_started, assessment, verification, review or completed",
                 },
                 {
                     keyName: "status",
@@ -339,21 +347,25 @@ dfeAnalyticsDataform({
                     keyName: "waiting_on_further_information",
                     dataType: "boolean",
                     description: "",
+                     historic: true,
                 },
                 {
                     keyName: "waiting_on_professional_standing",
                     dataType: "boolean",
                     description: "",
+                     historic: true,
                 },
                 {
                     keyName: "waiting_on_qualification",
                     dataType: "boolean",
                     description: "",
+                     historic: true,
                 },
                 {
                     keyName: "waiting_on_reference",
                     dataType: "boolean",
                     description: "",
+                     historic: true,
                 },
                 {
                     keyName: "withdrawn_at",
@@ -649,6 +661,7 @@ dfeAnalyticsDataform({
                     keyName: "state",
                     dataType: "string",
                     description: "",
+                    historic: true,
                 },
             ],
         },
