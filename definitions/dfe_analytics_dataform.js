@@ -663,7 +663,7 @@ dfeAnalyticsDataform({
                     keyName: "state",
                     dataType: "string",
                     description: "",
-                    historic: true,
+
                 },
             ],
         },
