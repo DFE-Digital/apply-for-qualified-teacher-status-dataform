@@ -7,6 +7,7 @@ SELECT
   state,
   stage,
   statuses,
+  action_required_by,
   assessor_id,
   application_forms.region_id,
   country_name,
@@ -18,12 +19,14 @@ LEFT JOIN
 ON
   application_forms.region_id = joinGeoData.region_id
 WHERE
-  state != "draft" or stage != 'draft'
+  state != "draft"
+  OR stage != 'draft'
 GROUP BY
   reference,
   state,
   stage,
   statuses,
+  action_required_by,
   assessor_id,
   application_forms.region_id,
   country_name
