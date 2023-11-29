@@ -238,6 +238,11 @@ dfeAnalyticsDataform({
                     dataType: "string",
                     description: "",
                 },
+                  {
+                    keyName: "qualification_changed_work_history_duration",
+                    dataType: "boolean",
+                    description: "Applicant changed their qualification certificate date which meant the number of months of work history they added has changed",
+                },
                 {
                     keyName: "qualifications_status",
                     dataType: "string",
