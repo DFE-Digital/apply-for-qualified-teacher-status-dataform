@@ -964,7 +964,7 @@ dfeAnalyticsDataform({
                 },
                 {
                     keyName: "reviewed_at",
-                    dataType: "string",
+                    dataType: "timestamp",
                     description: "",
                 },
                 {
