@@ -67,7 +67,15 @@ SELECT
       FROM
         further_information_requests.created_at), EXTRACT(TIME
       FROM
-        started_at), MINUTE)) AS minutes_since_started_to_FIed
+        started_at), MINUTE)) AS minutes_since_started_to_FIed,
+  DATE_DIFF(further_information_requests.received_at, further_information_requests.requested_at,DAY) AS fi_days_waiting_to_receive,
+  DATE_DIFF(further_information_requests.reviewed_at, further_information_requests.received_at,DAY) AS fi_days_waiting_to_review,
+  DATE_DIFF(professional_standing.received_at, professional_standing.requested_at,DAY) AS ps_days_waiting_to_receive,
+  DATE_DIFF(professional_standing.reviewed_at, professional_standing.received_at,DAY) AS ps_days_waiting_to_review,
+  DATE_DIFF(qualification_requests.received_at, qualification_requests.requested_at,DAY) AS qr_days_waiting_to_receive,
+  DATE_DIFF(qualification_requests.reviewed_at, qualification_requests.received_at,DAY) AS qr_days_waiting_to_review,
+  DATE_DIFF(reference_requests.received_at, reference_requests.requested_at,DAY) AS rr_days_waiting_to_receive,
+  DATE_DIFF(reference_requests.reviewed_at, reference_requests.received_at,DAY) AS rr_days_waiting_to_review
 FROM
   ${ref("application_forms_latest_afqts")} AS application_forms
 LEFT JOIN
@@ -86,3 +94,11 @@ LEFT JOIN
   ${ref("professional_standing_requests_latest_afqts")} AS professional_standing
 ON
   professional_standing.assessment_id = assessments.id
+LEFT JOIN
+  ${ref("qualification_requests_latest_afqts")} AS qualification_requests
+ON
+  qualification_requests.assessment_id = assessments.id
+LEFT JOIN
+  ${ref("reference_requests_latest_afqts")} AS reference_requests
+ON
+  reference_requests.assessment_id = assessments.id
