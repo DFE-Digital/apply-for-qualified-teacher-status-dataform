@@ -9,7 +9,7 @@ WITH
   fi_days_in_status AS (
   SELECT
     assessment_id,
-    "further_information" AS status_type,
+    "further_information" AS request_type,
     requested_at,
     received_at,
     reviewed_at,
@@ -23,7 +23,7 @@ WITH
   ps_days_in_status AS (
   SELECT
     assessment_id,
-    "professional_standing" AS status_type,
+    "professional_standing" AS request_type,
     requested_at,
     received_at,
     reviewed_at,
@@ -37,7 +37,7 @@ WITH
   qr_days_in_status AS (
   SELECT
     assessment_id,
-    "qualification_requests" AS status_type,
+    "qualification_requests" AS request_type,
     requested_at,
     received_at,
     reviewed_at,
@@ -51,7 +51,7 @@ WITH
   rr_days_in_status AS (
   SELECT
     assessment_id,
-    "reference_requests" AS status_type,
+    "reference_requests" AS request_type,
     requested_at,
     received_at,
     reviewed_at,
@@ -65,7 +65,7 @@ WITH
   all_days_in_status AS (
   SELECT
     assessment_id,
-    status_type,
+    request_type,
     requested_at,
     received_at,
     reviewed_at,
@@ -79,7 +79,7 @@ WITH
   UNION ALL
   SELECT
     assessment_id,
-    status_type,
+    request_type,
     requested_at,
     received_at,
     reviewed_at,
@@ -93,7 +93,7 @@ WITH
   UNION ALL
   SELECT
     assessment_id,
-    status_type,
+    request_type,
     requested_at,
     received_at,
     reviewed_at,
@@ -107,7 +107,7 @@ WITH
   UNION ALL
   SELECT
     assessment_id,
-    status_type,
+    request_type,
     requested_at,
     received_at,
     reviewed_at,
