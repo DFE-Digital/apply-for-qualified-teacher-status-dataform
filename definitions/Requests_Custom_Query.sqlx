@@ -1,0 +1,149 @@
+config {
+    type: "table",
+    /* assertions: {
+       uniqueKey: ["id"],
+     },*/
+}
+
+WITH
+  fi_days_in_status AS (
+  SELECT
+    assessment_id,
+    "further_information" AS status_type,
+    requested_at,
+    received_at,
+    reviewed_at,
+    expired_at,
+    CAST(NULL AS TIMESTAMP) AS verified_at,
+    DATE_DIFF(received_at, requested_at,DAY) AS days_waiting_to_receive,
+    DATE_DIFF(reviewed_at, received_at,DAY) AS days_waiting_to_review,
+    NULL AS days_waiting_to_verify
+  FROM
+    ${ref("further_information_requests_latest_afqts")} AS further_information ),
+  ps_days_in_status AS (
+  SELECT
+    assessment_id,
+    "professional_standing" AS status_type,
+    requested_at,
+    received_at,
+    reviewed_at,
+    expired_at,
+    verified_at,
+    DATE_DIFF(received_at, requested_at,DAY) AS days_waiting_to_receive,
+    DATE_DIFF(reviewed_at, received_at,DAY) AS days_waiting_to_review,
+    NULL AS days_waiting_to_verify,
+  FROM
+     ${ref("professional_standing_requests_latest_afqts")} AS professional_standing ),
+  qr_days_in_status AS (
+  SELECT
+    assessment_id,
+    "qualification_requests" AS status_type,
+    requested_at,
+    received_at,
+    reviewed_at,
+    expired_at,
+    verified_at,
+    DATE_DIFF(received_at, requested_at,DAY) AS days_waiting_to_receive,
+    DATE_DIFF(reviewed_at, received_at,DAY) AS days_waiting_to_review,
+    DATE_DIFF(verified_at, reviewed_at,DAY) AS days_waiting_to_verify
+  FROM
+     ${ref("qualification_requests_latest_afqts")} AS qualification_requests ),
+  rr_days_in_status AS (
+  SELECT
+    assessment_id,
+    "reference_requests" AS status_type,
+    requested_at,
+    received_at,
+    reviewed_at,
+    expired_at,
+    verified_at,
+    DATE_DIFF(received_at, requested_at,DAY) AS days_waiting_to_receive,
+    DATE_DIFF(reference_requests.reviewed_at, reference_requests.received_at,DAY) AS days_waiting_to_review,
+    DATE_DIFF(reference_requests.verified_at, reference_requests.reviewed_at,DAY) AS days_waiting_to_verify
+  FROM
+     ${ref("reference_requests_latest_afqts")} AS reference_requests ),
+  all_days_in_status AS (
+  SELECT
+    assessment_id,
+    status_type,
+    requested_at,
+    received_at,
+    reviewed_at,
+    expired_at,
+    verified_at,
+    days_waiting_to_receive,
+    days_waiting_to_review,
+    days_waiting_to_verify
+  FROM
+    fi_days_in_status
+  UNION ALL
+  SELECT
+    assessment_id,
+    status_type,
+    requested_at,
+    received_at,
+    reviewed_at,
+    expired_at,
+    verified_at,
+    days_waiting_to_receive,
+    days_waiting_to_review,
+    days_waiting_to_verify
+  FROM
+    ps_days_in_status
+  UNION ALL
+  SELECT
+    assessment_id,
+    status_type,
+    requested_at,
+    received_at,
+    reviewed_at,
+    expired_at,
+    verified_at,
+    days_waiting_to_receive,
+    days_waiting_to_review,
+    days_waiting_to_verify
+  FROM
+    qr_days_in_status
+  UNION ALL
+  SELECT
+    assessment_id,
+    status_type,
+    requested_at,
+    received_at,
+    reviewed_at,
+    expired_at,
+    verified_at,
+    days_waiting_to_receive,
+    days_waiting_to_review,
+    days_waiting_to_verify
+  FROM
+    rr_days_in_status)
+SELECT
+  reference,
+  DATE(submitted_at) AS submitted_at_date,
+  CASE
+    WHEN awarded_at IS NOT NULL THEN DATE(awarded_at)
+    WHEN declined_at IS NOT NULL THEN DATE(declined_at)
+  ELSE
+  NULL
+END
+  AS assessed_date,
+  DATE(started_at) AS started_at_date,
+  DATE(recommended_at) as recommended_at_date,
+  country_name,
+  teaching_authority_provides_written_statement,
+  all_days_in_status.*
+FROM
+  all_days_in_status
+LEFT JOIN
+   ${ref("assessments_latest_afqts")} AS assessments
+ON
+  assessments.id = assessment_id
+LEFT JOIN
+   ${ref("application_forms_latest_afqts")} AS application_forms
+ON
+  assessments.application_form_id = application_forms.id
+ LEFT JOIN
+   ${ref("joinGeoData")} AS joinGeoData
+ON
+  application_forms.region_id = joinGeoData.region_id 
