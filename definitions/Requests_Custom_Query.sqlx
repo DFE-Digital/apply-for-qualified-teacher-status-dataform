@@ -31,7 +31,7 @@ WITH
     verified_at,
     DATE_DIFF(received_at, requested_at,DAY) AS days_waiting_to_receive,
     DATE_DIFF(reviewed_at, received_at,DAY) AS days_waiting_to_review,
-    NULL AS days_waiting_to_verify,
+    DATE_DIFF(verified_at, reviewed_at,DAY) AS days_waiting_to_verify
   FROM
      ${ref("professional_standing_requests_latest_afqts")} AS professional_standing ),
   qr_days_in_status AS (
