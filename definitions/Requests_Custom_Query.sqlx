@@ -31,9 +31,9 @@ WITH
     verified_at,
     DATE_DIFF(received_at, requested_at,DAY) AS days_waiting_to_receive,
     DATE_DIFF(reviewed_at, received_at,DAY) AS days_waiting_to_review,
-    NULL AS days_waiting_to_verify,
+    DATE_DIFF(verified_at, reviewed_at,DAY) AS days_waiting_to_verify
   FROM
-     ${ref("professional_standing_requests_latest_afqts")} AS professional_standing ),
+    ${ref("professional_standing_requests_latest_afqts")} AS professional_standing ),
   qr_days_in_status AS (
   SELECT
     assessment_id,
@@ -47,7 +47,7 @@ WITH
     DATE_DIFF(reviewed_at, received_at,DAY) AS days_waiting_to_review,
     DATE_DIFF(verified_at, reviewed_at,DAY) AS days_waiting_to_verify
   FROM
-     ${ref("qualification_requests_latest_afqts")} AS qualification_requests ),
+    ${ref("qualification_requests_latest_afqts")} AS qualification_requests ),
   rr_days_in_status AS (
   SELECT
     assessment_id,
@@ -61,7 +61,7 @@ WITH
     DATE_DIFF(reference_requests.reviewed_at, reference_requests.received_at,DAY) AS days_waiting_to_review,
     DATE_DIFF(reference_requests.verified_at, reference_requests.reviewed_at,DAY) AS days_waiting_to_verify
   FROM
-     ${ref("reference_requests_latest_afqts")} AS reference_requests ),
+    ${ref("reference_requests_latest_afqts")} AS reference_requests ),
   all_days_in_status AS (
   SELECT
     assessment_id,
@@ -129,21 +129,29 @@ SELECT
 END
   AS assessed_date,
   DATE(started_at) AS started_at_date,
-  DATE(recommended_at) as recommended_at_date,
+  DATE(recommended_at) AS recommended_at_date,
   country_name,
   teaching_authority_provides_written_statement,
-  all_days_in_status.*
+  request_type,
+  requested_at,
+  received_at,
+  reviewed_at,
+  expired_at,
+  verified_at,
+  CAST(ROUND(days_waiting_to_receive,0) AS INT64) AS days_waiting_to_receive,
+  CAST(ROUND(days_waiting_to_review,0) AS INT64) AS days_waiting_to_review,
+  CAST(ROUND(days_waiting_to_verify,0) AS INT64) AS days_waiting_to_verify
 FROM
   all_days_in_status
 LEFT JOIN
-   ${ref("assessments_latest_afqts")} AS assessments
+  ${ref("assessments_latest_afqts")} AS assessments
 ON
   assessments.id = assessment_id
 LEFT JOIN
-   ${ref("application_forms_latest_afqts")} AS application_forms
+  ${ref("application_forms_latest_afqts")} AS application_forms
 ON
   assessments.application_form_id = application_forms.id
- LEFT JOIN
-   ${ref("joinGeoData")} AS joinGeoData
+LEFT JOIN
+  ${ref("joinGeoData")} AS joinGeoData
 ON
-  application_forms.region_id = joinGeoData.region_id 
+  application_forms.region_id = joinGeoData.region_id
