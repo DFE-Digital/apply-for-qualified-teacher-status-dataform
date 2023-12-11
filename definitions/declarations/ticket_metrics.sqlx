@@ -1,6 +1,0 @@
-config {
-  type: "declaration",
-  database: "apply-for-qts-in-england",
-  schema: "zendesk",
-  name: "ticket_metrics"
-}
