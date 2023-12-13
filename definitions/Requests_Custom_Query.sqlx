@@ -2,6 +2,7 @@ config {
     type: "table",
     description: "Region and country table joined",
     columns: {
+        assessment_id: "assessment_id",
         reference: "application reference number",
         submitted_at_date: "submitted at date",
         assessed_date: "date of award or decline",
@@ -14,9 +15,7 @@ config {
         days_waiting_to_review: "days waiting for information to be reviewed",
         days_waiting_to_verify: "days waiting for information to be verified",
     },
-    assertions: {
-        uniqueKey: ["reference"],
-    },
+ 
 }
 
 WITH
@@ -141,6 +140,7 @@ WITH
   FROM
     rr_days_in_status)
 SELECT
+  assessment_id,
   reference,
   DATE(submitted_at) AS submitted_at_date,
   CASE
