@@ -15,6 +15,7 @@ WITH
     reviewed_at,
     expired_at,
     CAST(NULL AS TIMESTAMP) AS verified_at,
+    NULL AS days_waiting_to_request,
     DATE_DIFF(received_at, requested_at,DAY) AS days_waiting_to_receive,
     DATE_DIFF(reviewed_at, received_at,DAY) AS days_waiting_to_review,
     NULL AS days_waiting_to_verify
@@ -29,6 +30,7 @@ WITH
     reviewed_at,
     expired_at,
     verified_at,
+    DATE_DIFF(requested_at, created_at,DAY) AS days_waiting_to_request,
     DATE_DIFF(received_at, requested_at,DAY) AS days_waiting_to_receive,
     DATE_DIFF(reviewed_at, received_at,DAY) AS days_waiting_to_review,
     DATE_DIFF(verified_at, reviewed_at,DAY) AS days_waiting_to_verify
@@ -43,6 +45,7 @@ WITH
     reviewed_at,
     expired_at,
     verified_at,
+    DATE_DIFF(requested_at, created_at,DAY) AS days_waiting_to_request,
     DATE_DIFF(received_at, requested_at,DAY) AS days_waiting_to_receive,
     DATE_DIFF(reviewed_at, received_at,DAY) AS days_waiting_to_review,
     DATE_DIFF(verified_at, reviewed_at,DAY) AS days_waiting_to_verify
@@ -57,6 +60,7 @@ WITH
     reviewed_at,
     expired_at,
     verified_at,
+    NULL AS days_waiting_to_request,
     DATE_DIFF(received_at, requested_at,DAY) AS days_waiting_to_receive,
     DATE_DIFF(reference_requests.reviewed_at, reference_requests.received_at,DAY) AS days_waiting_to_review,
     DATE_DIFF(reference_requests.verified_at, reference_requests.reviewed_at,DAY) AS days_waiting_to_verify
@@ -71,6 +75,7 @@ WITH
     reviewed_at,
     expired_at,
     verified_at,
+    days_waiting_to_request,
     days_waiting_to_receive,
     days_waiting_to_review,
     days_waiting_to_verify
@@ -85,6 +90,7 @@ WITH
     reviewed_at,
     expired_at,
     verified_at,
+    days_waiting_to_request,
     days_waiting_to_receive,
     days_waiting_to_review,
     days_waiting_to_verify
@@ -99,6 +105,7 @@ WITH
     reviewed_at,
     expired_at,
     verified_at,
+    days_waiting_to_request,
     days_waiting_to_receive,
     days_waiting_to_review,
     days_waiting_to_verify
@@ -113,6 +120,7 @@ WITH
     reviewed_at,
     expired_at,
     verified_at,
+    days_waiting_to_request,
     days_waiting_to_receive,
     days_waiting_to_review,
     days_waiting_to_verify
@@ -138,6 +146,7 @@ END
   reviewed_at,
   expired_at,
   verified_at,
+  CAST(ROUND(days_waiting_to_request,0) AS INT64) AS days_waiting_to_request,
   CAST(ROUND(days_waiting_to_receive,0) AS INT64) AS days_waiting_to_receive,
   CAST(ROUND(days_waiting_to_review,0) AS INT64) AS days_waiting_to_review,
   CAST(ROUND(days_waiting_to_verify,0) AS INT64) AS days_waiting_to_verify
