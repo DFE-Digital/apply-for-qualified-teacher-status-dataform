@@ -1,8 +1,21 @@
 config {
     type: "table",
-    /* assertions: {
-       uniqueKey: ["id"],
-     },*/
+    description: "Region and country table joined",
+    columns: {
+        assessment_id: "assessment_id",
+        reference: "application reference number",
+        submitted_at_date: "submitted at date",
+        assessed_date: "date of award or decline",
+        started_at_date: "started at date",
+        country_name: "country applicant qualified in",
+        teaching_authority_provides_written_statement: "teaching authority provides written statement",
+        request_type: "type of request",
+        days_waiting_to_request: "days waiting for information to be requested",
+        days_waiting_to_receive: "days waiting for information to be received",
+        days_waiting_to_review: "days waiting for information to be reviewed",
+        days_waiting_to_verify: "days waiting for information to be verified",
+    },
+ 
 }
 
 WITH
@@ -10,11 +23,12 @@ WITH
   SELECT
     assessment_id,
     "further_information" AS request_type,
-    requested_at,
-    received_at,
-    reviewed_at,
-    expired_at,
-    CAST(NULL AS TIMESTAMP) AS verified_at,
+    -- requested_at,
+    -- received_at,
+    --  reviewed_at,
+    -- expired_at,
+    -- CAST(NULL AS TIMESTAMP) AS verified_at,
+    NULL AS days_waiting_to_request,
     DATE_DIFF(received_at, requested_at,DAY) AS days_waiting_to_receive,
     DATE_DIFF(reviewed_at, received_at,DAY) AS days_waiting_to_review,
     NULL AS days_waiting_to_verify
@@ -24,11 +38,12 @@ WITH
   SELECT
     assessment_id,
     "professional_standing" AS request_type,
-    requested_at,
-    received_at,
-    reviewed_at,
-    expired_at,
-    verified_at,
+    -- requested_at,
+    -- received_at,
+    -- reviewed_at,
+    -- expired_at,
+    -- verified_at,
+    DATE_DIFF(requested_at, created_at,DAY) AS days_waiting_to_request,
     DATE_DIFF(received_at, requested_at,DAY) AS days_waiting_to_receive,
     DATE_DIFF(reviewed_at, received_at,DAY) AS days_waiting_to_review,
     DATE_DIFF(verified_at, reviewed_at,DAY) AS days_waiting_to_verify
@@ -38,11 +53,12 @@ WITH
   SELECT
     assessment_id,
     "qualification_requests" AS request_type,
-    requested_at,
-    received_at,
-    reviewed_at,
-    expired_at,
-    verified_at,
+    --  requested_at,
+    -- received_at,
+    --  reviewed_at,
+    -- expired_at,
+    -- verified_at,
+    DATE_DIFF(requested_at, created_at,DAY) AS days_waiting_to_request,
     DATE_DIFF(received_at, requested_at,DAY) AS days_waiting_to_receive,
     DATE_DIFF(reviewed_at, received_at,DAY) AS days_waiting_to_review,
     DATE_DIFF(verified_at, reviewed_at,DAY) AS days_waiting_to_verify
@@ -52,11 +68,12 @@ WITH
   SELECT
     assessment_id,
     "reference_requests" AS request_type,
-    requested_at,
-    received_at,
-    reviewed_at,
-    expired_at,
-    verified_at,
+    -- requested_at,
+    -- received_at,
+    -- reviewed_at,
+    -- expired_at,
+    -- verified_at,
+    NULL AS days_waiting_to_request,
     DATE_DIFF(received_at, requested_at,DAY) AS days_waiting_to_receive,
     DATE_DIFF(reference_requests.reviewed_at, reference_requests.received_at,DAY) AS days_waiting_to_review,
     DATE_DIFF(reference_requests.verified_at, reference_requests.reviewed_at,DAY) AS days_waiting_to_verify
@@ -66,11 +83,12 @@ WITH
   SELECT
     assessment_id,
     request_type,
-    requested_at,
-    received_at,
-    reviewed_at,
-    expired_at,
-    verified_at,
+    --   requested_at,
+    --  received_at,
+    --  reviewed_at,
+    --  expired_at,
+    --  verified_at,
+    days_waiting_to_request,
     days_waiting_to_receive,
     days_waiting_to_review,
     days_waiting_to_verify
@@ -80,11 +98,12 @@ WITH
   SELECT
     assessment_id,
     request_type,
-    requested_at,
-    received_at,
-    reviewed_at,
-    expired_at,
-    verified_at,
+    --  requested_at,
+    -- received_at,
+    -- reviewed_at,
+    -- expired_at,
+    -- verified_at,
+    days_waiting_to_request,
     days_waiting_to_receive,
     days_waiting_to_review,
     days_waiting_to_verify
@@ -94,11 +113,12 @@ WITH
   SELECT
     assessment_id,
     request_type,
-    requested_at,
-    received_at,
-    reviewed_at,
-    expired_at,
-    verified_at,
+    --  requested_at,
+    --  received_at,
+    -- reviewed_at,
+    -- expired_at,
+    -- verified_at,
+    days_waiting_to_request,
     days_waiting_to_receive,
     days_waiting_to_review,
     days_waiting_to_verify
@@ -108,17 +128,19 @@ WITH
   SELECT
     assessment_id,
     request_type,
-    requested_at,
-    received_at,
-    reviewed_at,
-    expired_at,
-    verified_at,
+    -- requested_at,
+    -- received_at,
+    -- reviewed_at,
+    -- expired_at,
+    -- verified_at,
+    days_waiting_to_request,
     days_waiting_to_receive,
     days_waiting_to_review,
     days_waiting_to_verify
   FROM
     rr_days_in_status)
 SELECT
+  assessment_id,
   reference,
   DATE(submitted_at) AS submitted_at_date,
   CASE
@@ -133,11 +155,12 @@ END
   country_name,
   teaching_authority_provides_written_statement,
   request_type,
-  requested_at,
-  received_at,
-  reviewed_at,
-  expired_at,
-  verified_at,
+  -- requested_at,
+  -- received_at,
+  -- reviewed_at,
+  -- expired_at,
+  -- verified_at,
+  CAST(ROUND(days_waiting_to_request,0) AS INT64) AS days_waiting_to_request,
   CAST(ROUND(days_waiting_to_receive,0) AS INT64) AS days_waiting_to_receive,
   CAST(ROUND(days_waiting_to_review,0) AS INT64) AS days_waiting_to_review,
   CAST(ROUND(days_waiting_to_verify,0) AS INT64) AS days_waiting_to_verify
