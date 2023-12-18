@@ -8,8 +8,9 @@ config {
         created_at: "request created at",
         days_waiting_to_receive: "days waiting for information to be received",
         days_waiting_to_request: "days waiting for information to be requested",
-        days_waiting_to_review: "days waiting for information to be reviewed",
-        days_waiting_to_verify: "days waiting for information to be verified",
+        days_waiting_to_verify: "days waiting to verify request",
+        days_waiting_to_review_after_receipt: "days waiting for information to be reviewed",
+        days_waiting_to_review_after_verification: "days waiting for information to be verified",
         reference: "application reference number",
         request_type: "type of request",
         started_at_date: "started at date",
@@ -27,8 +28,9 @@ WITH
     created_at,
     NULL AS days_waiting_to_request,
     DATE_DIFF(received_at, requested_at,DAY) AS days_waiting_to_receive,
-    DATE_DIFF(reviewed_at, received_at,DAY) AS days_waiting_to_review,
-    NULL AS days_waiting_to_verify
+    NULL AS days_waiting_to_verify,
+    NULL AS days_waiting_to_review_after_verification,
+    DATE_DIFF(reviewed_at, received_at,DAY) AS days_waiting_to_review_after_receipt
   FROM
     ${ref("further_information_requests_latest_afqts")} AS further_information ),
   ps_days_in_status AS (
@@ -38,8 +40,9 @@ WITH
     created_at,
     DATE_DIFF(requested_at, created_at,DAY) AS days_waiting_to_request,
     DATE_DIFF(received_at, requested_at,DAY) AS days_waiting_to_receive,
-    DATE_DIFF(reviewed_at, received_at,DAY) AS days_waiting_to_review,
-    DATE_DIFF(verified_at, reviewed_at,DAY) AS days_waiting_to_verify
+    DATE_DIFF(verified_at, received_at,DAY) AS days_waiting_to_verify,
+    DATE_DIFF(reviewed_at, verified_at,DAY) AS days_waiting_to_review_after_verification,
+    DATE_DIFF(reviewed_at, received_at,DAY) AS days_waiting_to_review_after_receipt
   FROM
     ${ref("professional_standing_requests_latest_afqts")} AS professional_standing ),
   qr_days_in_status AS (
@@ -49,8 +52,9 @@ WITH
     created_at,
     DATE_DIFF(requested_at, created_at,DAY) AS days_waiting_to_request,
     DATE_DIFF(received_at, requested_at,DAY) AS days_waiting_to_receive,
-    DATE_DIFF(reviewed_at, received_at,DAY) AS days_waiting_to_review,
-    DATE_DIFF(verified_at, reviewed_at,DAY) AS days_waiting_to_verify
+    DATE_DIFF(verified_at, received_at,DAY) AS days_waiting_to_verify,
+    DATE_DIFF(reviewed_at, verified_at,DAY) AS days_waiting_to_review_after_verification,
+    DATE_DIFF(reviewed_at, received_at,DAY) AS days_waiting_to_review_after_receipt
   FROM
     ${ref("qualification_requests_latest_afqts")} AS qualification_requests ),
   rr_days_in_status AS (
@@ -60,8 +64,9 @@ WITH
     created_at,
     NULL AS days_waiting_to_request,
     DATE_DIFF(received_at, requested_at,DAY) AS days_waiting_to_receive,
-    DATE_DIFF(reference_requests.reviewed_at, reference_requests.received_at,DAY) AS days_waiting_to_review,
-    DATE_DIFF(reference_requests.verified_at, reference_requests.reviewed_at,DAY) AS days_waiting_to_verify
+    DATE_DIFF(verified_at, received_at,DAY) AS days_waiting_to_verify,
+    DATE_DIFF(reviewed_at, verified_at,DAY) AS days_waiting_to_review_after_verification,
+    DATE_DIFF(reviewed_at, received_at,DAY) AS days_waiting_to_review_after_receipt
   FROM
     ${ref("reference_requests_latest_afqts")} AS reference_requests ),
   all_days_in_status AS (
@@ -71,8 +76,9 @@ WITH
     created_at,
     days_waiting_to_request,
     days_waiting_to_receive,
-    days_waiting_to_review,
-    days_waiting_to_verify
+    days_waiting_to_verify,
+    days_waiting_to_review_after_verification,
+    days_waiting_to_review_after_receipt
   FROM
     fi_days_in_status
   UNION ALL
@@ -82,8 +88,9 @@ WITH
     created_at,
     days_waiting_to_request,
     days_waiting_to_receive,
-    days_waiting_to_review,
-    days_waiting_to_verify
+    days_waiting_to_verify,
+    days_waiting_to_review_after_verification,
+    days_waiting_to_review_after_receipt
   FROM
     ps_days_in_status
   UNION ALL
@@ -93,8 +100,9 @@ WITH
     created_at,
     days_waiting_to_request,
     days_waiting_to_receive,
-    days_waiting_to_review,
-    days_waiting_to_verify
+    days_waiting_to_verify,
+    days_waiting_to_review_after_verification,
+    days_waiting_to_review_after_receipt
   FROM
     qr_days_in_status
   UNION ALL
@@ -104,8 +112,9 @@ WITH
     created_at,
     days_waiting_to_request,
     days_waiting_to_receive,
-    days_waiting_to_review,
-    days_waiting_to_verify
+    days_waiting_to_verify,
+    days_waiting_to_review_after_verification,
+    days_waiting_to_review_after_receipt
   FROM
     rr_days_in_status)
 SELECT
@@ -127,7 +136,8 @@ END
   all_days_in_status.created_at,
   CAST(ROUND(days_waiting_to_request,0) AS INT64) AS days_waiting_to_request,
   CAST(ROUND(days_waiting_to_receive,0) AS INT64) AS days_waiting_to_receive,
-  CAST(ROUND(days_waiting_to_review,0) AS INT64) AS days_waiting_to_review,
+  CAST(ROUND(days_waiting_to_review_after_verification,0) AS INT64) AS days_waiting_to_review_after_verification,
+  CAST(ROUND(days_waiting_to_review_after_receipt,0) AS INT64) AS days_waiting_to_review_after_receipt,
   CAST(ROUND(days_waiting_to_verify,0) AS INT64) AS days_waiting_to_verify
 FROM
   all_days_in_status
