@@ -1749,6 +1749,7 @@ dfeAnalyticsDataform({
                     keyName: "new_value",
                     dataType: "string",
                     description: "",
+                     alias: "new_event_value",
                 },
                 {
                     keyName: "note_id",
