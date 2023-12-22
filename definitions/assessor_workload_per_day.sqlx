@@ -11,24 +11,24 @@ WITH
   SELECT
     entity_id,
     key_updated,
-    new_assessor_id,
-    previous_action_required_by,
-    new_action_required_by,
+    assessor_id,
+    previous_value as previous_action_required_by,
+    new_value as new_action_required_by,
     occurred_at
   FROM
  ${ref("application_forms_field_updates_afqts")} AS application_forms_field_updates
   WHERE
     key_updated IN ('action_required_by')
-    AND previous_action_required_by = 'assessor'
-    AND new_action_required_by != 'assessor' ),
+    AND previous_value = 'assessor'
+    AND new_value != 'assessor' ),
   -- rank and select the latest record for an application
   ranked_records_assessor_change AS (
 SELECT
   entity_id,
   key_updated,
-  previous_action_required_by,
-  new_action_required_by,
-  new_assessor_id,
+   previous_action_required_by,
+   new_action_required_by,
+  assessor_id,
   occurred_at,
   ROW_NUMBER() OVER (PARTITION BY entity_id ORDER BY occurred_at DESC) AS rn
 FROM
@@ -37,9 +37,9 @@ FROM
   SELECT
     entity_id,
     key_updated,
-    new_assessor_id,
-    previous_action_required_by,
-    new_action_required_by,
+    assessor_id,
+   previous_action_required_by,
+  new_action_required_by,
     DATE(occurred_at) AS date_actioned_at
   FROM
     ranked_records_assessor_change
@@ -50,8 +50,8 @@ FROM
 SELECT
   date_actioned_at,
   count (*) AS count_of_assessments_by_action_required,
-  COUNT(DISTINCT new_assessor_id) AS count_of_assessors_by_action_required,
-  CAST(ROUND(COUNT(*) / COUNT(DISTINCT new_assessor_id),0) AS INT64) AS average_assessments_per_assessor_by_action_required
+  COUNT(DISTINCT assessor_id) AS count_of_assessors_by_action_required,
+  CAST(ROUND(COUNT(*) / COUNT(DISTINCT assessor_id),0) AS INT64) AS average_assessments_per_assessor_by_action_required
 FROM
   latest_assessor_change
 GROUP BY
