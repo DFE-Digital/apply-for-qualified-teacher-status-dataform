@@ -1883,7 +1883,7 @@ dfeAnalyticsDataform({
                 },
                 {
                     keyName: "start_date",
-                    dataType: "timestamp",
+                    dataType: "string",
                     description: "",
                 },
                 {
