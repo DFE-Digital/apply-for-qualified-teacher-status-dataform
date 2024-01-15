@@ -112,7 +112,7 @@ dfeAnalyticsDataform({
                 {
                     keyName: "awarded_at",
                     dataType: "timestamp",
-                    description: "",
+                    description: "When a recommendation to award has been applied",
                 },
                 {
                     keyName: "confirmed_no_sanctions",
@@ -127,7 +127,7 @@ dfeAnalyticsDataform({
                 {
                     keyName: "declined_at",
                     dataType: "timestamp",
-                    description: "",
+                    description: "When a recommendation to decline has been applied",
                 },
                 {
                     keyName: "dqt_match",
@@ -472,7 +472,7 @@ dfeAnalyticsDataform({
                 {
                     keyName: "recommendation",
                     dataType: "string",
-                    description: "",
+                    description: "category of recommendation. Value of 'unknown' is applied when an auto decline has been triggered, e.g. LOPS overdue ",
                 },
                 {
                     keyName: "recommendation_assessor_note",
@@ -482,7 +482,7 @@ dfeAnalyticsDataform({
                 {
                     keyName: "recommended_at",
                     dataType: "timestamp",
-                    description: "",
+                    description: "When a decision is made to award or decline. Note that awarded_at and declined_at represent when the award/decline recxommendation is applied.",
                 },
                 {
                     keyName: "references_verified",
@@ -497,7 +497,7 @@ dfeAnalyticsDataform({
                 {
                     keyName: "started_at",
                     dataType: "timestamp",
-                    description: "",
+                    description: "When an assessor assesses any part of the application. For applications which require a preliminary check, that includes the preliminary check",
                 },
                 {
                     keyName: "subjects",
