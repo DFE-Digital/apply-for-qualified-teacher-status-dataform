@@ -35,7 +35,6 @@ SELECT
   application_forms.reference,
   application_forms.submitted_at,
   assessments.started_at,
-  application_forms.state AS application_state,
   application_forms.stage As stage,
   application_forms.statuses as statuses,
   selected_failure_reasons.key,
