@@ -238,7 +238,7 @@ dfeAnalyticsDataform({
                     dataType: "string",
                     description: "",
                 },
-                  {
+                {
                     keyName: "qualification_changed_work_history_duration",
                     dataType: "boolean",
                     description: "If true applicant changed their qualification certificate date which meant the number of months of work history they added has changed, if false the applicant has subsequently changed their work history",
@@ -998,6 +998,17 @@ dfeAnalyticsDataform({
                     dataType: "string",
                     description: "",
                 },
+
+                {
+                    keyName: "consent_received_at",
+                    dataType: "timestamp",
+                    description: "Applicant has returned the consent",
+                },
+                {
+                    keyName: "consent_requested_at",
+                    dataType: "timestamp",
+                    description: "Consent has been requested from the applicant",
+                },
                 {
                     keyName: "expired_at",
                     dataType: "timestamp",
@@ -1039,6 +1050,16 @@ dfeAnalyticsDataform({
                     keyName: "reviewed_at",
                     dataType: "timestamp",
                     description: "",
+                },
+                {
+                    keyName: "signed_consent_document_required",
+                    dataType: "boolean",
+                    description: "indicates whether a request for signed consent is required for qualification request",
+                },
+                {
+                    keyName: "unsigned_consent_document_downloaded",
+                    dataType: "boolean",
+                    description: "indicates whether an applicant has downloaded an unsigned consent document",
                 },
                 {
                     keyName: "verified_at",
@@ -1749,7 +1770,7 @@ dfeAnalyticsDataform({
                     keyName: "new_value",
                     dataType: "string",
                     description: "",
-                     alias: "new_value_aliased",
+                    alias: "new_value_aliased",
                 },
                 {
                     keyName: "note_id",
