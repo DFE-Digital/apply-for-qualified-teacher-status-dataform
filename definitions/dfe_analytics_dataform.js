@@ -1422,21 +1422,21 @@ dfeAnalyticsDataform({
         },
         {
             entityTableName: "reminder_emails",
-            description: "",
+            description: "Contains reminder email data and polymorphic links to other tables",
             keys: [{
                     keyName: "remindable_id",
                     dataType: "string",
-                    description: "",
+                    description: "Part of a polymorphic foreign key. Indicates the ID of the table specified in remindable_type",
                 },
                 {
                     keyName: "remindable_type",
                     dataType: "string",
-                    description: "",
+                    description: "Part of polymorphic foreign key. Indicates the table that the remindable_id links to",
                 },
                 {
                     keyName: "name",
                     dataType: "string",
-                    description: "",
+                    description: " Used when there are different kinds of reminder emails that can be sent. The default type of email is 'expiration' which indicates a reminder email being sent before the object expires (i.e. before expired_at is set). However, application forms have a 'references' type of email which is sent to the applicant if any reference requests are due to expire soon to try and get them to prompt their referees. The reason it is on the application form is the service sends a single email combining all the outstanding reference requests together,rather than one email per reference request.",
                 },
             ],
         },
