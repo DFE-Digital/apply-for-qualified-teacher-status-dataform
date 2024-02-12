@@ -1422,21 +1422,21 @@ dfeAnalyticsDataform({
         },
         {
             entityTableName: "reminder_emails",
-            description: "",
+            description: "Contains reminder email data and polymorphic links to other tables",
             keys: [{
                     keyName: "remindable_id",
                     dataType: "string",
-                    description: "",
+                    description: "Part of a polymorphic foreign key. Indicates the ID of the table specified in remindable_type",
                 },
                 {
                     keyName: "remindable_type",
                     dataType: "string",
-                    description: "",
+                    description: "Part of polymorphic foreign key. Indicates the table that the remindable_id links to",
                 },
                 {
                     keyName: "name",
                     dataType: "string",
-                    description: "",
+                    description: "Determines the reminder email type: expiration for preemptive alerts before an object's expired_at deadline, and references for application forms, consolidating nearing-expiration reference requests into a single email to encourage applicants to prompt their referees.",
                 },
             ],
         },
