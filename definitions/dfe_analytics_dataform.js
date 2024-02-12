@@ -1436,7 +1436,7 @@ dfeAnalyticsDataform({
                 {
                     keyName: "name",
                     dataType: "string",
-                    description: "Determines the reminder email type: expiration for preemptive alerts before an object's expired_at deadline, and references for application forms, consolidating nearing-expiration reference requests into a single email to encourage applicants to prompt their referees.",
+                    description: " Used when there are different kinds of reminder emails that can be sent. The default type of email is 'expiration' which indicates a reminder email being sent before the object expires (i.e. before expired_at is set). However, application forms have a 'references' type of email which is sent to the applicant if any reference requests are due to expire soon to try and get them to prompt their referees. The reason it is on the application form is the service sends a single email combining all the outstanding reference requests together,rather than one email per reference request.",
                 },
             ],
         },
