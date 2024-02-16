@@ -529,6 +529,11 @@ dfeAnalyticsDataform({
                     dataType: "integer",
                     description: "",
                 },
+                {
+                    keyName: "unsigned_consent_document_generated",
+                    dataType: "boolean",
+                    description: "",
+                },
             ],
         },
         {
@@ -1073,6 +1078,16 @@ dfeAnalyticsDataform({
                 },
                 {
                     keyName: "verify_passed",
+                    dataType: "boolean",
+                    description: "",
+                },
+                {
+                    keyName: "consent_method",
+                    dataType: "string",
+                    description: "",
+                },
+                {
+                    keyName: "unsigned_consent_document_generated",
                     dataType: "boolean",
                     description: "",
                 },
