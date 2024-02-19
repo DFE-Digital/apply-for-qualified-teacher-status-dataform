@@ -510,6 +510,11 @@ dfeAnalyticsDataform({
                     description: "",
                 },
                 {
+                    keyName: "unsigned_consent_document_generated",
+                    dataType: "boolean",
+                    description: "indicates the assessor has generated the unsigned consent document ready to be sent to the applicant",
+                },
+                {
                     keyName: "working_days_since_started",
                     dataType: "integer",
                     description: "",
@@ -1052,15 +1057,23 @@ dfeAnalyticsDataform({
                     description: "",
                 },
                 {
+                    keyName: "consent_method",
+                    dataType: "string",
+                    description: "indicates whether a request for signed consent is required for qualification request. Unknown is the default before an assessor has chosen consent method; unsigned indicates signed consent is not required, signed_ecctis indicates signed consent is required and consent document is from Ecctis; signed_institution indicates signed consent is required and signed consent is from the institution.",
+                },
+                {
                     keyName: "signed_consent_document_required",
                     dataType: "boolean",
-                    description: "indicates whether a request for signed consent is required for qualification request",
+                    description: "indicates whether a request for signed consent is required for qualification request - replaced by consent_method.",
+                    historic:true
                 },
+
                 {
                     keyName: "unsigned_consent_document_downloaded",
                     dataType: "boolean",
                     description: "indicates whether an applicant has downloaded an unsigned consent document",
                 },
+                
                 {
                     keyName: "verified_at",
                     dataType: "timestamp",
