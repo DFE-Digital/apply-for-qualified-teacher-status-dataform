@@ -79,7 +79,7 @@ WITH
   FROM
     date_range
   LEFT JOIN
-    `rugged-abacus-218110.dataform.support_ticket_details`
+    `rugged-abacus-218110.dataform.support_ticket_details_anonymised`
   ON
     date_range.generated_date = DATE(created_at)
   WHERE
