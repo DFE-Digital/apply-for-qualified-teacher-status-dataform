@@ -351,6 +351,11 @@ dfeAnalyticsDataform({
                     description: "",
                 },
                 {
+                    keyName: "teaching_qualification_part_of_degree",
+                    dataType: "boolean",
+                    description: "A boolean indicating whether the teaching qualification is part of the bachelor’s degree.",
+                },
+                {
                     keyName: "waiting_on_further_information",
                     dataType: "boolean",
                     description: "",
