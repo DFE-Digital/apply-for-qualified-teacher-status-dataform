@@ -1111,6 +1111,7 @@ dfeAnalyticsDataform({
                     keyName: "part_of_university_degree",
                     dataType: "boolean",
                     description: "Teaching qualification part of university degree",
+                    historic: true,
                 },
                 {
                     keyName: "start_date",
