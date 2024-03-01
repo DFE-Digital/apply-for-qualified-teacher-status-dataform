@@ -1013,17 +1013,6 @@ dfeAnalyticsDataform({
                     dataType: "string",
                     description: "",
                 },
-
-                {
-                    keyName: "consent_received_at",
-                    dataType: "timestamp",
-                    description: "Applicant has returned the consent",
-                },
-                {
-                    keyName: "consent_requested_at",
-                    dataType: "timestamp",
-                    description: "Consent has been requested from the applicant",
-                },
                 {
                     keyName: "expired_at",
                     dataType: "timestamp",
@@ -1075,15 +1064,9 @@ dfeAnalyticsDataform({
                     keyName: "signed_consent_document_required",
                     dataType: "boolean",
                     description: "indicates whether a request for signed consent is required for qualification request - replaced by consent_method.",
-                    historic:true
+                    historic: true
                 },
-
-                {
-                    keyName: "unsigned_consent_document_downloaded",
-                    dataType: "boolean",
-                    description: "indicates whether an applicant has downloaded an unsigned consent document",
-                },
-                
+             
                 {
                     keyName: "verified_at",
                     dataType: "timestamp",
@@ -1143,6 +1126,7 @@ dfeAnalyticsDataform({
                     keyName: "part_of_university_degree",
                     dataType: "boolean",
                     description: "Teaching qualification part of university degree",
+                    historic: true,
                 },
                 {
                     keyName: "start_date",
