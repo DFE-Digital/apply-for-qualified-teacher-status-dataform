@@ -353,7 +353,7 @@ dfeAnalyticsDataform({
                 {
                     keyName: "teaching_qualification_part_of_degree",
                     dataType: "boolean",
-                    description: "A boolean indicating whether the teaching qualification is part of the bachelor’s degree.",
+                    description: "A boolean indicating whether the teaching qualification is part of the bachelor’s degree. If true applicant needs to provide only 1 (combined degree or qualification).If false then the applicant needs to tell us about 2 qualifications (their teaching and their degree) ",
                 },
                 {
                     keyName: "waiting_on_further_information",
