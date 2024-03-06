@@ -542,6 +542,61 @@ dfeAnalyticsDataform({
             ],
         },
         {
+            entityTableName: "consent_requests",
+            description: "",
+            keys: [{
+                    keyName: "expired_at",
+                    dataType: "timestamp",
+                    description: "",
+                },
+                {
+                    keyName: "received_at",
+                    dataType: "timestamp",
+                    description: "",
+                },
+                {
+                    keyName: "requested_at",
+                    dataType: "timestamp",
+                    description: "",
+                },
+                {
+                    keyName: "reviewed_at",
+                    dataType: "timestamp",
+                    description: "",
+                },
+                {
+                    keyName: "review_note",
+                    dataType: "string",
+                    description: "",
+                },
+                {
+                    keyName: "review_passed",
+                    dataType: "string",
+                    description: "",
+                },
+                {
+                    keyName: "unsigned_document_downloaded",
+                    dataType: "string",
+                    description: "",
+                },
+                {
+                    keyName: "verified_at",
+                    dataType: "timestamp",
+                    description: "",
+                },
+                {
+                    keyName: "verify_note",
+                    dataType: "string",
+                    description: "",
+                },
+                {
+                    keyName: "verify_passed",
+                    dataType: "string",
+                    description: "",
+                },
+            ],
+        },
+        {
             entityTableName: "countries",
             description: "",
             keys: [{
@@ -1061,7 +1116,7 @@ dfeAnalyticsDataform({
                     description: "indicates whether a request for signed consent is required for qualification request - replaced by consent_method.",
                     historic: true
                 },
-             
+
                 {
                     keyName: "verified_at",
                     dataType: "timestamp",
