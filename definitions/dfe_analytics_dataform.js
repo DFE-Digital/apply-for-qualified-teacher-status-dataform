@@ -545,9 +545,19 @@ dfeAnalyticsDataform({
             entityTableName: "consent_requests",
             description: "",
             keys: [{
+                    keyName: "assessment_id",
+                    dataType: "string",
+                    description: "ID of the assessment that the consent request belongs to.",
+                },
+                {
                     keyName: "expired_at",
                     dataType: "timestamp",
                     description: "",
+                },
+                {
+                    keyName: "qualification_id",
+                    dataType: "string",
+                    description: "ID of the qualification that the consent request belongs to.",
                 },
                 {
                     keyName: "received_at",
