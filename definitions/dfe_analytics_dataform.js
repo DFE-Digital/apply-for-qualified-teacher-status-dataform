@@ -545,7 +545,62 @@ dfeAnalyticsDataform({
                     description: "",
                 },
             ],
-        },
+        },  
+     {
+            entityTableName: "consent_requests",
+            description: "",
+            keys: [{
+                    keyName: "expired_at",
+                    dataType: "timestamp",
+                    description: "",
+                },
+                {
+                    keyName: "received_at",
+                    dataType: "timestamp",
+                    description: "",
+                },
+                {
+                    keyName: "requested_at",
+                    dataType: "timestamp",
+                    description: "",
+                },
+                {
+                    keyName: "reviewed_at",
+                    dataType: "timestamp",
+                    description: "",
+                },
+                {
+                    keyName: "review_note",
+                    dataType: "string",
+                    description: "",
+                },
+                {
+                    keyName: "review_passed",
+                    dataType: "boolean",
+                    description: "",
+                },
+                {
+                    keyName: "unsigned_document_downloaded",
+                    dataType: "boolean",
+                    description: "",
+                },
+                {
+                    keyName: "verified_at",
+                    dataType: "timestamp",
+                    description: "",
+                },
+                {
+                    keyName: "verify_note",
+                    dataType: "string",
+                    description: "",
+                },
+                {
+                    keyName: "verify_passed",
+                    dataType: "boolean",
+                    description: "",
+                },
+            ],
+        },                
         {
             entityTableName: "countries",
             description: "",
