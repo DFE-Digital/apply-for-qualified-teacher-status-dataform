@@ -343,7 +343,7 @@ dfeAnalyticsDataform({
                 {
                     keyName: "teacher_id",
                     dataType: "string",
-                    description: "",
+                    description: "Specific to AQTS. It is not the same as the cross-service teacher_id and cannot be used for linking teachers across services.",
                 },
                 {
                     keyName: "teaching_authority_provides_written_statement",
