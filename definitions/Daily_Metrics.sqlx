@@ -71,7 +71,7 @@ WITH
     OR declined_at IS NOT NULL
   GROUP BY
     assessed_date ),
-  /* this CTE calculates the combined number of support tickets created per day from the QTS Enquiries and Professional Recognition helpdesks. */
+  /* this CTE calculates the combined number of support tickets created per day from the QTS Enquiries, Professional Recognition helpdesks and BAT International. */
   support_metrics AS (
   SELECT
     date_range.generated_date AS support_metrics_date,
@@ -83,9 +83,17 @@ WITH
   ON
     date_range.generated_date = DATE(created_at)
   WHERE
-    brand_name = 'TRA'
-    AND group_name IN ('TRA - QTS Enquiries',
+    group_name IN ('TRA - QTS Enquiries',
       'TRA - Professional Recognition')
+    OR ( group_name = 'BAT - International'
+      AND EXISTS(
+      SELECT
+        1
+      FROM
+        UNNEST(issue_type) AS it
+      WHERE
+        it LIKE '%afqts%'
+        OR it = 'international___qts' ) )
   GROUP BY
     date_range.generated_date )
     /* calculates the KPI metrics */
