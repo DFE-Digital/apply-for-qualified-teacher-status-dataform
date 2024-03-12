@@ -72,344 +72,683 @@ dfeAnalyticsDataform({
             ],
         },
         {
+
             entityTableName: "application_forms",
-            description: "",
+
+            description: "Application information about applicants and their current status",
+
             keys: [{
+
                     keyName: "action_required_by",
+
                     dataType: "string",
+
                     description: "Action that needs to be taken by an admin, assessor, or external organisation or person on an application",
+
                 },
+
                 {
+
                     keyName: "age_range_max",
+
                     dataType: "string",
-                    description: "",
+
+                    description: "Pseudonymised maximum age range that can be taught",
+
                 },
+
                 {
+
                     keyName: "age_range_min",
+
                     dataType: "string",
-                    description: "",
+
+                    description: "Pseudonymised minimum age range that can be taught",
+
                 },
+
                 {
+
                     keyName: "age_range_status",
+
                     dataType: "string",
-                    description: "",
+
+                    description: "Status of application having age range information",
+
                 },
+
                 {
+
                     keyName: "alternative_family_name",
+
                     dataType: "string",
-                    description: "",
+
+                    description: "Pseudonymised data",
+
                 },
+
                 {
+
                     keyName: "alternative_given_names",
+
                     dataType: "string",
-                    description: "",
+
+                    description: "Pseudonymised data",
+
                 },
+
                 {
+
                     keyName: "assessor_id",
+
                     dataType: "string",
-                    description: "",
+
+                    description: "ID of the staff user who is assigned to the application",
+
                 },
+
                 {
+
                     keyName: "awarded_at",
+
                     dataType: "timestamp",
+
                     description: "When a recommendation to award has been applied",
+
                 },
+
                 {
+
                     keyName: "confirmed_no_sanctions",
+
                     dataType: "boolean",
-                    description: "",
+
+                    description: "Whether the applicant has confirmed they have no sanctions",
+
                 },
+
                 {
+
                     keyName: "date_of_birth",
+
                     dataType: "string",
-                    description: "",
+
+                    description: "Pseudonymised data",
+
                 },
+
                 {
+
                     keyName: "declined_at",
+
                     dataType: "timestamp",
+
                     description: "When a recommendation to decline has been applied",
+
                 },
+
                 {
+
                     keyName: "dqt_match",
+
                     dataType: "string",
-                    description: "",
+
+                    description: "Any matches with an existing teacher recorded in DQT are stored here",
+
                 },
+
                 {
+
                     keyName: "english_language_citizenship_exempt",
+
                     dataType: "boolean",
-                    description: "",
+
+                    description: "Applicant is from one of the exempt countries. Therefore only needs to prove citizenship",
+
                 },
+
                 {
+
                     keyName: "english_language_proof_method",
+
                     dataType: "string",
-                    description: "",
+
+                    description: "Applicant was taught in English in a non exempt country. Therefore, they provide a MOI (Medium of Instruction)",
+
                 },
+
                 {
+
                     keyName: "english_language_provider_id",
+
                     dataType: "string",
-                    description: "",
+
+                    description: "English test provider ID. e.g SELT",
+
                 },
+
                 {
+
                     keyName: "english_language_provider_other",
+
                     dataType: "boolean",
-                    description: "",
+
+                    description: "Applicant uses an English test provider not from the standard list. This is typically seen and accepted for Ukraine citizenship holders",
+
                 },
+
                 {
+
                     keyName: "english_language_provider_reference",
+
                     dataType: "string",
-                    description: "",
+
+                    description: "Pseudonymised data",
+
                 },
+
                 {
+
                     keyName: "english_language_qualification_exempt",
+
                     dataType: "boolean",
-                    description: "",
+
+                    description: "Applicant is able to prove they have been taught in one of the selected exempt countries",
+
                 },
+
                 {
+
                     keyName: "english_language_status",
+
                     dataType: "string",
-                    description: "",
+
+                    description: "Status of application having English language",
+
                 },
+
                 {
+
                     keyName: "family_name",
+
                     dataType: "string",
-                    description: "",
+
+                    description: "Pseudonymised data",
+
                 },
+
                 {
+
                     keyName: "given_names",
+
                     dataType: "string",
-                    description: "",
+
+                    description: "Pseudonymised data",
+
                 },
+
                 {
+
                     keyName: "has_alternative_name",
+
                     dataType: "string",
-                    description: "",
+
+                    description: "Pseudonymised data",
+
                 },
+
                 {
+
                     keyName: "has_work_history",
+
                     dataType: "string",
-                    description: "",
+
+                    description: "Pseudonymised data",
+
                 },
+
                 {
+
                     keyName: "identification_document_status",
+
                     dataType: "string",
-                    description: "",
+
+                    description: "Identification document status",
+
                 },
+
                 {
+
                     keyName: "needs_registration_number",
+
                     dataType: "boolean",
-                    description: "",
+
+                    description: "Applicants from specific countries need to provide a number for their teaching status.",
+
                 },
+
                 {
+
                     keyName: "needs_work_history",
+
                     dataType: "boolean",
-                    description: "",
+
+                    description: "Applicants from specific countries do not need to provide work history. i.e. NI, Scotland, Ukraine",
+
                 },
+
                 {
+
                     keyName: "needs_written_statement",
+
                     dataType: "boolean",
-                    description: "",
+
+                    description: "If there isn't an online checker for competent authority, then written statment checks need to be uploaded",
+
                 },
+
                 {
+
                     keyName: "overdue_further_information",
+
                     dataType: "boolean",
-                    description: "",
-                    historic: true,
-                },
-                {
-                    keyName: "overdue_professional_standing",
-                    dataType: "boolean",
-                    description: "",
-                    historic: true,
-                },
-                {
-                    keyName: "overdue_qualification",
-                    dataType: "boolean",
-                    description: "",
-                    historic: true,
-                },
-                {
-                    keyName: "overdue_reference",
-                    dataType: "boolean",
-                    description: "",
-                    historic: true,
-                },
-                {
-                    keyName: "personal_information_status",
-                    dataType: "string",
-                    description: "",
-                },
-                {
-                    keyName: "qualification_changed_work_history_duration",
-                    dataType: "boolean",
-                    description: "If true applicant changed their qualification certificate date which meant the number of months of work history they added has changed, if false the applicant has subsequently changed their work history",
-                },
-                {
-                    keyName: "qualifications_status",
-                    dataType: "string",
-                    description: "",
-                },
-                {
-                    keyName: "received_further_information",
-                    dataType: "boolean",
-                    description: "",
-                    historic: true,
-                },
-                {
-                    keyName: "received_professional_standing",
-                    dataType: "boolean",
-                    description: "",
-                    historic: true,
-                },
-                {
-                    keyName: "received_qualification",
-                    dataType: "boolean",
-                    description: "",
-                    historic: true,
-                },
-                {
-                    keyName: "received_reference",
-                    dataType: "boolean",
-                    description: "",
-                    historic: true,
-                },
-                {
-                    keyName: "reduced_evidence_accepted",
-                    dataType: "boolean",
-                    description: "",
-                },
-                {
-                    keyName: "reference",
-                    dataType: "integer",
-                    description: "",
-                },
-                {
-                    keyName: "region_id",
-                    dataType: "string",
-                    description: "",
-                },
-                {
-                    keyName: "registration_number",
-                    dataType: "string",
-                    description: "",
-                },
-                {
-                    keyName: "registration_number_status",
-                    dataType: "string",
-                    description: "",
-                },
-                {
-                    keyName: "requires_preliminary_check",
-                    dataType: "boolean",
-                    description: "",
-                },
-                {
-                    keyName: "reviewer_id",
-                    dataType: "string",
-                    description: "",
-                },
-                {
-                    keyName: "stage",
-                    dataType: "string",
-                    description: "Lifecycle of the application journey - draft, pre_assessment, not_started, assessment, verification, review or completed",
-                },
-                {
-                    keyName: "status",
-                    dataType: "string",
-                    description: "",
-                    alias: "state",
+
+                    description: "Further information has not be supplied within the allotted time frame. Overdue FI is likely to lead to a decline.",
+
                     historic: true,
 
                 },
+
                 {
-                    keyName: "statuses",
-                    dataType: "string",
-                    description: "Status or statuses an application is in",
-                },
-                {
-                    keyName: "subjects",
-                    dataType: "string",
-                    description: "",
-                },
-                {
-                    keyName: "subjects_status",
-                    dataType: "string",
-                    description: "",
-                },
-                {
-                    keyName: "submitted_at",
-                    dataType: "timestamp",
-                    description: "",
-                },
-                {
-                    keyName: "teacher_id",
-                    dataType: "string",
-                    description: "Specific to AQTS. It is not the same as the cross-service teacher_id and cannot be used for linking teachers across services.",
-                },
-                {
-                    keyName: "teaching_authority_provides_written_statement",
+
+                    keyName: "overdue_professional_standing",
+
                     dataType: "boolean",
-                    description: "",
-                },
-                {
-                    keyName: "teaching_qualification_part_of_degree",
-                    dataType: "boolean",
-                    description: "A boolean indicating whether the teaching qualification is part of the bachelor’s degree.",
-                },
-                {
-                    keyName: "waiting_on_further_information",
-                    dataType: "boolean",
-                    description: "",
+
+                    description: "When applicant is in verification status, check is being done with competent authority to verify evidence provided and it has gone overdue (post 6wks)",
+
                     historic: true,
+
                 },
+
                 {
-                    keyName: "waiting_on_professional_standing",
+
+                    keyName: "overdue_qualification",
+
                     dataType: "boolean",
-                    description: "",
+
+                    description: "When applicant is in verification status, check is being done with Ecctis to verify qualifications provided and it has gone overdue (post 6wks)",
+
                     historic: true,
+
                 },
+
                 {
-                    keyName: "waiting_on_qualification",
+
+                    keyName: "overdue_reference",
+
                     dataType: "boolean",
-                    description: "",
+
+                    description: "When applicant is in verification status, check is being done with references provided to verify work history and it has gone overdue (post 6wks)",
+
                     historic: true,
+
                 },
+
                 {
-                    keyName: "waiting_on_reference",
-                    dataType: "boolean",
-                    description: "",
-                    historic: true,
-                },
-                {
-                    keyName: "withdrawn_at",
-                    dataType: "timestamp",
-                    description: "",
-                },
-                {
-                    keyName: "work_history_status",
+
+                    keyName: "personal_information_status",
+
                     dataType: "string",
-                    description: "",
+
+                    description: "personal information provided status",
+
                 },
+
                 {
-                    keyName: "working_days_since_submission",
+
+                    keyName: "qualification_changed_work_history_duration",
+
+                    dataType: "boolean",
+
+                    description: "If true applicant changed their qualification certificate date which meant the number of months of work history they added has changed, if false the applicant has subsequently changed their work history",
+
+                },
+
+                {
+
+                    keyName: "qualifications_status",
+
+                    dataType: "string",
+
+                    description: "Qualification provided status",
+
+                },
+
+                {
+
+                    keyName: "received_further_information",
+
+                    dataType: "boolean",
+
+                    description: "Requested further information has been received. If this goes overdue, applicant will likely be marked as decline",
+
+                    historic: true,
+
+                },
+
+                {
+
+                    keyName: "received_professional_standing",
+
+                    dataType: "boolean",
+
+                    description: "In verification status, we contact professional standing body Received professional standing checker",
+
+                    historic: true,
+
+                },
+
+                {
+
+                    keyName: "received_qualification",
+
+                    dataType: "boolean",
+
+                    description: "Received relevant qualification",
+
+                    historic: true,
+
+                },
+
+                {
+
+                    keyName: "received_reference",
+
+                    dataType: "boolean",
+
+                    description: "Received references",
+
+                    historic: true,
+
+                },
+
+                {
+
+                    keyName: "reduced_evidence_accepted",
+
+                    dataType: "boolean",
+
+                    description: "Reduced evidence accepted",
+
+                },
+
+                {
+
+                    keyName: "reference",
+
                     dataType: "integer",
-                    description: "",
+
+                    description: "Application reference Id",
+
                 },
+
                 {
-                    keyName: "written_statement_confirmation",
-                    dataType: "boolean",
-                    description: "",
-                },
-                {
-                    keyName: "written_statement_optional",
-                    dataType: "boolean",
-                    description: "",
-                },
-                {
-                    keyName: "written_statement_status",
+
+                    keyName: "region_id",
+
                     dataType: "string",
-                    description: "",
+
+                    description: "Region ID",
+
                 },
+
+                {
+
+                    keyName: "registration_number",
+
+                    dataType: "string",
+
+                    description: "Pseudonymised data",
+
+                },
+
+                {
+
+                    keyName: "registration_number_status",
+
+                    dataType: "string",
+
+                    description: "Teacher Registration number where applicable has been received",
+
+                },
+
+                {
+
+                    keyName: "requires_preliminary_check",
+
+                    dataType: "boolean",
+
+                    description: "requires preliminary check",
+
+                },
+
+                {
+
+                    keyName: "reviewer_id",
+
+                    dataType: "string",
+
+                    description: "ID of the staff user who is assigned as the reviewer",
+
+                },
+
+                {
+
+                    keyName: "stage",
+
+                    dataType: "string",
+
+                    description: "Lifecycle of the application journey - draft, pre_assessment, not_started, assessment, verification, review or completed",
+
+                },
+
+                {
+
+                    keyName: "status",
+
+                    dataType: "string",
+
+                    description: "",
+
+                    alias: "state",
+
+                    historic: true,
+
+
+
+                },
+
+                {
+
+                    keyName: "statuses",
+
+                    dataType: "string",
+
+                    description: "Status or statuses an application is in",
+
+                },
+
+                {
+
+                    keyName: "subjects",
+
+                    dataType: "string",
+
+                    description: " Pseudonymised data ",
+
+                },
+
+                {
+
+                    keyName: "subjects_status",
+
+                    dataType: "string",
+
+                    description: " Subjects submitted status ",
+
+                },
+
+                {
+
+                    keyName: "submitted_at",
+
+                    dataType: "timestamp",
+
+                    description: " Date / time application was submitted ",
+
+                },
+
+                {
+
+                    keyName: "teacher_id",
+
+                    dataType: "string",
+
+                    description: "Specific to AQTS. It is not the same as the cross-service teacher_id and cannot be used for linking teachers across services.",
+
+                },
+
+                {
+
+                    keyName: "teaching_authority_provides_written_statement",
+
+                    dataType: "boolean",
+
+                    description: " If there isn't an online checker for competent authority, then written statment checks need to be uploaded",
+
+                },
+
+                {
+
+                    keyName: "teaching_qualification_part_of_degree",
+
+                    dataType: "boolean",
+
+                    description: "A boolean indicating whether the teaching qualification is part of the bachelor’s degree. If true applicant needs to provide only 1 (combined degree or qualification).If false then the applicant needs to tell us about 2 qualifications (their teaching and their degree) ",
+
+                },
+
+                {
+
+                    keyName: "waiting_on_further_information",
+
+                    dataType: "boolean",
+
+                    description: " Requested further information is pending. If this goes overdue, applicant will likely be marked as decline ",
+
+                    historic: true,
+
+                },
+
+                {
+
+                    keyName: "waiting_on_professional_standing",
+
+                    dataType: "boolean",
+
+                    description: " We are waiting on confirmation from professional standing body regarding professional standing checker",
+
+                    historic: true,
+
+                },
+
+                {
+
+                    keyName: "waiting_on_qualification",
+
+                    dataType: "boolean",
+
+                    description: " Waiting on qualification checker",
+
+                    historic: true,
+
+                },
+
+                {
+
+                    keyName: "waiting_on_reference",
+
+                    dataType: "boolean",
+
+                    description: "Waiting on reference checker",
+
+                    historic: true,
+
+                },
+
+                {
+
+                    keyName: "withdrawn_at",
+
+                    dataType: "timestamp",
+
+                    description: " Date / time applicant has withdrawn ",
+
+                },
+
+                {
+
+                    keyName: "work_history_status",
+
+                    dataType: "string",
+
+                    description: " Working days since submission ",
+
+                },
+
+                {
+
+                    keyName: "working_days_since_submission",
+
+                    dataType: "integer",
+
+                    description: " Working days since submission",
+
+                },
+
+                {
+
+                    keyName: "written_statement_confirmation",
+
+                    dataType: "boolean",
+
+                    description: " Written statement confirmation checker",
+
+                },
+
+                {
+
+                    keyName: "written_statement_optional",
+
+                    dataType: "boolean",
+
+                    description: " Written statement optional checker",
+
+                },
+
+                {
+
+                    keyName: "written_statement_status",
+
+                    dataType: "string",
+
+                    description: " Written statement status",
+
+                },
+
             ],
+
         },
         {
             entityTableName: "assessment_sections",
