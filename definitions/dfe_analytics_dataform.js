@@ -72,8 +72,9 @@ dfeAnalyticsDataform({
             ],
         },
         {
+
             entityTableName: "application_forms",
-            description: "",
+            description: "Application information about applicants and their current status",
             keys: [{
                     keyName: "action_required_by",
                     dataType: "string",
@@ -82,32 +83,32 @@ dfeAnalyticsDataform({
                 {
                     keyName: "age_range_max",
                     dataType: "string",
-                    description: "",
+                    description: "Pseudonymised maximum age range that can be taught",
                 },
                 {
                     keyName: "age_range_min",
                     dataType: "string",
-                    description: "",
+                    description: "Pseudonymised minimum age range that can be taught",
                 },
                 {
                     keyName: "age_range_status",
                     dataType: "string",
-                    description: "",
+                    description: "Status of application having age range information",
                 },
                 {
                     keyName: "alternative_family_name",
                     dataType: "string",
-                    description: "",
+                    description: "Pseudonymised data",
                 },
                 {
                     keyName: "alternative_given_names",
                     dataType: "string",
-                    description: "",
+                    description: "Pseudonymised data",
                 },
                 {
                     keyName: "assessor_id",
                     dataType: "string",
-                    description: "",
+                    description: "ID of the staff user who is assigned to the application",
                 },
                 {
                     keyName: "awarded_at",
@@ -117,12 +118,12 @@ dfeAnalyticsDataform({
                 {
                     keyName: "confirmed_no_sanctions",
                     dataType: "boolean",
-                    description: "",
+                    description: "Whether the applicant has confirmed they have no sanctions",
                 },
                 {
                     keyName: "date_of_birth",
                     dataType: "string",
-                    description: "",
+                    description: "Pseudonymised data",
                 },
                 {
                     keyName: "declined_at",
@@ -132,111 +133,111 @@ dfeAnalyticsDataform({
                 {
                     keyName: "dqt_match",
                     dataType: "string",
-                    description: "",
+                    description: "Any matches with an existing teacher recorded in DQT are stored here",
                 },
                 {
                     keyName: "english_language_citizenship_exempt",
                     dataType: "boolean",
-                    description: "",
+                    description: "Applicant is from one of the exempt countries. Therefore only needs to prove citizenship",
                 },
                 {
                     keyName: "english_language_proof_method",
                     dataType: "string",
-                    description: "",
+                    description: "Applicant was taught in English in a non exempt country. Therefore, they provide a MOI (Medium of Instruction)",
                 },
                 {
                     keyName: "english_language_provider_id",
                     dataType: "string",
-                    description: "",
+                    description: "English test provider ID. e.g SELT",
                 },
                 {
                     keyName: "english_language_provider_other",
                     dataType: "boolean",
-                    description: "",
+                    description: "Applicant uses an English test provider not from the standard list. This is typically seen and accepted for Ukraine citizenship holders",
                 },
                 {
                     keyName: "english_language_provider_reference",
                     dataType: "string",
-                    description: "",
+                    description: "Pseudonymised data",
                 },
                 {
                     keyName: "english_language_qualification_exempt",
                     dataType: "boolean",
-                    description: "",
+                    description: "Applicant is able to prove they have been taught in one of the selected exempt countries",
                 },
                 {
                     keyName: "english_language_status",
                     dataType: "string",
-                    description: "",
+                    description: "Status of application having English language",
                 },
                 {
                     keyName: "family_name",
                     dataType: "string",
-                    description: "",
+                    description: "Pseudonymised data",
                 },
                 {
                     keyName: "given_names",
                     dataType: "string",
-                    description: "",
+                    description: "Pseudonymised data",
                 },
                 {
                     keyName: "has_alternative_name",
                     dataType: "string",
-                    description: "",
+                    description: "Pseudonymised data",
                 },
                 {
                     keyName: "has_work_history",
                     dataType: "string",
-                    description: "",
+                    description: "Pseudonymised data",
                 },
                 {
                     keyName: "identification_document_status",
                     dataType: "string",
-                    description: "",
+                    description: "Identification document status",
                 },
                 {
                     keyName: "needs_registration_number",
                     dataType: "boolean",
-                    description: "",
+                    description: "Applicants from specific countries need to provide a number for their teaching status.",
                 },
                 {
                     keyName: "needs_work_history",
                     dataType: "boolean",
-                    description: "",
+                    description: "Applicants from specific countries do not need to provide work history. i.e. NI, Scotland, Ukraine",
                 },
                 {
                     keyName: "needs_written_statement",
                     dataType: "boolean",
-                    description: "",
+                    description: "If there isn't an online checker for competent authority, then written statment checks need to be uploaded",
                 },
                 {
                     keyName: "overdue_further_information",
                     dataType: "boolean",
-                    description: "",
+                    description: "Further information has not be supplied within the allotted time frame. Overdue FI is likely to lead to a decline.",
                     historic: true,
                 },
                 {
                     keyName: "overdue_professional_standing",
                     dataType: "boolean",
-                    description: "",
+                    description: "When applicant is in verification status, check is being done with competent authority to verify evidence provided and it has gone overdue (post 6wks)",
                     historic: true,
                 },
                 {
                     keyName: "overdue_qualification",
                     dataType: "boolean",
-                    description: "",
+                    description: "When applicant is in verification status, check is being done with Ecctis to verify qualifications provided and it has gone overdue (post 6wks)",
                     historic: true,
                 },
                 {
                     keyName: "overdue_reference",
                     dataType: "boolean",
-                    description: "",
+                    description: "When applicant is in verification status, check is being done with references provided to verify work history and it has gone overdue (post 6wks)",
                     historic: true,
                 },
                 {
                     keyName: "personal_information_status",
                     dataType: "string",
-                    description: "",
+                    description: "personal information provided status",
                 },
                 {
                     keyName: "qualification_changed_work_history_duration",
@@ -246,66 +247,66 @@ dfeAnalyticsDataform({
                 {
                     keyName: "qualifications_status",
                     dataType: "string",
-                    description: "",
+                    description: "Qualification provided status",
                 },
                 {
                     keyName: "received_further_information",
                     dataType: "boolean",
-                    description: "",
+                    description: "Requested further information has been received. If this goes overdue, applicant will likely be marked as decline",
                     historic: true,
                 },
                 {
                     keyName: "received_professional_standing",
                     dataType: "boolean",
-                    description: "",
+                    description: "In verification status, we contact professional standing body Received professional standing checker",
                     historic: true,
                 },
                 {
                     keyName: "received_qualification",
                     dataType: "boolean",
-                    description: "",
+                    description: "Received relevant qualification",
                     historic: true,
                 },
                 {
                     keyName: "received_reference",
                     dataType: "boolean",
-                    description: "",
+                    description: "Received references",
                     historic: true,
                 },
                 {
                     keyName: "reduced_evidence_accepted",
                     dataType: "boolean",
-                    description: "",
+                    description: "Reduced evidence accepted",
                 },
                 {
                     keyName: "reference",
                     dataType: "integer",
-                    description: "",
+                    description: "Application reference Id",
                 },
                 {
                     keyName: "region_id",
                     dataType: "string",
-                    description: "",
+                    description: "Region ID",
                 },
                 {
                     keyName: "registration_number",
                     dataType: "string",
-                    description: "",
+                    description: "Pseudonymised data",
                 },
                 {
                     keyName: "registration_number_status",
                     dataType: "string",
-                    description: "",
+                    description: "Teacher Registration number where applicable has been received",
                 },
                 {
                     keyName: "requires_preliminary_check",
                     dataType: "boolean",
-                    description: "",
+                    description: "requires preliminary check",
                 },
                 {
                     keyName: "reviewer_id",
                     dataType: "string",
-                    description: "",
+                    description: "ID of the staff user who is assigned as the reviewer",
                 },
                 {
                     keyName: "stage",
@@ -318,7 +319,6 @@ dfeAnalyticsDataform({
                     description: "",
                     alias: "state",
                     historic: true,
-
                 },
                 {
                     keyName: "statuses",
@@ -328,17 +328,17 @@ dfeAnalyticsDataform({
                 {
                     keyName: "subjects",
                     dataType: "string",
-                    description: "",
+                    description: " Pseudonymised data ",
                 },
                 {
                     keyName: "subjects_status",
                     dataType: "string",
-                    description: "",
+                    description: " Subjects submitted status ",
                 },
                 {
                     keyName: "submitted_at",
                     dataType: "timestamp",
-                    description: "",
+                    description: " Date / time application was submitted ",
                 },
                 {
                     keyName: "teacher_id",
@@ -348,131 +348,132 @@ dfeAnalyticsDataform({
                 {
                     keyName: "teaching_authority_provides_written_statement",
                     dataType: "boolean",
-                    description: "",
+                    description: " If there isn't an online checker for competent authority, then written statment checks need to be uploaded",
                 },
                 {
                     keyName: "teaching_qualification_part_of_degree",
                     dataType: "boolean",
-                    description: "A boolean indicating whether the teaching qualification is part of the bachelor’s degree.",
+                    description: "A boolean indicating whether the teaching qualification is part of the bachelor’s degree. If true applicant needs to provide only 1 (combined degree or qualification).If false then the applicant needs to tell us about 2 qualifications (their teaching and their degree) ",
                 },
                 {
                     keyName: "waiting_on_further_information",
                     dataType: "boolean",
-                    description: "",
+                    description: " Requested further information is pending. If this goes overdue, applicant will likely be marked as decline ",
                     historic: true,
                 },
                 {
                     keyName: "waiting_on_professional_standing",
                     dataType: "boolean",
-                    description: "",
+                    description: " We are waiting on confirmation from professional standing body regarding professional standing checker",
                     historic: true,
                 },
                 {
                     keyName: "waiting_on_qualification",
                     dataType: "boolean",
-                    description: "",
+                    description: " Waiting on qualification checker",
                     historic: true,
                 },
                 {
                     keyName: "waiting_on_reference",
                     dataType: "boolean",
-                    description: "",
+                    description: "Waiting on reference checker",
                     historic: true,
                 },
                 {
                     keyName: "withdrawn_at",
                     dataType: "timestamp",
-                    description: "",
+                    description: " Date / time applicant has withdrawn ",
                 },
                 {
                     keyName: "work_history_status",
                     dataType: "string",
-                    description: "",
+                    description: " Working days since submission ",
                 },
                 {
                     keyName: "working_days_since_submission",
                     dataType: "integer",
-                    description: "",
+                    description: " Working days since submission",
                 },
                 {
                     keyName: "written_statement_confirmation",
                     dataType: "boolean",
-                    description: "",
+                    description: " Written statement confirmation checker",
                 },
                 {
                     keyName: "written_statement_optional",
                     dataType: "boolean",
-                    description: "",
+                    description: " Written statement optional checker",
                 },
                 {
                     keyName: "written_statement_status",
                     dataType: "string",
-                    description: "",
+                    description: " Written statement status",
                 },
             ],
         },
         {
             entityTableName: "assessment_sections",
-            description: "",
+            description: "Table documenting status per assessment section",
             keys: [{
                     keyName: "assessment_id",
                     dataType: "string",
-                    description: "",
+                    description: "Assessment Section ID",
                 },
                 {
                     keyName: "checks",
                     dataType: "string",
-                    description: "",
+                    description: "Checks conducted during assessment",
                 },
                 {
                     keyName: "failure_reasons",
                     dataType: "string",
-                    description: "",
+                    description: "If false, applicant did not fail. If true, reason for applicant failure",
                 },
                 {
                     keyName: "key",
                     dataType: "string",
-                    description: "",
+                    description: "What applicant was assessed on",
                 },
                 {
                     keyName: "passed",
                     dataType: "boolean",
-                    description: "",
+                    description: "If true, applicant has passed the section they are assessed on. If false, applicant has not passed selected assessed area",
                 },
                 {
                     keyName: "preliminary",
                     dataType: "boolean",
-                    description: "",
+                    description: "f true, preliminary section to be assessed. If false, non preliminary section assessed",
                 },
             ],
         },
         {
+
             entityTableName: "assessments",
-            description: "",
+            description: "Table documenting the assessment process for an applicant",
             keys: [{
                     keyName: "age_range_max",
                     dataType: "integer",
-                    description: "",
+                    description: "the assessor chooses what age range the applicant can teach after looking through their qualifications",
                 },
                 {
                     keyName: "age_range_min",
                     dataType: "integer",
-                    description: "",
+                    description: "the assessor chooses what age range the applicant can teach after looking through their qualifications",
                 },
                 {
                     keyName: "age_range_note",
                     dataType: "string",
-                    description: "",
+                    description: "Impacted child age or information on teacher accused",
                 },
                 {
                     keyName: "application_form_id",
                     dataType: "string",
-                    description: "",
+                    description: "Application form Id",
                 },
                 {
                     keyName: "induction_required",
                     dataType: "boolean",
-                    description: "",
+                    description: "If true, induction is required. If false, induction is not required",
                 },
                 {
                     keyName: "recommendation",
@@ -482,7 +483,7 @@ dfeAnalyticsDataform({
                 {
                     keyName: "recommendation_assessor_note",
                     dataType: "string",
-                    description: "",
+                    description: "Assessor reason for recommendation",
                 },
                 {
                     keyName: "recommended_at",
@@ -492,7 +493,7 @@ dfeAnalyticsDataform({
                 {
                     keyName: "references_verified",
                     dataType: "boolean",
-                    description: "",
+                    description: "If true, references are verified. If false, they are not",
                 },
                 {
                     keyName: "scotland_full_registration",
@@ -512,7 +513,7 @@ dfeAnalyticsDataform({
                 {
                     keyName: "subjects_note",
                     dataType: "string",
-                    description: "",
+                    description: " Subjects applicant has experience/qualification teaching",
                 },
                 {
                     keyName: "unsigned_consent_document_generated",
@@ -522,24 +523,25 @@ dfeAnalyticsDataform({
                 {
                     keyName: "working_days_since_started",
                     dataType: "integer",
-                    description: "",
+                    description: " Days since application was first submitted",
                 },
                 {
                     keyName: "working_days_started_to_recommendation",
                     dataType: "integer",
-                    description: "",
+                    description: " Days since recommendation assessment has started",
                 },
                 {
                     keyName: "working_days_submission_to_recommendation",
                     dataType: "integer",
-                    description: "",
+                    description: " Days between an application is submitted and a recommendation is decided ",
                 },
                 {
                     keyName: "working_days_submission_to_started",
                     dataType: "integer",
-                    description: "",
+                    description: "Days between submission started to start",
                 },
             ],
+
         },
         {
             entityTableName: "consent_requests",
