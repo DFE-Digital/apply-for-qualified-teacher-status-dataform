@@ -540,12 +540,6 @@ dfeAnalyticsDataform({
                     dataType: "integer",
                     description: "Days between submission started to start",
                 },
-                {
-                    keyName: "unsigned_consent_document_generated",
-                    dataType: "boolean",
-                    description: "If true, unsigned consent document is generated. If false, document was not generated",
-                },
-
             ],
 
         },
