@@ -1120,7 +1120,7 @@ dfeAnalyticsDataform({
                 {
                     keyName: "consent_method",
                     dataType: "string",
-                    description: "indicates whether a request for signed consent is required for qualification request. Unknown is the default before an assessor has chosen consent method; unsigned indicates signed consent is not required, signed_ecctis indicates signed consent is required and consent document is from Ecctis; signed_institution indicates signed consent is required and signed consent is from the institution.",
+                    description: "Indicates whether a request for signed consent is required for qualification request. Unknown is the default before an assessor has chosen consent method; unsigned indicates signed consent is not required, signed_ecctis indicates signed consent is required and consent document is from Ecctis; signed_institution indicates signed consent is required and signed consent is from the institution; none indicates no consent is required.",
                 },
                 {
                     keyName: "signed_consent_document_required",
