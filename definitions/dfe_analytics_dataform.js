@@ -1715,6 +1715,11 @@ dfeAnalyticsDataform({
                     description: "",
                 },
                 {
+                    keyName: "email_domain",
+                    dataType: "string",
+                    description: "The domain part of the email address (right side of the @).",
+                },
+                {
                     keyName: "last_sign_in_at",
                     dataType: "timestamp",
                     description: "",
@@ -1930,6 +1935,11 @@ dfeAnalyticsDataform({
                     keyName: "contact_email",
                     dataType: "string",
                     description: "",
+                },
+                {
+                    keyName: "contact_email_domain",
+                    dataType: "string",
+                    description: "The domain part of the contact email address (right side of the @).",
                 },
                 {
                     keyName: "contact_job",
