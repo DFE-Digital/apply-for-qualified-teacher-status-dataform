@@ -1550,6 +1550,11 @@ dfeAnalyticsDataform({
                     description: "",
                 },
                 {
+                    keyName: "change_email_permission",
+                    dataType: "boolean",
+                    description: "Whether the user has permission to change the application email address.",
+                },
+                {
                     keyName: "change_name_permission",
                     dataType: "boolean",
                     description: "",
