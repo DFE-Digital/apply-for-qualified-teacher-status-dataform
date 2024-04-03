@@ -1098,11 +1098,6 @@ dfeAnalyticsDataform({
                     description: "",
                 },
                 {
-                    keyName: "location_note",
-                    dataType: "string",
-                    description: "",
-                },
-                {
                     keyName: "received_at",
                     dataType: "timestamp",
                     description: "",
