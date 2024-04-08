@@ -1087,11 +1087,6 @@ dfeAnalyticsDataform({
                     pastKeyNames: ['failure_assessor_note']
                 },
                 {
-                    keyName: "location_note",
-                    dataType: "string",
-                    description: "",
-                },
-                {
                     keyName: "review_passed",
                     dataType: "boolean",
                     description: "",
@@ -1553,6 +1548,11 @@ dfeAnalyticsDataform({
                     keyName: "change_email_permission ",
                     dataType: "boolean",
                     description: "",
+                },
+                {
+                    keyName: "change_email_permission",
+                    dataType: "boolean",
+                    description: "Whether the user has permission to change the application email address.",
                 },
                 {
                     keyName: "change_name_permission",
