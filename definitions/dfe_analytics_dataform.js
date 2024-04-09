@@ -1544,11 +1544,7 @@ dfeAnalyticsDataform({
                     dataType: "string",
                     description: "",
                 },
-                       {
-                    keyName: "change_email_permission ",
-                    dataType: "boolean",
-                    description: "",
-                },
+                
                 {
                     keyName: "change_email_permission",
                     dataType: "boolean",
