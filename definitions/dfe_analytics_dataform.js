@@ -702,11 +702,6 @@ dfeAnalyticsDataform({
                     description: "",
                 },
                 {
-                    keyName: "completed",
-                    dataType: "boolean",
-                    description: "",
-                },
-                {
                     keyName: "document_type",
                     dataType: "string",
                     description: "",
