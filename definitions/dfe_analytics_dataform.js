@@ -1898,8 +1898,8 @@ dfeAnalyticsDataform({
                     description: "",
                 },
                 {
-                    keyName: "migrated_to_aks",
-                    dataType: "boolean",
+                    keyName: "filename",
+                    dataType: "string",
                     description: "",
                 },
                 {
