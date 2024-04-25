@@ -326,6 +326,11 @@ dfeAnalyticsDataform({
                     description: "Status or statuses an application is in",
                 },
                 {
+                    keyName: "subject_limited",
+                    dataType: "boolean",
+                    description: "Whether this application is subject to restricted subjects criteria",
+                },
+                {
                     keyName: "subjects",
                     dataType: "string",
                     description: " Pseudonymised data ",
