@@ -1863,6 +1863,11 @@ dfeAnalyticsDataform({
                     description: "",
                 },
                 {
+                    keyName: "qualification_id",
+                    dataType: "string",
+                    description: "Reference to the associated qualification for this timeline event, if there is one.",
+                },
+                {
                     keyName: "requestable_id",
                     dataType: "string",
                     description: "",
