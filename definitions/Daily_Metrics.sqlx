@@ -3,7 +3,7 @@ config {
     description: "Calculates metrics for each day from 18 August 2023",
     columns: {
         assessed_application_count: "Assessments completed on date",
-        available_application_count: "Combined total of new drafts created and applications submitted but not assessed on date",
+        available_application_count: "Combined total of new drafts created and applications submitted but not assessed on date ",
         fi_requested_applications_count: "Assessments completed that required further information on date",
         fi_requested_by_applications_assessed: "Assessments completed that required further information by assessments completed on date",
         generated_date: "Date generated for each day from 18 August 2023",
