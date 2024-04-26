@@ -88,9 +88,9 @@ jobs:
 
         with: 
 
-          workload_identity_provider: 'projects/712009772377/locations/global/workloadIdentityPools/github-actions-identity-pool/providers/bat-dataform-github-actions' 
+          workload_identity_provider: 'projects/385922361840/locations/global/workloadIdentityPools/afqts-github-actions/providers/bat-dataform-github-actions' 
 
-          service_account: 'bat-dataform-github-actions@rugged-abacus-218110.iam.gserviceaccount.com' 
+          service_account: 'andrewpetrie1-github-actions@rugged-abacus-218110.iam.gserviceaccount.com' 
 
           create_credentials_file: true 
 
