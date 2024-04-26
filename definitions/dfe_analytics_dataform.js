@@ -449,6 +449,11 @@ dfeAnalyticsDataform({
                     dataType: "boolean",
                     description: "f true, preliminary section to be assessed. If false, non preliminary section assessed",
                 },
+                {
+                    keyName: "assessed_at",
+                    dataType: "timestamp",
+                    description: "When the section was last assessed",
+                },
             ],
         },
         {
