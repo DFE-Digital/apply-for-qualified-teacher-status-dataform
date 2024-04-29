@@ -21,7 +21,7 @@
 
 
 name: CI 
- on: 
+on: 
   push: 
     branches: 
       - main 
