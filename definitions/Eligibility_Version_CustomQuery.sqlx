@@ -1,10 +1,11 @@
 config {
-  type: "table",
-  description: "Eligibility checks version table that includes only create entity events",
+    type: "table",
+    description: "Eligibility checks version table that includes only create entity events",
 }
+
 SELECT
- *
+  *
 FROM
   ${ref("eligibility_checks_version_afqts")}
-where country_code is not null 
-
+WHERE
+  country_code IS NOT NULL
