@@ -1,0 +1,23 @@
+name: CI 
+on: 
+  pull_request: 
+    branches: 
+      - master 
+    types: [opened, reopened, synchronize, labeled] 
+concurrency: 
+  group: dataform_${{ github.ref }} 
+  cancel-in-progress: true 
+jobs: 
+  test_code_compiles: 
+    runs-on: ubuntu-latest 
+    steps: 
+      - name: Checkout code into workspace directory 
+        uses: actions/checkout@v4 
+      - name: Install project dependencies 
+        uses: docker://dataformco/dataform:latest 
+        with: 
+          args: install 
+      - name: Test that code compiles 
+        uses: docker://dataformco/dataform:latest 
+        with: 
+          args: compile 
