@@ -1,18 +1,16 @@
 config {
-  type: "table",
-  description: "Region and country table joined",
-  columns: {
-    country_id: "UID for this country",
-    name: "region name",
-    code: "country code",
-    region_id: "region UID",
-  }
+    type: "table",
+    description: "Region and country table joined",
+    columns: {
+        country_id: "UID for this country",
+        name: "region name",
+        code: "country code",
+        region_id: "region UID",
+    }
 }
 
 SELECT
-  *
-except(
-    id,
+  * EXCEPT( id,
     created_at,
     updated_at,
     teaching_authority_address,
@@ -29,16 +27,17 @@ except(
     legacy,
     string_field_0,
     string_field_1,
-    string_field_2
-
-  ),
+    string_field_2 ),
   tableA.id AS region_id,
   string_field_1 AS country_name,
   string_field_2 AS country_route
- 
-
-
 FROM
   ${ref("regions_latest_afqts")} AS tableA
-  INNER JOIN ${ref("countries_latest_afqts")} AS tableB ON tableA.country_id = tableB.id
-  INNER JOIN `apply-for-qts-in-england.dataform_production.country_reference_code` AS tableC ON tableB.code = tableC.string_field_0
+INNER JOIN
+  ${ref("countries_latest_afqts")} AS tableB
+ON
+  tableA.country_id = tableB.id
+INNER JOIN
+  `apply-for-qts-in-england.dataform_production.country_reference_code` AS tableC
+ON
+  tableB.code = tableC.string_field_0
