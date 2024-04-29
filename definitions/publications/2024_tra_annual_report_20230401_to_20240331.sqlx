@@ -1,0 +1,172 @@
+config {
+    type: "view",
+    description: "This is a view AQTS data for the 2024 TRA annual report - 01/04/23 TO 31/03/24. Created in Dataform to provide version control"
+}
+
+  /* Data is limited to applications submitted and assessed BETWEEN '2023-04-01'AND '2024-03-31' */
+  /* There are duplicate application_forms and assessments in BigQuery. The CTEs unique_application_forms and unique_assessments remove those.*/
+WITH
+  unique_application_forms AS (
+  SELECT
+    DISTINCT country_name,
+    id AS application_forms_id,
+    declined_at,
+    awarded_at,
+    withdrawn_at,
+    submitted_at
+  FROM
+    ${ref("application_forms_latest_afqts")} AS application_forms
+  JOIN
+    ${ref("joinGeoData")} AS joingeodata
+  ON
+    application_forms.region_id = joingeoData.region_id
+  WHERE
+    DATE(submitted_at) BETWEEN '2023-04-01'AND '2024-03-31'),
+  unique_assessments AS (
+  SELECT
+    DISTINCT application_form_id,
+    induction_required,
+    subjects AS assessments_subject
+  FROM
+    ${ref("assessments_latest_afqts")} AS assessments ),
+  /* This CTE uses the now cleaned up data for calcuations */
+  applications_submitted_in_period AS (
+  SELECT
+    DISTINCT country_name,
+    unique_application_forms.application_forms_id,
+    declined_at,
+    awarded_at,
+    withdrawn_at,
+    submitted_at,
+    induction_required,
+    assessments_subject
+  FROM
+    unique_application_forms
+  JOIN
+    unique_assessments
+  ON
+    unique_assessments.application_form_id = unique_application_forms.application_forms_id ),
+  /* The assessed_in_period CTE uses the applications_submitted_in_period CTE data to count the awards,declines,withdrawals and not assessed in the period. */
+  assessed_in_period AS (
+  SELECT
+    country_name,
+    COUNT(submitted_at) AS applications,
+    COUNT(
+      CASE
+        WHEN DATE(awarded_at) BETWEEN '2023-04-01'AND '2024-03-31' THEN application_forms_id
+    END
+      ) AS awarded,
+    COUNT(
+      CASE
+        WHEN DATE(declined_at) BETWEEN '2023-04-01'AND '2024-03-31' THEN application_forms_id
+    END
+      ) AS declined,
+    COUNT(
+      CASE
+        WHEN DATE(withdrawn_at) BETWEEN '2023-04-01'AND '2024-03-31' THEN application_forms_id
+    END
+      ) AS withdrawn,
+    COUNT(
+      CASE
+      /* count any applications that have not been assessed or were assessed after the date range */
+        WHEN ((DATE(awarded_at)> '2024-03-31' OR DATE(declined_at) > '2024-03-31' OR DATE(withdrawn_at) > '2024-03-31' ) ) OR (awarded_at IS NULL AND declined_at IS NULL AND withdrawn_at IS NULL) THEN application_forms_id
+    END
+      ) AS awaiting_decision,
+    COUNT(
+      CASE
+        WHEN induction_required = TRUE AND DATE(awarded_at) BETWEEN '2023-04-01'AND '2024-03-31' THEN application_forms_id
+    END
+      ) AS induction_required
+  FROM
+    applications_submitted_in_period
+  GROUP BY
+    country_name),
+  /* For applcations awarded, subject_combination_counts CTE counts the various subject combinations per country*/
+  subject_combination_counts AS (
+  SELECT
+    country_name,
+    assessments_subject,
+    COUNT(*) AS subject_count
+  FROM
+    applications_submitted_in_period
+  WHERE
+    DATE(awarded_at) BETWEEN '2023-04-01'AND '2024-03-31'
+  GROUP BY
+    country_name,
+    assessments_subject),
+  /* This is the list OF subjects classified as EBacc subjects or not Ebacc subjects. https://github.com/DFE-Digital/apply-for-qualified-teacher-status/blob/4e1b2f7fbdc824c6cd6c2740f6cec5a559a6c266/app/lib/dqt/subject.rb#L14-L87
+  Strictly there is no need for both lists but they have been included to show that subjects have been definitatively included and not missed off. */
+  subject_combinations_ebacc_check AS (
+  SELECT
+    subject_combination_counts.*,
+    CASE
+      WHEN ( SELECT COUNT(*) FROM UNNEST(SPLIT(subject_combination_counts.assessments_subject, ',')) AS subject WHERE subject IN ( 'applied_biology', 'ancient_hebrew', 'applied_chemistry', 'applied_physics', 'arabic_languages', 'biology', 'chinese_languages', 'computer_science', 'english_studies', 'environmental_sciences', 'french_language', 'general_sciences', 'geography', 'german_language', 'history', 'italian_language', 'latin_language', 'materials_science', 'mathematics', 'portuguese_language', 'spanish_language', 'statistics', 'modern_languages', 'russian_languages', 'physics', 'chemistry' ) ) > 0 THEN TRUE
+    ELSE
+    FALSE
+  END
+    AS ebacc_subject,
+    CASE
+      WHEN ( SELECT COUNT(*) FROM UNNEST(SPLIT(subject_combination_counts.assessments_subject, ',')) AS subject WHERE subject IN ( 'applied_computing', 'art_and_design', 'business_management', 'business_studies', 'child_development', 'citizenship', 'classical_greek_studies', 'classical_studies', 'construction_and_the_built_environment', 'dance', 'design', 'design_and_technology', 'drama', 'early_years_teaching', 'economics', 'food_and_beverage_studies', 'general_or_integrated_engineering', 'graphic_design', 'hair_and_beauty_sciences', 'health_and_social_care', 'health_studies', 'historical_linguistics', 'hospitality', 'information_technology', 'law', 'manufacturing_engineering', 'media_and_communication_studies', 'music_education_and_teaching', 'performing_arts', 'philosophy', 'physical_education', 'primary_teaching', 'product_design', 'production_and_manufacturing_engineering', 'psychology', 'public_services', 'recreation_and_leisure_studies', 'religious_studies', 'retail_management', 'specialist_teaching_primary_with_mathematics', 'social_sciences', 'sport_and_exercise_sciences', 'sports_management', 'textiles_technology', 'travel_and_tourism', 'uk_government_parliamentary_studies', 'welsh_language' ) ) > 0 THEN TRUE
+    ELSE
+    FALSE
+  END
+    AS non_ebacc_subject,
+    CASE
+      WHEN REGEXP_CONTAINS(assessments_subject, r'.*,.*') THEN TRUE
+    ELSE
+    FALSE
+  END
+    AS multiple_subjects
+  FROM
+    subject_combination_counts ),
+  /* This CTE sums the subject categories by country */
+  subject_categories_by_country AS (
+  SELECT
+    country_name,
+    SUM(CASE
+        WHEN (ebacc_subject AND NOT multiple_subjects) THEN subject_count
+      ELSE
+      0
+    END
+      ) AS awardees_with_only_ebacc_subject_or_subjects,
+    SUM(CASE
+        WHEN ebacc_subject AND multiple_subjects THEN subject_count
+      ELSE
+      0
+    END
+      ) AS awardees_with_a_mix_of_subjects_at_least_one_is_ebacc,
+    SUM(CASE
+        WHEN NOT ebacc_subject THEN subject_count
+      ELSE
+      0
+    END
+      ) AS awardees_with_no_ebacc_subjects
+  FROM
+    subject_combinations_ebacc_check
+  GROUP BY
+    country_name)
+    /* Final outputs by country */
+SELECT
+  assessed_in_period.country_name,
+  /*  applicants,*/
+  applications,
+  (awarded + declined + withdrawn) AS assessed,
+  awarded,
+  declined,
+  withdrawn,
+  awaiting_decision,
+  COALESCE(awardees_with_only_ebacc_subject_or_subjects, 0) AS awardees_with_only_ebacc_subject_or_subjects,
+  COALESCE(awardees_with_no_ebacc_subjects, 0) AS awardees_with_no_ebacc_subjects,
+  COALESCE(awardees_with_a_mix_of_subjects_at_least_one_is_ebacc, 0) AS awardees_with_a_mix_of_subjects_at_least_one_is_ebacc,
+  induction_required,
+  SAFE_CAST( ROUND(
+    IF
+      (awarded = 0, 0, (induction_required / awarded * 100)), 0 ) AS INT64 ) AS percent_induction_required
+FROM
+  assessed_in_period
+LEFT JOIN
+  subject_categories_by_country
+ON
+  assessed_in_period.country_name = subject_categories_by_country.country_name
+ORDER BY
+  country_name

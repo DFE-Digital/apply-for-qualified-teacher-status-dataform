@@ -449,6 +449,11 @@ dfeAnalyticsDataform({
                     dataType: "boolean",
                     description: "f true, preliminary section to be assessed. If false, non preliminary section assessed",
                 },
+                {
+                    keyName: "assessed_at",
+                    dataType: "timestamp",
+                    description: "When the section was last assessed",
+                },
             ],
         },
         {
@@ -1861,6 +1866,11 @@ dfeAnalyticsDataform({
                     keyName: "old_value",
                     dataType: "string",
                     description: "",
+                },
+                {
+                    keyName: "qualification_id",
+                    dataType: "string",
+                    description: "Reference to the associated qualification for this timeline event, if there is one.",
                 },
                 {
                     keyName: "requestable_id",
