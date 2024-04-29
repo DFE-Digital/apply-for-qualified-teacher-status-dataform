@@ -1,12 +1,16 @@
 config {
-  type: "table"
+    type: "table"
 }
 
 SELECT
-  *
-EXCEPT
-  (region_id, name, code, country_id),
+  * EXCEPT (region_id,
+    name,
+    code,
+    country_id),
   tableB.name AS region,
 FROM
   ${ref("eligibility_checks_latest_afqts")} AS tableA
-  LEFT JOIN ${ref("joinGeoData")} AS tableB ON tableA.region_id = tableB.region_id
+LEFT JOIN
+  ${ref("joinGeoData")} AS tableB
+ON
+  tableA.region_id = tableB.region_id
