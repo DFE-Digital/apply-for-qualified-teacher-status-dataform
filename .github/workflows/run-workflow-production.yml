@@ -1,0 +1,78 @@
+# This action relies on authenticating the Dataform Command Line Interface (CLI) within Github Actions to use a service account for the relevant GCP project 
+# to run queries in BigQuery. It does this via Workload Identity Federation and GCP Application Default Credentials. This means that this action requests a 
+# JSON key from the Github identity provider to prove that it really is this Github repository. This key lasts only while this action is running. 
+# Instructions to set this up are below. 
+# 1. Create a GCP service account called something like your-repo-name-github-actions@rugged-abacus-218110.iam.gserviceaccount.com 
+# 2. Give the service account the following GCP IAM roles: BigQuery Basic Custom, Data Editor, Data Viewer, Job User, Resource Viewer, Workload Identity User 
+# 3. From the Workload Identity Federation screen in GCP click 'Create Pool' to create a Workflow Identity Provider and Pool. 
+#    Give the pool the ID 'github-actions-identity-pool', the provider the ID 'bat-dataform-github-actions' (or similar), 
+#    do not upload a JWK file, set audience to Default, ensure Enabled provider is switched on, set the Issuer URL to 
+#    https://token.actions.githubusercontent.com and map the following attributes between Google and 
+#    the OIDC provider: attribute.repository_owner to assertion.repository_owner, attribute.aud to assertion.aud, attribute.actor to assertion.actor, 
+#    google.subject to assertion.sub and attribute.repository to assertion.respository. 
+# 4. Click 'Grant access' and give access to the service account you created in (1) when the 'repository' attribute is equal to something 
+#    like 'DfE-Digital/bat-dataform' (replace this with the organisation and repo name of your Github repo). 
+# 5. Create a file in this Github repo at the top level called .df-credentials.json. Put a JSON like 
+#    {"projectId": "rugged-abacus-218110", "location": "europe-west2"} inside it, replacing this projectId with your GCP project name. 
+# 6. Edit the 'Authenticate to Google Cloud' step below such that service_account is the one you created in (1), and to change parts of 
+#     workload_identity_provider: replace 712009772377 with your GCP project ID (an integer), github-actions-identity-pool with the ID of 
+#     your identity pool (if it's different) and bat-dataform-github-actions with the ID of your identity provider. 
+# 7. Commit and merge to your main/master branch. 
+
+
+name: CI 
+ on: 
+  push: 
+    branches: 
+      - master 
+concurrency: 
+  group: dataform_${{ github.ref }} 
+  cancel-in-progress: true 
+jobs: 
+  run_production_data_pipeline: 
+    runs-on: ubuntu-latest 
+    permissions: 
+      id-token: write # This is required for requesting the JWT from Github's token provider 
+      contents: read  # This is required for actions/checkout 
+    steps: 
+      - name: Checkout code into workspace directory 
+        uses: actions/checkout@v4 
+      - id: 'auth' 
+        name: 'Authenticate to Google Cloud' 
+        uses: 'google-github-actions/auth@v2' 
+        with: 
+          workload_identity_provider: 'projects/385922361840/locations/global/workloadIdentityPools/github-actions-identity-pool/providers/afqts-github-actions' 
+          service_account: 'apply-for-qualified-teacher-st@apply-for-qts-in-england.iam.gserviceaccount.com' 
+          create_credentials_file: true 
+      - name: Get a string listing all changed .sqlx files (including path) separated by commas 
+        id: changed-sqlx-files 
+        uses: tj-actions/changed-files@v40 
+        with: 
+          files: | 
+            **.sqlx 
+          separator: "," 
+          dir_names_max_depth: '0' 
+      - name: Convert list of changed files to --actions arguments to pass to dataform run 
+        id: actions-to-run 
+        run: echo 'CHANGED_ACTIONS=${{ steps.changed-sqlx-files.outputs.all_changed_files }}' | sed -E 's/([,=])[^,]*\//\1/g' | sed -E 's/.sqlx//g' | sed -E 's/,/ --actions /g' >> "$GITHUB_OUTPUT" 
+      - name: Get all changed .js and .json files 
+        id: changed-js-files 
+        uses: tj-actions/changed-files@v40 
+        with: 
+          files: | 
+            **.js 
+            **.json 
+      - name: Install project dependencies 
+        uses: docker://dataformco/dataform:latest 
+        with: 
+          args: install 
+      - name: Execute dataform run on the whole pipeline if any .js files have changed 
+        if: steps.changed-js-files.outputs.any_changed == 'true' 
+        uses: docker://dataformco/dataform:latest 
+        with: 
+          args: run 
+      - name: Execute dataform run only on changed parts of the pipeline and their dependents if .sqlx files have changed but no .js files have changed 
+        if: steps.changed-js-files.outputs.any_changed == 'false' && steps.changed-sqlx-files.outputs.any_changed == 'true' 
+        uses: docker://dataformco/dataform:latest 
+        with: 
+          args: run --include-dependents --actions ${{ steps.actions-to-run.outputs.CHANGED_ACTIONS }} 
