@@ -655,7 +655,7 @@ dfeAnalyticsDataform({
                     alias: "countries_status_information",
                 },
                 {
-                    keyName: "qualifications_information",
+                    keyName: "teaching_qualification_information",
                     dataType: "string",
                     description: "",
                     alias: "countries_qualifications_information",
@@ -1385,7 +1385,7 @@ dfeAnalyticsDataform({
                     alias: "regions_other_information",
                 },
                 {
-                    keyName: "qualifications_information",
+                    keyName: "teaching_qualification_information",
                     dataType: "string",
                     description: "",
                     alias: "regions_qualifications_information",
