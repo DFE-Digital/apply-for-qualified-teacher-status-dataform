@@ -843,6 +843,27 @@ dfeAnalyticsDataform({
             ],
         },
         {
+            entityTableName: "mail_delivery_failures",
+            description: "Table documenting email delivery failure",
+            keys: [
+                {
+                    keyName: "email_address",
+                    dataType: "string",
+                    description: "Email address to which the email was sent",
+                },
+                {
+                    keyName: "mailer_action_method",
+                    dataType: "string",
+                    description: "The method in the mailer class that was used to send the email",
+                },
+                {
+                    keyName: "mailer_class",
+                    dataType: "string",
+                    description: "The class responsible for sending the email",
+                },
+            ],
+        },
+        {
             entityTableName: "notes",
             description: "",
             keys: [
