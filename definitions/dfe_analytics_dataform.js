@@ -1316,11 +1316,6 @@ dfeAnalyticsDataform({
                     description: "",
                 },
                 {
-                    keyName: "azure_ad_uid",
-                    dataType: "string",
-                    description: "",
-                },
-                {
                     keyName: "change_email_permission",
                     dataType: "boolean",
                     description: "Whether the user has permission to change the application email address.",
