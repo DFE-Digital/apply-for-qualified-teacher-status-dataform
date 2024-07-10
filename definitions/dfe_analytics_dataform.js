@@ -6,76 +6,12 @@ dfeAnalyticsDataform({
     bqDatasetName: "events_production",
     bqEventsTableName: "events",
     urlRegex: "apply-for-qts-in-england.education.gov.uk",
-    dataSchema: [{
-            entityTableName: "active_storage_attachments",
-            description: "",
-            keys: [{
-                    keyName: "blob_id",
-                    dataType: "string",
-                    description: "",
-                },
-                {
-                    keyName: "name",
-                    dataType: "string",
-                    description: "",
-                },
-                {
-                    keyName: "record_id",
-                    dataType: "string",
-                    description: "",
-                },
-                {
-                    keyName: "record_type",
-                    dataType: "string",
-                    description: "",
-                },
-            ],
-        },
+    dataSchema: [
         {
-            entityTableName: "active_storage_blobs",
-            description: "",
-            keys: [{
-                    keyName: "byte_size",
-                    dataType: "integer",
-                    description: "",
-                },
-                {
-                    keyName: "checksum",
-                    dataType: "string",
-                    description: "",
-                },
-                {
-                    keyName: "content_type",
-                    dataType: "string",
-                    description: "",
-                },
-                {
-                    keyName: "filename",
-                    dataType: "string",
-                    description: "",
-                },
-                {
-                    keyName: "key",
-                    dataType: "string",
-                    description: "",
-                },
-                {
-                    keyName: "metadata",
-                    dataType: "string",
-                    description: "",
-                },
-                {
-                    keyName: "service_name",
-                    dataType: "string",
-                    description: "",
-                },
-            ],
-        },
-        {
-
             entityTableName: "application_forms",
             description: "Application information about applicants and their current status",
-            keys: [{
+            keys: [
+                {
                     keyName: "action_required_by",
                     dataType: "string",
                     description: "Action that needs to be taken by an admin, assessor, or external organisation or person on an application",
@@ -419,7 +355,8 @@ dfeAnalyticsDataform({
         {
             entityTableName: "assessment_sections",
             description: "Table documenting status per assessment section",
-            keys: [{
+            keys: [
+                {
                     keyName: "assessment_id",
                     dataType: "string",
                     description: "Assessment Section ID",
@@ -460,7 +397,8 @@ dfeAnalyticsDataform({
 
             entityTableName: "assessments",
             description: "Table documenting the assessment process for an applicant",
-            keys: [{
+            keys: [
+                {
                     keyName: "age_range_max",
                     dataType: "integer",
                     description: "the assessor chooses what age range the applicant can teach after looking through their qualifications",
@@ -469,11 +407,6 @@ dfeAnalyticsDataform({
                     keyName: "age_range_min",
                     dataType: "integer",
                     description: "the assessor chooses what age range the applicant can teach after looking through their qualifications",
-                },
-                {
-                    keyName: "age_range_note",
-                    dataType: "string",
-                    description: "Impacted child age or information on teacher accused",
                 },
                 {
                     keyName: "application_form_id",
@@ -489,11 +422,6 @@ dfeAnalyticsDataform({
                     keyName: "recommendation",
                     dataType: "string",
                     description: "category of recommendation. Value of 'unknown' is applied when an auto decline has been triggered, e.g. LOPS overdue ",
-                },
-                {
-                    keyName: "recommendation_assessor_note",
-                    dataType: "string",
-                    description: "Assessor reason for recommendation",
                 },
                 {
                     keyName: "recommended_at",
@@ -521,11 +449,6 @@ dfeAnalyticsDataform({
                     description: "",
                 },
                 {
-                    keyName: "subjects_note",
-                    dataType: "string",
-                    description: " Subjects applicant has experience/qualification teaching",
-                },
-                {
                     keyName: "unsigned_consent_document_generated",
                     dataType: "boolean",
                     description: "indicates the assessor has generated the unsigned consent document ready to be sent to the applicant",
@@ -551,12 +474,12 @@ dfeAnalyticsDataform({
                     description: "Days between submission started to start",
                 },
             ],
-
         },
         {
             entityTableName: "consent_requests",
             description: "",
-            keys: [{
+            keys: [
+                {
                     keyName: "assessment_id",
                     dataType: "string",
                     description: "ID of the assessment that the consent request belongs to.",
@@ -587,11 +510,6 @@ dfeAnalyticsDataform({
                     description: "",
                 },
                 {
-                    keyName: "review_note",
-                    dataType: "string",
-                    description: "",
-                },
-                {
                     keyName: "review_passed",
                     dataType: "string",
                     description: "",
@@ -607,11 +525,6 @@ dfeAnalyticsDataform({
                     description: "",
                 },
                 {
-                    keyName: "verify_note",
-                    dataType: "string",
-                    description: "",
-                },
-                {
                     keyName: "verify_passed",
                     dataType: "string",
                     description: "",
@@ -621,7 +534,8 @@ dfeAnalyticsDataform({
         {
             entityTableName: "countries",
             description: "",
-            keys: [{
+            keys: [
+                {
                     keyName: "code",
                     dataType: "string",
                     description: "",
@@ -635,30 +549,6 @@ dfeAnalyticsDataform({
                     keyName: "eligibility_skip_questions",
                     dataType: "boolean",
                     description: "",
-                },
-                {
-                    keyName: "other_information",
-                    dataType: "string",
-                    description: "",
-                    alias: "countries_other_information",
-                },
-                {
-                    keyName: "sanction_information",
-                    dataType: "string",
-                    description: "",
-                    alias: "countries_sanction_information",
-                },
-                {
-                    keyName: "status_information",
-                    dataType: "string",
-                    description: "",
-                    alias: "countries_status_information",
-                },
-                {
-                    keyName: "teaching_qualification_information",
-                    dataType: "string",
-                    description: "",
-                    alias: "countries_qualifications_information",
                 },
                 {
                     keyName: "subject_limited",
@@ -706,7 +596,8 @@ dfeAnalyticsDataform({
         {
             entityTableName: "documents",
             description: "",
-            keys: [{
+            keys: [
+                {
                     keyName: "available",
                     dataType: "boolean",
                     description: "",
@@ -731,7 +622,8 @@ dfeAnalyticsDataform({
         {
             entityTableName: "dqt_trn_requests",
             description: "",
-            keys: [{
+            keys: [
+                {
                     keyName: "application_form_id",
                     dataType: "string",
                     description: "",
@@ -757,7 +649,8 @@ dfeAnalyticsDataform({
         {
             entityTableName: "eligibility_checks",
             description: "",
-            keys: [{
+            keys: [
+                {
                     keyName: "completed_at",
                     dataType: "timestamp",
                     description: "",
@@ -807,7 +700,8 @@ dfeAnalyticsDataform({
         {
             entityTableName: "english_language_providers",
             description: "",
-            keys: [{
+            keys: [
+                {
                     keyName: "accepted_tests",
                     dataType: "string",
                     description: "",
@@ -850,24 +744,10 @@ dfeAnalyticsDataform({
             ],
         },
         {
-            entityTableName: "feature_flags_features",
-            description: "",
-            keys: [{
-                    keyName: "active",
-                    dataType: "boolean",
-                    description: "",
-                },
-                {
-                    keyName: "name",
-                    dataType: "string",
-                    description: "",
-                },
-            ],
-        },
-        {
             entityTableName: "further_information_request_items",
             description: "",
-            keys: [{
+            keys: [
+                {
                     keyName: "contact_email",
                     dataType: "string",
                     description: "",
@@ -879,11 +759,6 @@ dfeAnalyticsDataform({
                 },
                 {
                     keyName: "contact_name",
-                    dataType: "string",
-                    description: "",
-                },
-                {
-                    keyName: "failure_reason_assessor_feedback",
                     dataType: "string",
                     description: "",
                 },
@@ -903,11 +778,6 @@ dfeAnalyticsDataform({
                     description: "",
                 },
                 {
-                    keyName: "response",
-                    dataType: "string",
-                    description: "",
-                },
-                {
                     keyName: "work_history_id",
                     dataType: "string",
                     description: "",
@@ -917,7 +787,8 @@ dfeAnalyticsDataform({
         {
             entityTableName: "further_information_requests",
             description: "",
-            keys: [{
+            keys: [
+                {
                     keyName: "assessment_id",
                     dataType: "string",
                     description: "",
@@ -926,12 +797,6 @@ dfeAnalyticsDataform({
                     keyName: "expired_at",
                     dataType: "timestamp",
                     description: "",
-                },
-                {
-                    keyName: "review_note",
-                    dataType: "string",
-                    description: "",
-                    pastKeyNames: ['failure_assessor_note'],
                 },
                 {
                     keyName: "review_passed",
@@ -978,9 +843,31 @@ dfeAnalyticsDataform({
             ],
         },
         {
+            entityTableName: "mail_delivery_failures",
+            description: "Table documenting email delivery failure",
+            keys: [
+                {
+                    keyName: "email_address",
+                    dataType: "string",
+                    description: "Email address to which the email was sent",
+                },
+                {
+                    keyName: "mailer_action_method",
+                    dataType: "string",
+                    description: "The method in the mailer class that was used to send the email",
+                },
+                {
+                    keyName: "mailer_class",
+                    dataType: "string",
+                    description: "The class responsible for sending the email",
+                },
+            ],
+        },
+        {
             entityTableName: "notes",
             description: "",
-            keys: [{
+            keys: [
+                {
                     keyName: "application_form_id",
                     dataType: "string",
                     description: "",
@@ -990,17 +877,13 @@ dfeAnalyticsDataform({
                     dataType: "string",
                     description: "",
                 },
-                {
-                    keyName: "text",
-                    dataType: "string",
-                    description: "",
-                },
             ],
         },
         {
             entityTableName: "professional_standing_requests",
             description: "",
-            keys: [{
+            keys: [
+                {
                     keyName: "assessment_id",
                     dataType: "string",
                     description: "",
@@ -1008,17 +891,6 @@ dfeAnalyticsDataform({
                 {
                     keyName: "expired_at",
                     dataType: "timestamp",
-                    description: "",
-                },
-                {
-                    keyName: "review_note",
-                    dataType: "string",
-                    description: "",
-                    pastKeyNames: ['failure_assessor_note']
-                },
-                {
-                    keyName: "location_note",
-                    dataType: "string",
                     description: "",
                 },
                 {
@@ -1061,11 +933,6 @@ dfeAnalyticsDataform({
                     description: "",
                 },
                 {
-                    keyName: "verify_note",
-                    dataType: "string",
-                    description: "",
-                },
-                {
                     keyName: "verify_passed",
                     dataType: "boolean",
                     description: "",
@@ -1075,7 +942,8 @@ dfeAnalyticsDataform({
         {
             entityTableName: "qualification_requests",
             description: "",
-            keys: [{
+            keys: [
+                {
                     keyName: "assessment_id",
                     dataType: "string",
                     description: "",
@@ -1084,12 +952,6 @@ dfeAnalyticsDataform({
                     keyName: "expired_at",
                     dataType: "timestamp",
                     description: "",
-                },
-                {
-                    keyName: "review_note",
-                    dataType: "string",
-                    description: "",
-                    pastKeyNames: ['failure_assessor_note']
                 },
                 {
                     keyName: "review_passed",
@@ -1135,11 +997,6 @@ dfeAnalyticsDataform({
                     description: "",
                 },
                 {
-                    keyName: "verify_note",
-                    dataType: "string",
-                    description: "",
-                },
-                {
                     keyName: "verify_passed",
                     dataType: "boolean",
                     description: "",
@@ -1149,7 +1006,8 @@ dfeAnalyticsDataform({
         {
             entityTableName: "qualifications",
             description: "",
-            keys: [{
+            keys: [
+                {
                     keyName: "application_form_id",
                     dataType: "string",
                     description: "",
@@ -1195,29 +1053,15 @@ dfeAnalyticsDataform({
         {
             entityTableName: "reference_requests",
             description: "",
-            keys: [{
-                    keyName: "additional_information_response",
-                    dataType: "string",
-                    description: "",
-                },
+            keys: [
                 {
                     keyName: "assessment_id",
                     dataType: "string",
                     description: "",
                 },
                 {
-                    keyName: "children_comment",
-                    dataType: "string",
-                    description: "",
-                },
-                {
                     keyName: "children_response",
                     dataType: "boolean",
-                    description: "",
-                },
-                {
-                    keyName: "contact_comment",
-                    dataType: "string",
                     description: "",
                 },
                 {
@@ -1236,11 +1080,6 @@ dfeAnalyticsDataform({
                     description: "",
                 },
                 {
-                    keyName: "dates_comment",
-                    dataType: "string",
-                    description: "",
-                },
-                {
                     keyName: "dates_response",
                     dataType: "boolean",
                     description: "",
@@ -1251,34 +1090,13 @@ dfeAnalyticsDataform({
                     description: "",
                 },
                 {
-                    keyName: "review_note",
-                    dataType: "string",
-                    description: "",
-                    pastKeyNames: ['failure_assessor_note']
-                },
-                {
-                    keyName: "hours_comment",
-                    dataType: "string",
-                    description: "",
-                },
-                {
                     keyName: "hours_response",
                     dataType: "boolean",
                     description: "",
                 },
                 {
-                    keyName: "lessons_comment",
-                    dataType: "string",
-                    description: "",
-                },
-                {
                     keyName: "lessons_response",
                     dataType: "boolean",
-                    description: "",
-                },
-                {
-                    keyName: "misconduct_comment",
-                    dataType: "string",
                     description: "",
                 },
                 {
@@ -1298,11 +1116,6 @@ dfeAnalyticsDataform({
                     description: "",
                 },
                 {
-                    keyName: "reports_comment",
-                    dataType: "string",
-                    description: "",
-                },
-                {
                     keyName: "reports_response",
                     dataType: "boolean",
                     description: "",
@@ -1318,18 +1131,8 @@ dfeAnalyticsDataform({
                     description: "",
                 },
                 {
-                    keyName: "satisfied_comment",
-                    dataType: "string",
-                    description: "",
-                },
-                {
                     keyName: "satisfied_response",
                     dataType: "boolean",
-                    description: "",
-                },
-                {
-                    keyName: "slug",
-                    dataType: "string",
                     description: "",
                 },
                 {
@@ -1341,11 +1144,6 @@ dfeAnalyticsDataform({
                 {
                     keyName: "verified_at",
                     dataType: "timestamp",
-                    description: "",
-                },
-                {
-                    keyName: "verify_note",
-                    dataType: "string",
                     description: "",
                 },
                 {
@@ -1363,7 +1161,8 @@ dfeAnalyticsDataform({
         {
             entityTableName: "regions",
             description: "",
-            keys: [{
+            keys: [
+                {
                     keyName: "application_form_skip_work_history",
                     dataType: "boolean",
                     description: "",
@@ -1379,18 +1178,6 @@ dfeAnalyticsDataform({
                     description: "",
                 },
                 {
-                    keyName: "other_information",
-                    dataType: "string",
-                    description: "",
-                    alias: "regions_other_information",
-                },
-                {
-                    keyName: "teaching_qualification_information",
-                    dataType: "string",
-                    description: "",
-                    alias: "regions_qualifications_information",
-                },
-                {
                     keyName: "requires_preliminary_check",
                     dataType: "boolean",
                     description: "",
@@ -1403,12 +1190,6 @@ dfeAnalyticsDataform({
                     alias: "regions_reduced_evidence_accepted",
                 },
                 {
-                    keyName: "sanction_information",
-                    dataType: "string",
-                    description: "",
-                    alias: "regions_sanction_information",
-                },
-                {
                     keyName: "sanction_check",
                     dataType: "string",
                     description: "",
@@ -1417,12 +1198,6 @@ dfeAnalyticsDataform({
                     keyName: "status_check",
                     dataType: "string",
                     description: "",
-                },
-                {
-                    keyName: "status_information",
-                    dataType: "string",
-                    description: "",
-                    alias: "regions_status_information",
                 },
                 {
                     keyName: "teaching_authority_certificate",
@@ -1492,7 +1267,8 @@ dfeAnalyticsDataform({
         {
             entityTableName: "reminder_emails",
             description: "Contains reminder email data and polymorphic links to other tables",
-            keys: [{
+            keys: [
+                {
                     keyName: "remindable_id",
                     dataType: "string",
                     description: "Part of a polymorphic foreign key. Indicates the ID of the table specified in remindable_type",
@@ -1512,13 +1288,9 @@ dfeAnalyticsDataform({
         {
             entityTableName: "selected_failure_reasons",
             description: "",
-            keys: [{
-                    keyName: "assessment_section_id",
-                    dataType: "string",
-                    description: "",
-                },
+            keys: [
                 {
-                    keyName: "assessor_feedback",
+                    keyName: "assessment_section_id",
                     dataType: "string",
                     description: "",
                 },
@@ -1533,7 +1305,6 @@ dfeAnalyticsDataform({
             entityTableName: "staff",
             description: "",
             keys: [
-
                 {
                     keyName: "assess_permission",
                     dataType: "boolean",
@@ -1544,12 +1315,6 @@ dfeAnalyticsDataform({
                     dataType: "boolean",
                     description: "",
                 },
-                {
-                    keyName: "azure_ad_uid",
-                    dataType: "string",
-                    description: "",
-                },
-                
                 {
                     keyName: "change_email_permission",
                     dataType: "boolean",
@@ -1700,7 +1465,8 @@ dfeAnalyticsDataform({
         {
             entityTableName: "teachers",
             description: "",
-            keys: [{
+            keys: [
+                {
                     keyName: "canonical_email",
                     dataType: "string",
                     description: "",
@@ -1763,157 +1529,16 @@ dfeAnalyticsDataform({
             ],
         },
         {
-            entityTableName: "timeline_events",
-            description: "",
-            keys: [{
-                    keyName: "age_range_max",
-                    dataType: "integer",
-                    description: "",
-                },
-                {
-                    keyName: "age_range_min",
-                    dataType: "integer",
-                    description: "",
-                },
-                {
-                    keyName: "age_range_note",
-                    dataType: "string",
-                    description: "",
-                },
-                {
-                    keyName: "application_form_id",
-                    dataType: "string",
-                    description: "",
-                },
-                {
-                    keyName: "assessment_id",
-                    dataType: "string",
-                    description: "",
-                },
-                {
-                    keyName: "assessment_section_id",
-                    dataType: "string",
-                    description: "",
-                },
-                {
-                    keyName: "assignee_id",
-                    dataType: "string",
-                    description: "",
-                },
-                {
-                    keyName: "column_name",
-                    dataType: "string",
-                    description: "",
-                },
-                {
-                    keyName: "creator_id",
-                    dataType: "string",
-                    description: "",
-                },
-                {
-                    keyName: "creator_name",
-                    dataType: "string",
-                    description: "",
-                },
-                {
-                    keyName: "creator_type",
-                    dataType: "string",
-                    description: "",
-                },
-                {
-                    keyName: "event_type",
-                    dataType: "string",
-                    description: "",
-                    alias: "event_type_aliased",
-                },
-                {
-                    keyName: "mailer_action_name",
-                    dataType: "string",
-                    description: "",
-                },
-                {
-                    keyName: "mailer_class_name",
-                    dataType: "string",
-                    description: "",
-                },
-                {
-                    keyName: "message_subject",
-                    dataType: "string",
-                    description: "",
-                },
-                {
-                    keyName: "new_state",
-                    dataType: "string",
-                    description: "",
-                },
-                {
-                    keyName: "new_value",
-                    dataType: "string",
-                    description: "",
-                    alias: "new_value_aliased",
-                },
-                {
-                    keyName: "note_id",
-                    dataType: "string",
-                    description: "",
-                },
-                {
-                    keyName: "old_state",
-                    dataType: "string",
-                    description: "",
-                },
-                {
-                    keyName: "old_value",
-                    dataType: "string",
-                    description: "",
-                },
-                {
-                    keyName: "qualification_id",
-                    dataType: "string",
-                    description: "Reference to the associated qualification for this timeline event, if there is one.",
-                },
-                {
-                    keyName: "requestable_id",
-                    dataType: "string",
-                    description: "",
-                },
-                {
-                    keyName: "requestable_type",
-                    dataType: "string",
-                    description: "",
-                },
-                {
-                    keyName: "subjects",
-                    dataType: "string",
-                    description: "",
-                },
-                {
-                    keyName: "subjects_note",
-                    dataType: "string",
-                    description: "",
-                },
-                {
-                    keyName: "work_history_id",
-                    dataType: "string",
-                    description: "",
-                },
-            ],
-        },
-        {
             entityTableName: "uploads",
             description: "",
-            keys: [{
+            keys: [
+                {
                     keyName: "document_id",
                     dataType: "string",
                     description: "",
                 },
                 {
                     keyName: "malware_scan_result",
-                    dataType: "string",
-                    description: "",
-                },
-                {
-                    keyName: "filename",
                     dataType: "string",
                     description: "",
                 },
@@ -1927,7 +1552,8 @@ dfeAnalyticsDataform({
         {
             entityTableName: "work_histories",
             description: "",
-            keys: [{
+            keys: [
+                {
                     keyName: "application_form_id",
                     dataType: "string",
                     description: "",

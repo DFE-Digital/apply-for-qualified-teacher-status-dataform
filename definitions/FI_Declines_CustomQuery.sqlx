@@ -25,7 +25,6 @@ SELECT
   information_type,
   further_information_request_items.failure_reason_key,
   further_information_requests.expired_at AS FI_expired_at,
-  further_information_requests.review_note AS FI_review_note,
   further_information_requests.received_at AS FI_received_at,
   further_information_requests.requested_at AS FI_requested_at,
   further_information_requests.reviewed_at AS FI_reviewed_at,
