@@ -1300,8 +1300,8 @@ dfeAnalyticsDataform({
                     description: "",
                 },
                 {
-                    keyName: "key",
-                    dataType: "assessor_feedback",
+                    keyName: "assessor_feedback",
+                    dataType: "string",
                     description: "The feedback from the assessor about why this failure reason was selected.",
                 },
             ],
