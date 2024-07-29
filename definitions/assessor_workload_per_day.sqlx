@@ -51,7 +51,7 @@ SELECT
   date_actioned_at,
   count (*) AS count_of_assessments_by_action_required,
   COUNT(DISTINCT assessor_id) AS count_of_assessors_by_action_required,
-  CAST(ROUND(COUNT(*) / COUNT(DISTINCT assessor_id),0) AS INT64) AS average_assessments_per_assessor_by_action_required
+  CAST(ROUND(SAFE_DIVIDE(COUNT(*), COUNT(DISTINCT assessor_id)),0) AS INT64) AS average_assessments_per_assessor_by_action_required
 FROM
   latest_assessor_change
 GROUP BY
@@ -80,7 +80,7 @@ SELECT
   date_actioned_at,
   COUNT(DISTINCT reference) AS count_of_assessments_by_status,
   COUNT(DISTINCT assessor_id) AS count_of_assessors_by_status,
-  CAST(ROUND(COUNT(DISTINCT reference) / COUNT(DISTINCT assessor_id),0)AS int64) AS average_assessments_per_assessor_by_status
+  CAST(ROUND(SAFE_DIVIDE(COUNT(DISTINCT reference), COUNT(DISTINCT assessor_id)),0)AS int64) AS average_assessments_per_assessor_by_status
 FROM
   assessor_workload
 GROUP BY
