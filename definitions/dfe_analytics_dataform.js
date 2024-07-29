@@ -1299,6 +1299,11 @@ dfeAnalyticsDataform({
                     dataType: "string",
                     description: "",
                 },
+                {
+                    keyName: "key",
+                    dataType: "assessor_feedback",
+                    description: "The feedback from the assessor about why this failure reason was selected.",
+                },
             ],
         },
         {
