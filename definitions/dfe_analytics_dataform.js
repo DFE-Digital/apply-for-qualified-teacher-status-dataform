@@ -1454,6 +1454,7 @@ dfeAnalyticsDataform({
                     keyName: "name",
                     dataType: "string",
                     description: "",
+                    hidden: true,
                 },
                 {
                     keyName: "remember_created_at",
@@ -1548,6 +1549,11 @@ dfeAnalyticsDataform({
                     description: "",
                 },
                 {
+                    keyName: "archived_at",
+                    dataType: "timestamp",
+                    description: "",
+                },
+                {
                     keyName: "archived_by_id",
                     dataType: "string",
                     description: "",
@@ -1595,6 +1601,7 @@ dfeAnalyticsDataform({
                     keyName: "email",
                     dataType: "string",
                     description: "",
+                    hidden: true,
                 },
                 {
                     keyName: "email_domain",
