@@ -875,6 +875,7 @@ dfeAnalyticsDataform({
                     keyName: "email_address",
                     dataType: "string",
                     description: "Email address to which the email was sent",
+                    hidden: true,
                 },
                 {
                     keyName: "mailer_action_method",
@@ -1483,6 +1484,7 @@ dfeAnalyticsDataform({
                     keyName: "unconfirmed_email",
                     dataType: "string",
                     description: "",
+                    hidden: true,
                 },
                 {
                     keyName: "verify_permission",
@@ -1497,13 +1499,14 @@ dfeAnalyticsDataform({
             ],
         },
         {
-            entityTableName: "sustainability_record_emails",
+            entityTableName: "suitability_record_emails",
             description: "",
             keys: [
                 {
                     keyName: "canonical",
                     dataType: "string",
                     description: "",
+                    hidden: true,
                 },
                 {
                     keyName: "suitability_record_id",
@@ -1514,11 +1517,12 @@ dfeAnalyticsDataform({
                     keyName: "value",
                     dataType: "string",
                     description: "",
+                    hidden: true,
                 },
             ],
         },
         {
-            entityTableName: "sustainability_record_names",
+            entityTableName: "suitability_record_names",
             description: "",
             keys: [
                 {
@@ -1530,11 +1534,12 @@ dfeAnalyticsDataform({
                     keyName: "value",
                     dataType: "string",
                     description: "",
+                    hidden: true,
                 },
             ],
         },
         {
-            entityTableName: "sustainability_records",
+            entityTableName: "suitability_records",
             description: "",
             keys: [
                 {
