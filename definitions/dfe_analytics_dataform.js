@@ -6,6 +6,7 @@ dfeAnalyticsDataform({
     bqDatasetName: "events_production",
     bqEventsTableName: "events",
     urlRegex: "apply-for-qts-in-england.education.gov.uk",
+    hiddenPolicyTagLocation: "projects/apply-for-qts-in-england/locations/europe-west2/taxonomies/5456044749211275650/policyTags/2399328962407973209",
     dataSchema: [
         {
             entityTableName: "application_forms",
@@ -35,11 +36,13 @@ dfeAnalyticsDataform({
                     keyName: "alternative_family_name",
                     dataType: "string",
                     description: "Pseudonymised data",
+                    hidden: true,
                 },
                 {
                     keyName: "alternative_given_names",
                     dataType: "string",
                     description: "Pseudonymised data",
+                    hidden: true,
                 },
                 {
                     keyName: "assessor_id",
@@ -58,8 +61,9 @@ dfeAnalyticsDataform({
                 },
                 {
                     keyName: "date_of_birth",
-                    dataType: "string",
+                    dataType: "date",
                     description: "Pseudonymised data",
+                    hidden: true,
                 },
                 {
                     keyName: "declined_at",
@@ -110,11 +114,13 @@ dfeAnalyticsDataform({
                     keyName: "family_name",
                     dataType: "string",
                     description: "Pseudonymised data",
+                    hidden: true,
                 },
                 {
                     keyName: "given_names",
                     dataType: "string",
                     description: "Pseudonymised data",
+                    hidden: true,
                 },
                 {
                     keyName: "has_alternative_name",
@@ -228,6 +234,7 @@ dfeAnalyticsDataform({
                     keyName: "registration_number",
                     dataType: "string",
                     description: "Pseudonymised data",
+                    hidden: true,
                 },
                 {
                     keyName: "registration_number_status",
@@ -349,6 +356,22 @@ dfeAnalyticsDataform({
                     keyName: "written_statement_status",
                     dataType: "string",
                     description: " Written statement status",
+                },
+            ],
+        },
+        {
+            entityTableName: "application_forms_suitability_records",
+            description: "Table documenting status per assessment section",
+            keys: [
+                {
+                    keyName: "application_form_id",
+                    dataType: "string",
+                    description: "",
+                },
+                {
+                    keyName: "suitability_record_id",
+                    dataType: "string",
+                    description: "",
                 },
             ],
         },
@@ -751,6 +774,7 @@ dfeAnalyticsDataform({
                     keyName: "contact_email",
                     dataType: "string",
                     description: "",
+                    hidden: true,
                 },
                 {
                     keyName: "contact_job",
@@ -761,6 +785,7 @@ dfeAnalyticsDataform({
                     keyName: "contact_name",
                     dataType: "string",
                     description: "",
+                    hidden: true,
                 },
                 {
                     keyName: "failure_reason_key",
@@ -850,6 +875,7 @@ dfeAnalyticsDataform({
                     keyName: "email_address",
                     dataType: "string",
                     description: "Email address to which the email was sent",
+                    hidden: true,
                 },
                 {
                     keyName: "mailer_action_method",
@@ -1303,6 +1329,7 @@ dfeAnalyticsDataform({
                     keyName: "assessor_feedback",
                     dataType: "string",
                     description: "The feedback from the assessor about why this failure reason was selected.",
+                    hidden: true,
                 },
             ],
         },
@@ -1354,11 +1381,13 @@ dfeAnalyticsDataform({
                     keyName: "current_sign_in_ip",
                     dataType: "string",
                     description: "",
+                    hidden: true,
                 },
                 {
                     keyName: "email",
                     dataType: "string",
                     description: "",
+                    hidden: true,
                 },
                 {
                     keyName: "failed_attempts",
@@ -1409,6 +1438,7 @@ dfeAnalyticsDataform({
                     keyName: "last_sign_in_ip",
                     dataType: "string",
                     description: "",
+                    hidden: true,
                 },
                 {
                     keyName: "locked_at",
@@ -1424,6 +1454,7 @@ dfeAnalyticsDataform({
                     keyName: "name",
                     dataType: "string",
                     description: "",
+                    hidden: true,
                 },
                 {
                     keyName: "remember_created_at",
@@ -1454,6 +1485,7 @@ dfeAnalyticsDataform({
                     keyName: "unconfirmed_email",
                     dataType: "string",
                     description: "",
+                    hidden: true,
                 },
                 {
                     keyName: "verify_permission",
@@ -1468,6 +1500,83 @@ dfeAnalyticsDataform({
             ],
         },
         {
+            entityTableName: "suitability_record_emails",
+            description: "",
+            keys: [
+                {
+                    keyName: "canonical",
+                    dataType: "string",
+                    description: "",
+                    hidden: true,
+                },
+                {
+                    keyName: "suitability_record_id",
+                    dataType: "string",
+                    description: "",
+                },
+                {
+                    keyName: "value",
+                    dataType: "string",
+                    description: "",
+                    hidden: true,
+                },
+            ],
+        },
+        {
+            entityTableName: "suitability_record_names",
+            description: "",
+            keys: [
+                {
+                    keyName: "suitability_record_id",
+                    dataType: "string",
+                    description: "",
+                },
+                {
+                    keyName: "value",
+                    dataType: "string",
+                    description: "",
+                    hidden: true,
+                },
+            ],
+        },
+        {
+            entityTableName: "suitability_records",
+            description: "",
+            keys: [
+                {
+                    keyName: "suitability_record_id",
+                    dataType: "timestamp",
+                    description: "",
+                },
+                {
+                    keyName: "archived_at",
+                    dataType: "timestamp",
+                    description: "",
+                },
+                {
+                    keyName: "archived_by_id",
+                    dataType: "string",
+                    description: "",
+                },
+                {
+                    keyName: "country_code",
+                    dataType: "string",
+                    description: "",
+                },
+                {
+                    keyName: "created_by_id",
+                    dataType: "string",
+                    description: "",
+                },
+                {
+                    keyName: "date_of_birth",
+                    dataType: "date",
+                    description: "",
+                    hidden: true,
+                },
+            ],
+        },
+        {
             entityTableName: "teachers",
             description: "",
             keys: [
@@ -1475,6 +1584,7 @@ dfeAnalyticsDataform({
                     keyName: "canonical_email",
                     dataType: "string",
                     description: "",
+                    hidden: true,
                 },
                 {
                     keyName: "current_sign_in_at",
@@ -1485,11 +1595,13 @@ dfeAnalyticsDataform({
                     keyName: "current_sign_in_ip",
                     dataType: "string",
                     description: "",
+                    hidden: true,
                 },
                 {
                     keyName: "email",
                     dataType: "string",
                     description: "",
+                    hidden: true,
                 },
                 {
                     keyName: "email_domain",
@@ -1505,6 +1617,7 @@ dfeAnalyticsDataform({
                     keyName: "last_sign_in_ip",
                     dataType: "string",
                     description: "",
+                    hidden: true,
                 },
                 {
                     keyName: "otp_created_at",
@@ -1567,6 +1680,7 @@ dfeAnalyticsDataform({
                     keyName: "canonical_contact_email",
                     dataType: "string",
                     description: "",
+                    hidden: true,
                 },
                 {
                     keyName: "city",
@@ -1577,6 +1691,7 @@ dfeAnalyticsDataform({
                     keyName: "contact_email",
                     dataType: "string",
                     description: "",
+                    hidden: true,
                 },
                 {
                     keyName: "contact_email_domain",
@@ -1592,6 +1707,7 @@ dfeAnalyticsDataform({
                     keyName: "contact_name",
                     dataType: "string",
                     description: "",
+                    hidden: true,
                 },
                 {
                     keyName: "country_code",
