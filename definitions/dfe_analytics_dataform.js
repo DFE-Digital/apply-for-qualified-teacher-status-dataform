@@ -1595,7 +1595,7 @@ dfeAnalyticsDataform({
                     keyName: "current_sign_in_ip",
                     dataType: "string",
                     description: "",
-                    hidden: true
+                    hidden: true,
                 },
                 {
                     keyName: "email",
@@ -1617,7 +1617,7 @@ dfeAnalyticsDataform({
                     keyName: "last_sign_in_ip",
                     dataType: "string",
                     description: "",
-                    hidden: true
+                    hidden: true,
                 },
                 {
                     keyName: "otp_created_at",
