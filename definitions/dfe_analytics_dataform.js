@@ -451,6 +451,12 @@ dfeAnalyticsDataform({
                     dataType: "timestamp",
                     description: "When a decision is made to award or decline. Note that awarded_at and declined_at represent when the award/decline recxommendation is applied.",
                 },
+                                {
+                    keyName: "recommendation_assessor_note",
+                    dataType: "string",
+                    description: "",
+                    hidden: true,
+                },
                 {
                     keyName: "references_verified",
                     dataType: "boolean",
