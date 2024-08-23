@@ -1662,6 +1662,12 @@ dfeAnalyticsDataform({
                     description: "",
                 },
                 {
+                    keyName: "filename",
+                    dataType: "string",
+                    description: "",
+                    hidden: true,
+                },
+                {
                     keyName: "malware_scan_result",
                     dataType: "string",
                     description: "",
