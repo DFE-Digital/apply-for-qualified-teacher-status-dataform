@@ -79,7 +79,7 @@ WITH
   FROM
     date_range
   LEFT JOIN
-    ${ref("support_ticket_details_anonymised")}
+    `rugged-abacus-218110.zendesk_support_ticket_data.support_ticket_details_anonymised`
   ON
     date_range.generated_date = DATE(created_at)
   WHERE

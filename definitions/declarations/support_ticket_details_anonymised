@@ -1,5 +1,0 @@
-config { 
-    type: "declaration", 
-    schema: "dataform", 
-    database: "rugged-abacus-218110"
-} 
