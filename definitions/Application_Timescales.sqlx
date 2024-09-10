@@ -1,10 +1,3 @@
-config {
-    type: "table",
-    /* assertions: {
-       uniqueKey: ["reference"],
-     },*/
-}
-
 WITH
   earliest_non_draft AS(
   SELECT
@@ -30,7 +23,7 @@ WITH
   GROUP BY
     reference,
     stage ),
-  earliest_not_started AS(
+  earliest_preassessment AS(
   SELECT
     DISTINCT reference,
     stage,
@@ -42,7 +35,27 @@ WITH
   GROUP BY
     reference,
     stage ),
-  earliest_preassessment AS(
+  earliest_quick_decline AS(
+  SELECT
+    DISTINCT reference,
+    stage,
+    MIN(CAST(valid_from AS timestamp)) AS quick_declined_at,
+  FROM
+    `apply-for-qts-in-england.dataform_production.application_forms_version_afqts` af
+  LEFT JOIN
+    `apply-for-qts-in-england.dataform_production.assessments_latest_afqts` al
+  ON
+    af.id = al.application_form_id
+  LEFT JOIN
+    `apply-for-qts-in-england.dataform_production.assessment_sections_latest_afqts` asl
+  ON
+    al.id = asl.assessment_id
+  WHERE
+    stage = 'completed' and requires_preliminary_check IS TRUE AND preliminary IS TRUE AND passed IS FALSE
+  GROUP BY
+    reference,
+    stage ),
+  earliest_not_started AS(
   SELECT
     DISTINCT reference,
     stage,
@@ -174,6 +187,7 @@ WITH
     withdrawn_at,
     MIN(submission_date) AS submission_date,
     MIN(start_preassessment_date) AS start_preassessment_date,
+    MIN(quick_declined_at) as quick_declined_at,
     MIN(start_preliminary_check_date) AS start_preliminary_check_date,
     MIN(start_not_started_date) AS start_not_started_date,
     MIN(start_assessment_date) AS start_assessment_date,
@@ -193,6 +207,10 @@ WITH
     earliest_preassessment epa
   ON
     afl.reference = epa.reference
+  LEFT JOIN
+    earliest_quick_decline eqc
+  ON
+    afl.reference = eqc.reference
   LEFT JOIN
     earliest_preliminary_check epc
   ON
