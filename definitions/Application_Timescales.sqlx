@@ -270,5 +270,4 @@ SELECT
   *
 FROM
   stage_dates sd
-ORDER BY
-  1
+
