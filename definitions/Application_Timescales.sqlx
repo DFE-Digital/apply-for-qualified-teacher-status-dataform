@@ -319,6 +319,7 @@ WITH
     afl.reference,
     eac.country_name,
     submitted_at,
+    awarded_at,
     declined_at,
     withdrawn_at,
     MIN(submission_date) AS submission_date,
@@ -382,6 +383,7 @@ WITH
     afl.reference,
     eac.country_name,
     submitted_at,
+    awarded_at,
     declined_at,
     withdrawn_at)
 SELECT
