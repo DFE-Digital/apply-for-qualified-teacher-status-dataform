@@ -1,0 +1,392 @@
+config {
+    type: "table",
+    /* assertions: {
+       uniqueKey: ["reference"],
+     },*/
+}
+
+WITH
+  earliest_non_draft AS(
+  SELECT
+    DISTINCT reference,
+    crc.string_field_1 AS country_name,
+    stage,
+    MIN(CAST(valid_from AS timestamp)) AS submission_date,
+  FROM
+    `apply-for-qts-in-england.dataform_production.application_forms_version_afqts` af
+  LEFT JOIN
+    `apply-for-qts-in-england.dataform_production.regions_latest_afqts` reg
+  ON
+    af.region_id = reg.id
+  LEFT JOIN
+    `apply-for-qts-in-england.dataform_production.countries_latest_afqts` cou
+  ON
+    reg.country_id = cou.id
+  LEFT JOIN
+    `apply-for-qts-in-england.dataform_production.country_reference_code` crc
+  ON
+    cou.code = crc.string_field_0
+  WHERE
+    stage != 'draft'
+  GROUP BY
+    reference,
+    crc.string_field_1,
+    stage ),
+  earliest_preliminary_check AS(
+  SELECT
+    DISTINCT reference,
+    crc.string_field_1 AS country_name,
+    stage,
+    MIN(CAST(valid_from AS timestamp)) AS start_preliminary_check_date,
+  FROM
+    `apply-for-qts-in-england.dataform_production.application_forms_version_afqts` af
+  LEFT JOIN
+    `apply-for-qts-in-england.dataform_production.regions_latest_afqts` reg
+  ON
+    af.region_id = reg.id
+  LEFT JOIN
+    `apply-for-qts-in-england.dataform_production.countries_latest_afqts` cou
+  ON
+    reg.country_id = cou.id
+  LEFT JOIN
+    `apply-for-qts-in-england.dataform_production.country_reference_code` crc
+  ON
+    cou.code = crc.string_field_0
+  WHERE
+    statuses LIKE '%preliminary_check%'
+  GROUP BY
+    reference,
+    crc.string_field_1,
+    stage ),
+  earliest_not_started AS(
+  SELECT
+    DISTINCT reference,
+    crc.string_field_1 AS country_name,
+    stage,
+    MIN(CAST(valid_from AS timestamp)) AS start_preassessment_date,
+  FROM
+    `apply-for-qts-in-england.dataform_production.application_forms_version_afqts` af
+  LEFT JOIN
+    `apply-for-qts-in-england.dataform_production.regions_latest_afqts` reg
+  ON
+    af.region_id = reg.id
+  LEFT JOIN
+    `apply-for-qts-in-england.dataform_production.countries_latest_afqts` cou
+  ON
+    reg.country_id = cou.id
+  LEFT JOIN
+    `apply-for-qts-in-england.dataform_production.country_reference_code` crc
+  ON
+    cou.code = crc.string_field_0
+  WHERE
+    stage = 'pre_assessment'
+  GROUP BY
+    reference,
+    crc.string_field_1,
+    stage ),
+  earliest_preassessment AS(
+  SELECT
+    DISTINCT reference,
+    crc.string_field_1 AS country_name,
+    stage,
+    MIN(CAST(valid_from AS timestamp)) AS start_not_started_date,
+  FROM
+    `apply-for-qts-in-england.dataform_production.application_forms_version_afqts` af
+  LEFT JOIN
+    `apply-for-qts-in-england.dataform_production.regions_latest_afqts` reg
+  ON
+    af.region_id = reg.id
+  LEFT JOIN
+    `apply-for-qts-in-england.dataform_production.countries_latest_afqts` cou
+  ON
+    reg.country_id = cou.id
+  LEFT JOIN
+    `apply-for-qts-in-england.dataform_production.country_reference_code` crc
+  ON
+    cou.code = crc.string_field_0
+  WHERE
+    stage = 'not_started'
+  GROUP BY
+    reference,
+    crc.string_field_1,
+    stage ),
+  earliest_assessment_check AS (
+  SELECT
+    DISTINCT reference,
+    crc.string_field_1 AS country_name,
+    stage,
+    MIN(CAST(valid_from AS timestamp)) AS start_assessment_date,
+  FROM
+    `apply-for-qts-in-england.dataform_production.application_forms_version_afqts` af
+  LEFT JOIN
+    `apply-for-qts-in-england.dataform_production.regions_latest_afqts` reg
+  ON
+    af.region_id = reg.id
+  LEFT JOIN
+    `apply-for-qts-in-england.dataform_production.countries_latest_afqts` cou
+  ON
+    reg.country_id = cou.id
+  LEFT JOIN
+    `apply-for-qts-in-england.dataform_production.country_reference_code` crc
+  ON
+    cou.code = crc.string_field_0
+  LEFT JOIN
+    `apply-for-qts-in-england.dataform_production.further_information_requests_latest_afqts` AS fir
+  ON
+    af.id = fir.assessment_id
+  WHERE
+    stage = 'assessment' --and fir.assessment_id IS NOT NULL /* if FI needed */
+  GROUP BY
+    reference,
+    crc.string_field_1,
+    stage),
+    earliest_assessment_check_no_FI AS (
+  SELECT
+    DISTINCT reference,
+    crc.string_field_1 AS country_name,
+    stage,
+    MIN(CAST(valid_from AS timestamp)) AS start_assessment_no_FI_date,
+  FROM
+    `apply-for-qts-in-england.dataform_production.application_forms_version_afqts` af
+  LEFT JOIN
+    `apply-for-qts-in-england.dataform_production.regions_latest_afqts` reg
+  ON
+    af.region_id = reg.id
+  LEFT JOIN
+    `apply-for-qts-in-england.dataform_production.countries_latest_afqts` cou
+  ON
+    reg.country_id = cou.id
+  LEFT JOIN
+    `apply-for-qts-in-england.dataform_production.country_reference_code` crc
+  ON
+    cou.code = crc.string_field_0
+  LEFT JOIN
+    `apply-for-qts-in-england.dataform_production.assessments_latest_afqts` asl
+  ON
+    af.id = asl.application_form_id
+  LEFT JOIN
+    `apply-for-qts-in-england.dataform_production.further_information_requests_latest_afqts` AS fir
+  ON
+    asl.id = fir.assessment_id
+  WHERE
+    stage = 'assessment' and fir.assessment_id IS NULL /* if FI NOT wanted */
+  GROUP BY
+    reference,
+    crc.string_field_1,
+    stage),
+  earliest_assessment_check_with_FI AS (
+  SELECT
+    DISTINCT reference,
+    crc.string_field_1 AS country_name,
+    stage,
+    MIN(CAST(valid_from AS timestamp)) AS start_assessment_with_FI_date,
+  FROM
+    `apply-for-qts-in-england.dataform_production.application_forms_version_afqts` af
+  LEFT JOIN
+    `apply-for-qts-in-england.dataform_production.regions_latest_afqts` reg
+  ON
+    af.region_id = reg.id
+  LEFT JOIN
+    `apply-for-qts-in-england.dataform_production.countries_latest_afqts` cou
+  ON
+    reg.country_id = cou.id
+  LEFT JOIN
+    `apply-for-qts-in-england.dataform_production.country_reference_code` crc
+  ON
+    cou.code = crc.string_field_0
+  LEFT JOIN
+    `apply-for-qts-in-england.dataform_production.assessments_latest_afqts` asl
+  ON
+    af.id = asl.application_form_id
+  LEFT JOIN
+    `apply-for-qts-in-england.dataform_production.further_information_requests_latest_afqts` AS fir
+  ON
+    asl.id = fir.assessment_id
+  WHERE
+    stage = 'assessment' and fir.assessment_id IS NOT NULL /* if FI IS wanted */
+  GROUP BY
+    reference,
+    crc.string_field_1,
+    stage),
+  earliest_verification_check AS (
+  SELECT
+    DISTINCT reference,
+    crc.string_field_1 AS country_name,
+    stage,
+    MIN(CAST(valid_from AS timestamp)) AS start_verification_date
+  FROM
+    `apply-for-qts-in-england.dataform_production.application_forms_version_afqts` af
+  LEFT JOIN
+    `apply-for-qts-in-england.dataform_production.regions_latest_afqts` reg
+  ON
+    af.region_id = reg.id
+  LEFT JOIN
+    `apply-for-qts-in-england.dataform_production.countries_latest_afqts` cou
+  ON
+    reg.country_id = cou.id
+  LEFT JOIN
+    `apply-for-qts-in-england.dataform_production.country_reference_code` crc
+  ON
+    cou.code = crc.string_field_0
+  WHERE
+    af.stage = 'verification'
+  GROUP BY
+    reference,
+    crc.string_field_1,
+    stage),
+  earliest_review_check AS (
+  SELECT
+    DISTINCT reference,
+    crc.string_field_1 AS country_name,
+    stage,
+    MIN(CAST(valid_from AS timestamp)) AS start_review_date
+  FROM
+    `apply-for-qts-in-england.dataform_production.application_forms_version_afqts` af
+  LEFT JOIN
+    `apply-for-qts-in-england.dataform_production.regions_latest_afqts` reg
+  ON
+    af.region_id = reg.id
+  LEFT JOIN
+    `apply-for-qts-in-england.dataform_production.countries_latest_afqts` cou
+  ON
+    reg.country_id = cou.id
+  LEFT JOIN
+    `apply-for-qts-in-england.dataform_production.country_reference_code` crc
+  ON
+    cou.code = crc.string_field_0
+  WHERE
+    af.stage = 'review'
+  GROUP BY
+    reference,
+    crc.string_field_1,
+    stage),
+  earliest_decision AS (
+  SELECT
+    DISTINCT reference,
+    crc.string_field_1 AS country_name,
+    stage,
+    MIN(CAST(valid_from AS timestamp)) AS start_decision_date
+  FROM
+    `apply-for-qts-in-england.dataform_production.application_forms_version_afqts` af
+  LEFT JOIN
+    `apply-for-qts-in-england.dataform_production.regions_latest_afqts` reg
+  ON
+    af.region_id = reg.id
+  LEFT JOIN
+    `apply-for-qts-in-england.dataform_production.countries_latest_afqts` cou
+  ON
+    reg.country_id = cou.id
+  LEFT JOIN
+    `apply-for-qts-in-england.dataform_production.country_reference_code` crc
+  ON
+    cou.code = crc.string_field_0
+  WHERE
+    statuses LIKE '%awarded'
+    OR statuses LIKE '%declined%'
+    OR statuses LIKE '%withdrawn%'
+  GROUP BY
+    reference,
+    crc.string_field_1,
+    stage),
+  earliest_completion AS (
+  SELECT
+    DISTINCT reference,
+    crc.string_field_1 AS country_name,
+    stage,
+    MIN(CAST(valid_from AS timestamp)) AS start_completion_date
+  FROM
+    `apply-for-qts-in-england.dataform_production.application_forms_version_afqts` af
+  LEFT JOIN
+    `apply-for-qts-in-england.dataform_production.regions_latest_afqts` reg
+  ON
+    af.region_id = reg.id
+  LEFT JOIN
+    `apply-for-qts-in-england.dataform_production.countries_latest_afqts` cou
+  ON
+    reg.country_id = cou.id
+  LEFT JOIN
+    `apply-for-qts-in-england.dataform_production.country_reference_code` crc
+  ON
+    cou.code = crc.string_field_0
+  WHERE
+    af.stage = 'completed'
+  GROUP BY
+    reference,
+    crc.string_field_1,
+    stage),
+  stage_dates AS(
+  SELECT
+    afl.reference,
+    eac.country_name,
+    submitted_at,
+    declined_at,
+    withdrawn_at,
+    MIN(submission_date) AS submission_date,
+    MIN(start_preassessment_date) AS start_preassessment_date,
+    MIN(start_preliminary_check_date) AS start_preliminary_check_date,
+    MIN(start_not_started_date) AS start_not_started_date,
+    MIN(start_assessment_date) AS start_assessment_date,
+    MIN(start_assessment_no_fi_date) as start_assessment_date_no_fi,
+    MIN(start_assessment_with_fi_date) as start_assessment_date_with_fi,
+    MIN(start_verification_date) AS start_verification_date,
+    MIN(start_review_date) AS start_review_date,
+    MIN(start_decision_date) AS start_decision_date,
+    MIN(start_completion_date) AS start_completion_date
+  FROM
+    `apply-for-qts-in-england.dataform_production.application_forms_latest_afqts` afl
+  LEFT JOIN
+    earliest_non_draft endr
+  ON
+    afl.reference = endr.reference
+  LEFT JOIN
+    earliest_preassessment epa
+  ON
+    afl.reference = epa.reference
+  LEFT JOIN
+    earliest_preliminary_check epc
+  ON
+    afl.reference = epc.reference
+  LEFT JOIN
+    earliest_not_started ens
+  ON
+    afl.reference = ens.reference
+  LEFT JOIN
+    earliest_assessment_check eac
+  ON
+    afl.reference = eac.reference
+  LEFT JOIN
+    earliest_assessment_check_no_FI eacnofi
+  ON
+    afl.reference = eacnofi.reference
+  LEFT JOIN
+    earliest_assessment_check_with_FI eacwithfi
+  ON
+    afl.reference = eacwithfi.reference
+  LEFT JOIN
+    earliest_verification_check evc
+  ON
+    afl.reference = evc.reference
+  LEFT JOIN
+    earliest_review_check erc
+  ON
+    afl.reference = erc.reference
+  LEFT JOIN
+    earliest_decision ed
+  ON
+    afl.reference = ed.reference
+  LEFT JOIN
+    earliest_completion ec
+  ON
+    afl.reference = ec.reference
+  GROUP BY
+    afl.reference,
+    eac.country_name,
+    submitted_at,
+    declined_at,
+    withdrawn_at)
+SELECT
+  *
+FROM
+  stage_dates sd
+ORDER BY
+  1
