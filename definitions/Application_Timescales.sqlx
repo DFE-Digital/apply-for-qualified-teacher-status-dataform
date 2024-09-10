@@ -1,3 +1,10 @@
+config {
+    type: "table",
+    /* assertions: {
+       uniqueKey: ["reference"],
+     },*/
+}
+
 WITH
   earliest_non_draft AS(
   SELECT
