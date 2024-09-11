@@ -58,7 +58,10 @@ WITH
   ON
     al.id = asl.assessment_id
   WHERE
-    stage = 'completed' and requires_preliminary_check IS TRUE AND preliminary IS TRUE AND passed IS FALSE
+    stage = 'completed'
+    AND requires_preliminary_check IS TRUE
+    AND preliminary IS TRUE
+    AND passed IS FALSE
   GROUP BY
     reference,
     stage ),
@@ -107,8 +110,7 @@ WITH
     asl.id = fir.assessment_id
   WHERE
     stage = 'assessment'
-    AND fir.assessment_id IS NULL
-    /* if FI NOT wanted */
+    AND fir.assessment_id IS NULL /* if FI NOT wanted */
   GROUP BY
     reference,
     stage),
@@ -129,8 +131,7 @@ WITH
     asl.id = fir.assessment_id
   WHERE
     stage = 'assessment'
-    AND fir.assessment_id IS NOT NULL
-    /* if FI IS wanted */
+    AND fir.assessment_id IS NOT NULL /* if FI IS wanted */
   GROUP BY
     reference,
     stage),
@@ -194,7 +195,7 @@ WITH
     withdrawn_at,
     MIN(submission_date) AS submission_date,
     MIN(start_preassessment_date) AS start_preassessment_date,
-    MIN(quick_declined_at) as quick_declined_at,
+    MIN(quick_declined_at) AS quick_declined_at,
     MIN(start_preliminary_check_date) AS start_preliminary_check_date,
     MIN(start_not_started_date) AS start_not_started_date,
     MIN(start_assessment_date) AS start_assessment_date,
@@ -274,7 +275,34 @@ WITH
     declined_at,
     withdrawn_at)
 SELECT
-  *
+  *,
+  CASE 
+WHEN awarded_at is not null then awarded_at
+WHEN declined_at is not null then declined_at
+WHEN withdrawn_at is not null then withdrawn_at
+ELSE null
+END as decision_at,
+  DATETIME_DIFF(start_verification_date,start_assessment_date_no_fi,second)/86400 AS delta_assessment_no_FI_verification,
+  DATETIME_DIFF(start_verification_date,start_assessment_date_with_fi,second)/86400 AS delta_assessment_with_FI_verification,
+  DATETIME_DIFF(start_assessment_date,start_not_started_date,second)/86400 AS delta_not_started_assessment,
+  DATETIME_DIFF(start_not_started_date, start_preassessment_date,second)/86400 AS delta_preassessment_not_started,
+  DATETIME_DIFF(quick_declined_at,start_preassessment_date,second)/86400 AS delta_preassessment_quick_decline,
+  CASE
+    WHEN awarded_at IS NOT NULL THEN DATETIME_DIFF(awarded_at, start_review_date, SECOND)/86400
+    WHEN declined_at IS NOT NULL THEN DATETIME_DIFF(declined_at, start_review_date, SECOND)/86400
+    WHEN withdrawn_at IS NOT NULL THEN DATETIME_DIFF(withdrawn_at, start_review_date, SECOND)/86400
+END
+  AS delta_review_decision,
+  CASE 
+WHEN awarded_at is not null then DATETIME_DIFF(awarded_at, submitted_at, SECOND)/86400
+WHEN declined_at is not null then DATETIME_DIFF(declined_at, submitted_at, SECOND)/86400
+WHEN withdrawn_at is not null then DATETIME_DIFF(withdrawn_at, submitted_at, SECOND)/86400
+END as delta_submission_decision,
+CASE 
+WHEN awarded_at is not null then DATETIME_DIFF(awarded_at, start_verification_date, SECOND)/86400
+WHEN declined_at is not null then DATETIME_DIFF(declined_at, start_verification_date, SECOND)/86400
+WHEN withdrawn_at is not null then DATETIME_DIFF(withdrawn_at, start_verification_date, SECOND)/86400
+END as delta_verification_decision,
+DATETIME_DIFF(start_review_date,start_verification_date,second)/86400 as delta_verification_review
 FROM
   stage_dates sd
-
