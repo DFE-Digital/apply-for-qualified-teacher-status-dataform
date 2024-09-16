@@ -1,0 +1,71 @@
+config {
+    type: "table",
+    /* assertions: {
+       uniqueKey: ["first_month_of_period"],
+     },*/
+}
+
+WITH
+  apps AS (
+  SELECT
+    * EXCEPT(submitted_at),
+    cast(submitted_at as date) as submitted_at,
+    CASE
+      WHEN awarded_at IS NOT NULL THEN CAST(awarded_at AS date)
+      WHEN declined_at IS NOT NULL THEN CAST(declined_at AS date)
+      WHEN withdrawn_at IS NOT NULL THEN CAST(withdrawn_at AS date)
+      ELSE NULL
+  END
+    AS decision_at
+  FROM
+    `apply-for-qts-in-england.dataform_production.Applications_CustomQuery`),
+  monthly_applications AS (
+  SELECT
+    DATE_TRUNC(submitted_at, MONTH) AS month_of_submission,
+    COUNT(reference) AS applications_count
+  FROM
+    apps
+  GROUP BY
+    DATE_TRUNC(submitted_at, MONTH)),
+  monthly_decisions AS (
+  SELECT
+    DATE_TRUNC(decision_at, MONTH) AS last_month_of_period,
+    COUNT(reference) AS decisions_count
+  FROM
+    apps
+  GROUP BY
+    DATE_TRUNC(decision_at, MONTH)),
+  rolling_3_months_decisions AS (
+  SELECT
+    last_month_of_period,
+    SUM(decisions_count) OVER (ORDER BY last_month_of_period ROWS BETWEEN 2 PRECEDING AND CURRENT ROW ) AS rolling_3_month_total_decisions,
+    ROW_NUMBER() OVER (ORDER BY last_month_of_period DESC) AS row_num_d
+  FROM
+    monthly_decisions
+  WHERE
+    last_month_of_period <= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH), MONTH) ),
+  rolling_3_months_applications AS (
+  SELECT
+    month_of_submission,
+    SUM(applications_count) OVER (ORDER BY month_of_submission ROWS BETWEEN 2 PRECEDING AND CURRENT ROW ) AS rolling_3_month_total_applications,
+    ROW_NUMBER() OVER (ORDER BY month_of_submission DESC) AS row_num_a
+  FROM
+    monthly_applications
+  WHERE
+    month_of_submission <= DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH), MONTH) )
+SELECT
+  DATE_SUB(last_month_of_period, INTERVAL 2 MONTH) as first_month_of_period,
+  last_month_of_period,
+  rolling_3_month_total_applications,
+  rolling_3_month_total_decisions,
+  (rolling_3_month_total_decisions - rolling_3_month_total_applications) as rolling_3_month_total_net_clearance
+FROM
+  rolling_3_months_decisions d
+LEFT JOIN
+  rolling_3_months_applications a
+ON
+ d.last_month_of_period = a.month_of_submission
+WHERE
+  row_num_d <= 12 and row_num_a <= 12
+ORDER BY
+  last_month_of_period
