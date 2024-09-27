@@ -1,0 +1,62 @@
+-- Declare a variable to act as the threshold for the number of days since any table was last updated in this schema
+DECLARE
+  days_since_last_update INT64 DEFAULT 30;
+  -- Declare a variable for the project id. This can be modified in other projects to their respective IDs.
+DECLARE
+  projectid STRING DEFAULT '${dataform.projectConfig.defaultDatabase}';
+  -- Declare a variable for the region where the datasets are stored. Teacher Services projects should be in 'region-europe-west2'
+DECLARE
+  region STRING DEFAULT 'region-europe-west2';
+  -- Create a temporary table to store datasets information in this project
+DECLARE
+  drop_schema_sql STRING;
+BEGIN
+EXECUTE IMMEDIATE
+  FORMAT("""
+  CREATE TEMP TABLE datasets_in_project AS (
+    SELECT
+      table_catalog AS project_name,
+      table_schema AS dataset_name,
+      MAX(creation_time) AS last_run,
+      DATE_DIFF(CURRENT_DATE, MAX(DATE(creation_time)), DAY) AS days_since_last_run
+    FROM
+      `%s`.`%s`.INFORMATION_SCHEMA.TABLES
+    WHERE
+      -- Only detects datasets beginning with 'dataform', and featuring the word 'dev', but does not delete 'dataform' or 'dataform_assertions' explicitly
+      REGEXP_CONTAINS(LOWER(table_schema), r'^dataform_')
+      AND REGEXP_CONTAINS(LOWER(table_schema), 'dev')
+      AND NOT (LOWER(table_schema)= 'dataform_assertions'
+        OR LOWER(table_schema)= 'dataform')
+    GROUP BY
+      project_name,
+      dataset_name
+    HAVING
+      DATE_DIFF(CURRENT_DATE, MAX(DATE(creation_time)), DAY) > %d
+    ORDER BY
+      days_since_last_run DESC
+    );
+  """, projectid, region, days_since_last_update);
+END
+  ;
+  -- Begin SQLX procedure to loop through the datasets
+BEGIN
+  -- Loop through each dataset in the temporary table `datasets_in_project`
+  FOR dataset_row IN (
+  SELECT
+    project_name,
+    dataset_name,
+    days_since_last_run
+  FROM
+    datasets_in_project ) DO
+  -- Step to drop the schema
+SET
+  drop_schema_sql = FORMAT("""
+      DROP SCHEMA IF EXISTS `%s.%s` CASCADE
+    """, dataset_row.project_name, dataset_row.dataset_name);
+  -- Execute the DROP SCHEMA statement
+EXECUTE IMMEDIATE
+  drop_schema_sql;
+END
+  FOR;
+END
+  ;
