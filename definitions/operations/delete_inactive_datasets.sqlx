@@ -26,7 +26,7 @@ EXECUTE IMMEDIATE
       REGEXP_CONTAINS(LOWER(table_schema), r'^dataform_')
       AND REGEXP_CONTAINS(LOWER(table_schema), 'dev')
       AND NOT (LOWER(table_schema)= 'dataform_assertions'
-        OR LOWER(table_schema)= 'dataform')
+        OR LOWER(table_schema)= 'dataform_production')
     GROUP BY
       project_name,
       dataset_name
