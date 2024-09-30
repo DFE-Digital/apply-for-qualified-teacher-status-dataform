@@ -1344,6 +1344,11 @@ dfeAnalyticsDataform({
             description: "",
             keys: [
                 {
+                    keyName: "archived",
+                    dataType: "boolean",
+                    description: "",
+                },
+                {
                     keyName: "assess_permission",
                     dataType: "boolean",
                     description: "",
