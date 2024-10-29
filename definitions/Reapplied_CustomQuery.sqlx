@@ -19,7 +19,7 @@ FROM (
   FROM
     ${ref("application_forms_latest_afqts")}
   WHERE
-    state != "draft" ) AS submitted_application_forms
+    stage != "draft" ) AS submitted_application_forms
 LEFT JOIN
   ${ref("joinGeoData")} AS joinGeoData
 ON
