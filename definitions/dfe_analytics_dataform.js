@@ -1620,6 +1620,11 @@ dfeAnalyticsDataform({
                     description: "The domain part of the email address (right side of the @).",
                 },
                 {
+                    keyName: "gov_one_email",
+                    dataType: "string",
+                    description: "",
+                },
+                {
                     keyName: "last_sign_in_at",
                     dataType: "timestamp",
                     description: "",
