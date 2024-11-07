@@ -1623,6 +1623,7 @@ dfeAnalyticsDataform({
                     keyName: "gov_one_email",
                     dataType: "string",
                     description: "",
+                    hidden: true,
                 },
                 {
                     keyName: "last_sign_in_at",
