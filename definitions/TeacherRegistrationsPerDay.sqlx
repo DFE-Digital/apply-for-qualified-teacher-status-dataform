@@ -1,0 +1,13 @@
+config {
+    type: "table",
+    description: "Teacher registrations per day for all records that have successfully signed in after registering",
+}
+
+SELECT
+  format_datetime("%Y-%m-%d", created_at) as day,
+  COUNT(*) as count
+FROM
+  ${ref("teachers_latest_afqts")}
+where current_sign_in_at is not null
+group by day
+ORDER BY day

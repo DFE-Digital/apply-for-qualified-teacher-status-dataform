@@ -1,0 +1,13 @@
+config {
+    type: "table",
+    description: "Teacher sign ins per day for across all teachers table versions",
+}
+
+SELECT
+  format_datetime("%Y-%m-%d", current_sign_in_at) as day,
+  COUNT(distinct id) as count
+FROM
+  ${ref("teachers_version_afqts")}
+where current_sign_in_at is not null
+group by day
+ORDER BY day
