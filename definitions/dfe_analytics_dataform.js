@@ -74,6 +74,7 @@ dfeAnalyticsDataform({
                     keyName: "dqt_match",
                     dataType: "string",
                     description: "Any matches with an existing teacher recorded in DQT are stored here",
+                    hidden: true,
                 },
                 {
                     keyName: "english_language_citizenship_exempt",
