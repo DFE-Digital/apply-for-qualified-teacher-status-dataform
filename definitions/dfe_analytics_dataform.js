@@ -71,9 +71,9 @@ dfeAnalyticsDataform({
                     description: "When a recommendation to decline has been applied",
                 },
                 {
-                    keyName: "dqt_match",
+                    keyName: "trs_match",
                     dataType: "string",
-                    description: "Any matches with an existing teacher recorded in DQT are stored here",
+                    description: "Any matches with an existing teacher recorded in TRS are stored here",
                     hidden: true,
                 },
                 {
