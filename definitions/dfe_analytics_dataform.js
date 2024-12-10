@@ -1697,6 +1697,16 @@ dfeAnalyticsDataform({
             description: "",
             keys: [
                 {
+                    keyName: "address_line1",
+                    dataType: "string",
+                    description: "",
+                },
+                {
+                    keyName: "address_line2",
+                    dataType: "string",
+                    description: "",
+                },
+                {
                     keyName: "application_form_id",
                     dataType: "string",
                     description: "",
@@ -1761,6 +1771,11 @@ dfeAnalyticsDataform({
                 },
                 {
                     keyName: "school_name",
+                    dataType: "string",
+                    description: "",
+                },
+                {
+                    keyName: "school_website",
                     dataType: "string",
                     description: "",
                 },
