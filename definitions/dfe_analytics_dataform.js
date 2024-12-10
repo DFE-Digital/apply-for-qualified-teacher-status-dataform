@@ -1666,6 +1666,33 @@ dfeAnalyticsDataform({
             ],
         },
         {
+            entityTableName: "trs_trn_requests",
+            description: "",
+            keys: [
+                {
+                    keyName: "application_form_id",
+                    dataType: "string",
+                    description: "",
+                },
+                {
+                    keyName: "potential_duplicate",
+                    dataType: "boolean",
+                    description: "",
+                },
+                {
+                    keyName: "request_id",
+                    dataType: "string",
+                    description: "",
+                },
+                {
+                    keyName: "state",
+                    dataType: "string",
+                    description: "",
+
+                },
+            ],
+        },
+        {
             entityTableName: "uploads",
             description: "",
             keys: [
