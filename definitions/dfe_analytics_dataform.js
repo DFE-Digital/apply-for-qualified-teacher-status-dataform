@@ -179,6 +179,17 @@ dfeAnalyticsDataform({
                     historic: true,
                 },
                 {
+                    keyName: "passport_document_status",
+                    dataType: "string",
+                    description: "passport document provided status",
+                },
+                {
+                    keyName: "passport_expiry_date",
+                    dataType: "date",
+                    description: "Passport expiry date provided",
+                    hidden: true,
+                },
+                {
                     keyName: "personal_information_status",
                     dataType: "string",
                     description: "personal information provided status",
@@ -242,6 +253,11 @@ dfeAnalyticsDataform({
                     keyName: "registration_number_status",
                     dataType: "string",
                     description: "Teacher Registration number where applicable has been received",
+                },
+                {
+                    keyName: "requires_passport_as_identity_proof",
+                    dataType: "boolean",
+                    description: "requires passport as identity proof",
                 },
                 {
                     keyName: "requires_preliminary_check",
