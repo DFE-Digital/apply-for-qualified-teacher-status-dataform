@@ -1,6 +1,6 @@
 {
     "dependencies": {
         "@dataform/core": "3.0.0-beta.5",
-        "dfe-analytics-dataform": "https://github.com/DFE-Digital/dfe-analytics-dataform/archive/refs/tags/v2.1.0.tar.gz"
+        "dfe-analytics-dataform": "https://github.com/DFE-Digital/dfe-analytics-dataform/archive/refs/tags/v2.2.0.tar.gz"
     }
 }
