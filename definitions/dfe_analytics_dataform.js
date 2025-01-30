@@ -5,6 +5,7 @@ dfeAnalyticsDataform({
     bqProjectName: "apply-for-qts-in-england",
     bqDatasetName: "events_production",
     bqEventsTableName: "events",
+    expirationDays: false,
     urlRegex: "apply-for-qts-in-england.education.gov.uk",
     hiddenPolicyTagLocation: "projects/apply-for-qts-in-england/locations/europe-west2/taxonomies/5456044749211275650/policyTags/2399328962407973209",
     dataSchema: [
