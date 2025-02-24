@@ -180,6 +180,12 @@ dfeAnalyticsDataform({
                     historic: true,
                 },
                 {
+                    keyName: "passport_country_of_issue_code",
+                    dataType: "string",
+                    description: "Country of issue of passport provided by applicant",
+                    hidden: true,
+                },
+                {
                     keyName: "passport_document_status",
                     dataType: "string",
                     description: "passport document provided status",
