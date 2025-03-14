@@ -1491,6 +1491,11 @@ dfeAnalyticsDataform({
                     description: "",
                 },
                 {
+                    keyName: "manage_staff_permission",
+                    dataType: "boolean",
+                    description: "",
+                },
+                {
                     keyName: "unconfirmed_email",
                     dataType: "string",
                     description: "",
