@@ -1,0 +1,158 @@
+config {
+    type: "table",
+    description: "Mapping table for passport issue country code and country name. This matches the hard-coded mapping in the service",
+    columns: {
+        country_code: "Country code of the issued passport",
+        country_name: "Country name of the issued passport"
+        },  
+    assertions: {
+            uniqueKey: ["country_code", "country_name"]
+
+        }
+    }
+
+SELECT "afghanistan" AS country_name, "AFG" AS country_code UNION ALL
+SELECT "albania", "ALB" UNION ALL
+SELECT "algeria", "DZA" UNION ALL
+SELECT "andorra", "AND" UNION ALL
+SELECT "angola", "AGO" UNION ALL
+SELECT "argentina", "ARG" UNION ALL
+SELECT "armenia", "ARM" UNION ALL
+SELECT "australia", "AUS" UNION ALL
+SELECT "austria", "AUT" UNION ALL
+SELECT "azerbaijan", "AZE" UNION ALL
+SELECT "bahamas", "BHS" UNION ALL
+SELECT "bahrain", "BHR" UNION ALL
+SELECT "bangladesh", "BGD" UNION ALL
+SELECT "barbados", "BRB" UNION ALL
+SELECT "belarus", "BLR" UNION ALL
+SELECT "belgium", "BEL" UNION ALL
+SELECT "belize", "BLZ" UNION ALL
+SELECT "benin", "BEN" UNION ALL
+SELECT "bhutan", "BTN" UNION ALL
+SELECT "bolivia", "BOL" UNION ALL
+SELECT "bosnia and herzegovina", "BIH" UNION ALL
+SELECT "botswana", "BWA" UNION ALL
+SELECT "brazil", "BRA" UNION ALL
+SELECT "brunei", "BRN" UNION ALL
+SELECT "bulgaria", "BGR" UNION ALL
+SELECT "burkina faso", "BFA" UNION ALL
+SELECT "burundi", "BDI" UNION ALL
+SELECT "cabo verde", "CPV" UNION ALL
+SELECT "cambodia", "KHM" UNION ALL
+SELECT "cameroon", "CMR" UNION ALL
+SELECT "canada", "CAN" UNION ALL
+SELECT "central african republic", "CAF" UNION ALL
+SELECT "chad", "TCD" UNION ALL
+SELECT "chile", "CHL" UNION ALL
+SELECT "china", "CHN" UNION ALL
+SELECT "colombia", "COL" UNION ALL
+SELECT "comoros", "COM" UNION ALL
+SELECT "congo", "COG" UNION ALL
+SELECT "costa rica", "CRI" UNION ALL
+SELECT "croatia", "HRV" UNION ALL
+SELECT "cuba", "CUB" UNION ALL
+SELECT "cyprus", "CYP" UNION ALL
+SELECT "czech republic", "CZE" UNION ALL
+SELECT "denmark", "DNK" UNION ALL
+SELECT "djibouti", "DJI" UNION ALL
+SELECT "dominica", "DMA" UNION ALL
+SELECT "dominican republic", "DOM" UNION ALL
+SELECT "ecuador", "ECU" UNION ALL
+SELECT "egypt", "EGY" UNION ALL
+SELECT "el salvador", "SLV" UNION ALL
+SELECT "estonia", "EST" UNION ALL
+SELECT "eswatini", "SWZ" UNION ALL
+SELECT "ethiopia", "ETH" UNION ALL
+SELECT "fiji", "FJI" UNION ALL
+SELECT "finland", "FIN" UNION ALL
+SELECT "france", "FRA" UNION ALL
+SELECT "gabon", "GAB" UNION ALL
+SELECT "gambia", "GMB" UNION ALL
+SELECT "georgia", "GEO" UNION ALL
+SELECT "germany", "DEU" UNION ALL
+SELECT "ghana", "GHA" UNION ALL
+SELECT "greece", "GRC" UNION ALL
+SELECT "greenland", "GRL" UNION ALL
+SELECT "guatemala", "GTM" UNION ALL
+SELECT "guinea", "GIN" UNION ALL
+SELECT "guinea-bissau", "GNB" UNION ALL
+SELECT "guyana", "GUY" UNION ALL
+SELECT "haiti", "HTI" UNION ALL
+SELECT "honduras", "HND" UNION ALL
+SELECT "hungary", "HUN" UNION ALL
+SELECT "iceland", "ISL" UNION ALL
+SELECT "india", "IND" UNION ALL
+SELECT "indonesia", "IDN" UNION ALL
+SELECT "iran", "IRN" UNION ALL
+SELECT "iraq", "IRQ" UNION ALL
+SELECT "ireland", "IRL" UNION ALL
+SELECT "israel", "ISR" UNION ALL
+SELECT "italy", "ITA" UNION ALL
+SELECT "jamaica", "JAM" UNION ALL
+SELECT "japan", "JPN" UNION ALL
+SELECT "jordan", "JOR" UNION ALL
+SELECT "kazakhstan", "KAZ" UNION ALL
+SELECT "kenya", "KEN" UNION ALL
+SELECT "kuwait", "KWT" UNION ALL
+SELECT "kyrgyzstan", "KGZ" UNION ALL
+SELECT "laos", "LAO" UNION ALL
+SELECT "latvia", "LVA" UNION ALL
+SELECT "lebanon", "LBN" UNION ALL
+SELECT "lesotho", "LSO" UNION ALL
+SELECT "liberia", "LBR" UNION ALL
+SELECT "libya", "LBY" UNION ALL
+SELECT "lithuania", "LTU" UNION ALL
+SELECT "luxembourg", "LUX" UNION ALL
+SELECT "madagascar", "MDG" UNION ALL
+SELECT "malawi", "MWI" UNION ALL
+SELECT "malaysia", "MYS" UNION ALL
+SELECT "maldives", "MDV" UNION ALL
+SELECT "mali", "MLI" UNION ALL
+SELECT "malta", "MLT" UNION ALL
+SELECT "mauritania", "MRT" UNION ALL
+SELECT "mauritius", "MUS" UNION ALL
+SELECT "mexico", "MEX" UNION ALL
+SELECT "moldova", "MDA" UNION ALL
+SELECT "monaco", "MCO" UNION ALL
+SELECT "mongolia", "MNG" UNION ALL
+SELECT "montenegro", "MNE" UNION ALL
+SELECT "morocco", "MAR" UNION ALL
+SELECT "mozambique", "MOZ" UNION ALL
+SELECT "myanmar", "MMR" UNION ALL
+SELECT "namibia", "NAM" UNION ALL
+SELECT "nepal", "NPL" UNION ALL
+SELECT "netherlands", "NLD" UNION ALL
+SELECT "new zealand", "NZL" UNION ALL
+SELECT "nicaragua", "NIC" UNION ALL
+SELECT "niger", "NER" UNION ALL
+SELECT "nigeria", "NGA" UNION ALL
+SELECT "north korea", "PRK" UNION ALL
+SELECT "north macedonia", "MKD" UNION ALL
+SELECT "norway", "NOR" UNION ALL
+SELECT "oman", "OMN" UNION ALL
+SELECT "pakistan", "PAK" UNION ALL
+SELECT "palestine", "PSE" UNION ALL
+SELECT "panama", "PAN" UNION ALL
+SELECT "papua new guinea", "PNG" UNION ALL
+SELECT "paraguay", "PRY" UNION ALL
+SELECT "peru", "PER" UNION ALL
+SELECT "philippines", "PHL" UNION ALL
+SELECT "poland", "POL" UNION ALL
+SELECT "portugal", "PRT" UNION ALL
+SELECT "qatar", "QAT" UNION ALL
+SELECT "romania", "ROU" UNION ALL
+SELECT "russia", "RUS" UNION ALL
+SELECT "rwanda", "RWA" UNION ALL
+SELECT "saudi arabia", "SAU" UNION ALL
+SELECT "senegal", "SEN" UNION ALL
+SELECT "serbia", "SRB" UNION ALL
+SELECT "singapore", "SGP" UNION ALL
+SELECT "slovakia", "SVK" UNION ALL
+SELECT "slovenia", "SVN" UNION ALL
+SELECT "south africa", "ZAF" UNION ALL
+SELECT "south korea", "KOR" UNION ALL
+SELECT "spain", "ESP" UNION ALL
+SELECT "united kingdom", "GBR" UNION ALL
+SELECT "united states", "USA"
+
