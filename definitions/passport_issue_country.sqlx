@@ -11,170 +11,278 @@ config {
         }
     }
 
-SELECT "afghanistan" AS country_name, "AFG" AS country_code
-UNION ALL
-SELECT "åland islands" AS country_name, "ALA" AS country_code
-UNION ALL
-SELECT "albania" AS country_name, "ALB" AS country_code
-UNION ALL
-SELECT "algeria" AS country_name, "DZA" AS country_code
-UNION ALL
-SELECT "andorra" AS country_name, "AND" AS country_code
-UNION ALL
-SELECT "angola" AS country_name, "AGO" AS country_code
-UNION ALL
-SELECT "argentina" AS country_name, "ARG" AS country_code
-UNION ALL
-SELECT "armenia" AS country_name, "ARM" AS country_code
-UNION ALL
-SELECT "australia" AS country_name, "AUS" AS country_code
-UNION ALL
-SELECT "austria" AS country_name, "AUT" AS country_code
-UNION ALL
-SELECT "azerbaijan" AS country_name, "AZE" AS country_code
-UNION ALL
-SELECT "bahamas" AS country_name, "BHS" AS country_code
-UNION ALL
-SELECT "bahrain" AS country_name, "BHR" AS country_code
-UNION ALL
-SELECT "bangladesh" AS country_name, "BGD" AS country_code
-UNION ALL
-SELECT "barbados" AS country_name, "BRB" AS country_code
-UNION ALL
-SELECT "belarus" AS country_name, "BLR" AS country_code
-UNION ALL
-SELECT "belgium" AS country_name, "BEL" AS country_code
-UNION ALL
-SELECT "belize" AS country_name, "BLZ" AS country_code
-UNION ALL
-SELECT "benin" AS country_name, "BEN" AS country_code
-UNION ALL
-SELECT "bhutan" AS country_name, "BTN" AS country_code
-UNION ALL
-SELECT "bolivia" AS country_name, "BOL" AS country_code
-UNION ALL
-SELECT "bosnia and herzegovina" AS country_name, "BIH" AS country_code
-UNION ALL
-SELECT "botswana" AS country_name, "BWA" AS country_code
-UNION ALL
-SELECT "brazil" AS country_name, "BRA" AS country_code
-UNION ALL
-SELECT "brunei" AS country_name, "BRN" AS country_code
-UNION ALL
-SELECT "bulgaria" AS country_name, "BGR" AS country_code
-UNION ALL
-SELECT "burkina faso" AS country_name, "BFA" AS country_code
-UNION ALL
-SELECT "burundi" AS country_name, "BDI" AS country_code
-UNION ALL
-SELECT "cabo verde" AS country_name, "CPV" AS country_code
-UNION ALL
-SELECT "cambodia" AS country_name, "KHM" AS country_code
-UNION ALL
-SELECT "cameroon" AS country_name, "CMR" AS country_code
-UNION ALL
-SELECT "canada" AS country_name, "CAN" AS country_code
-UNION ALL
-SELECT "central african republic" AS country_name, "CAF" AS country_code
-UNION ALL
-SELECT "chad" AS country_name, "TCD" AS country_code
-UNION ALL
-SELECT "chile" AS country_name, "CHL" AS country_code
-UNION ALL
-SELECT "china" AS country_name, "CHN" AS country_code
-UNION ALL
-SELECT "colombia" AS country_name, "COL" AS country_code
-UNION ALL
-SELECT "comoros" AS country_name, "COM" AS country_code
-UNION ALL
-SELECT "congo" AS country_name, "COG" AS country_code
-UNION ALL
-SELECT "costa rica" AS country_name, "CRI" AS country_code
-UNION ALL
-SELECT "croatia" AS country_name, "HRV" AS country_code
-UNION ALL
-SELECT "cuba" AS country_name, "CUB" AS country_code
-UNION ALL
-SELECT "cyprus" AS country_name, "CYP" AS country_code
-UNION ALL
-SELECT "czech republic" AS country_name, "CZE" AS country_code
-UNION ALL
-SELECT "denmark" AS country_name, "DNK" AS country_code
-UNION ALL
-SELECT "djibouti" AS country_name, "DJI" AS country_code
-UNION ALL
-SELECT "dominica" AS country_name, "DMA" AS country_code
-UNION ALL
-SELECT "dominican republic" AS country_name, "DOM" AS country_code
-UNION ALL
-SELECT "ecuador" AS country_name, "ECU" AS country_code
-UNION ALL
-SELECT "egypt" AS country_name, "EGY" AS country_code
-UNION ALL
-SELECT "el salvador" AS country_name, "SLV" AS country_code
-UNION ALL
-SELECT "estonia" AS country_name, "EST" AS country_code
-UNION ALL
-SELECT "eswatini" AS country_name, "SWZ" AS country_code
-UNION ALL
-SELECT "ethiopia" AS country_name, "ETH" AS country_code
-UNION ALL
-SELECT "fiji" AS country_name, "FJI" AS country_code
-UNION ALL
-SELECT "finland" AS country_name, "FIN" AS country_code
-UNION ALL
-SELECT "france" AS country_name, "FRA" AS country_code
-UNION ALL
-SELECT "gabon" AS country_name, "GAB" AS country_code
-UNION ALL
-SELECT "gambia" AS country_name, "GMB" AS country_code
-UNION ALL
-SELECT "georgia" AS country_name, "GEO" AS country_code
-UNION ALL
-SELECT "germany" AS country_name, "DEU" AS country_code
-UNION ALL
-SELECT "ghana" AS country_name, "GHA" AS country_code
-UNION ALL
-SELECT "greece" AS country_name, "GRC" AS country_code
-UNION ALL
-SELECT "greenland" AS country_name, "GRL" AS country_code
-UNION ALL
-SELECT "guatemala" AS country_name, "GTM" AS country_code
-UNION ALL
-SELECT "guinea" AS country_name, "GIN" AS country_code
-UNION ALL
-SELECT "guinea-bissau" AS country_name, "GNB" AS country_code
-UNION ALL
-SELECT "guyana" AS country_name, "GUY" AS country_code
-UNION ALL
-SELECT "haiti" AS country_name, "HTI" AS country_code
-UNION ALL
-SELECT "honduras" AS country_name, "HND" AS country_code
-UNION ALL
-SELECT "hungary" AS country_name, "HUN" AS country_code
-UNION ALL
-SELECT "iceland" AS country_name, "ISL" AS country_code
-UNION ALL
-SELECT "india" AS country_name, "IND" AS country_code
-UNION ALL
-SELECT "indonesia" AS country_name, "IDN" AS country_code
-UNION ALL
-SELECT "iran" AS country_name, "IRN" AS country_code
-UNION ALL
-SELECT "iraq" AS country_name, "IRQ" AS country_code
-UNION ALL
-SELECT "ireland" AS country_name, "IRL" AS country_code
-UNION ALL
-SELECT "israel" AS country_name, "ISR" AS country_code
-UNION ALL
-SELECT "italy" AS country_name, "ITA" AS country_code
-UNION ALL
-SELECT "jamaica" AS country_name, "JAM" AS country_code
-UNION ALL
-SELECT "japan" AS country_name, "JPN" AS country_code
-UNION ALL
-SELECT "united kingdom" AS country_name, "GBR" AS country_code
-UNION ALL
-SELECT "united states" AS country_name, "USA" AS country_code
-
+SELECT "Afghanistan" AS country_name, "AFG" AS country_code UNION ALL
+SELECT "African Development Bank" AS country_name, "XBA" AS country_code UNION ALL
+SELECT "African Export-Import Bank" AS country_name, "XIM" AS country_code UNION ALL
+SELECT "Albania" AS country_name, "ALB" AS country_code UNION ALL
+SELECT "Algeria" AS country_name, "DZA" AS country_code UNION ALL
+SELECT "American Samoa" AS country_name, "ASM" AS country_code UNION ALL
+SELECT "Andorra" AS country_name, "AND" AS country_code UNION ALL
+SELECT "Angola" AS country_name, "AGO" AS country_code UNION ALL
+SELECT "Anguilla" AS country_name, "AIA" AS country_code UNION ALL
+SELECT "Antarctica" AS country_name, "ATA" AS country_code UNION ALL
+SELECT "Antigua and Barbuda" AS country_name, "ATG" AS country_code UNION ALL
+SELECT "Argentina" AS country_name, "ARG" AS country_code UNION ALL
+SELECT "Armenia" AS country_name, "ARM" AS country_code UNION ALL
+SELECT "Aruba" AS country_name, "ABW" AS country_code UNION ALL
+SELECT "Australia" AS country_name, "AUS" AS country_code UNION ALL
+SELECT "Austria" AS country_name, "AUT" AS country_code UNION ALL
+SELECT "Azerbaijan" AS country_name, "AZE" AS country_code UNION ALL
+SELECT "Bahamas" AS country_name, "BHS" AS country_code UNION ALL
+SELECT "Bahrain" AS country_name, "BHR" AS country_code UNION ALL
+SELECT "Bangladesh" AS country_name, "BGD" AS country_code UNION ALL
+SELECT "Barbados" AS country_name, "BRB" AS country_code UNION ALL
+SELECT "Belarus" AS country_name, "BLR" AS country_code UNION ALL
+SELECT "Belgium" AS country_name, "BEL" AS country_code UNION ALL
+SELECT "Belize" AS country_name, "BLZ" AS country_code UNION ALL
+SELECT "Benin" AS country_name, "BEN" AS country_code UNION ALL
+SELECT "Bermuda" AS country_name, "BMU" AS country_code UNION ALL
+SELECT "Bhutan" AS country_name, "BTN" AS country_code UNION ALL
+SELECT "Bolivia" AS country_name, "BOL" AS country_code UNION ALL
+SELECT "Bonaire" AS country_name, "BES" AS country_code UNION ALL
+SELECT "Bosnia and Herzegovina" AS country_name, "BIH" AS country_code UNION ALL
+SELECT "Botswana" AS country_name, "BWA" AS country_code UNION ALL
+SELECT "Bouvet Island" AS country_name, "BVT" AS country_code UNION ALL
+SELECT "Brazil" AS country_name, "BRA" AS country_code UNION ALL
+SELECT "British Indian Ocean Territory" AS country_name, "IOT" AS country_code UNION ALL
+SELECT "British National (Overseas)" AS country_name, "GBN" AS country_code UNION ALL
+SELECT "British Overseas Territories Citizen" AS country_name, "GBD" AS country_code UNION ALL
+SELECT "British Overseas Citizen" AS country_name, "GBO" AS country_code UNION ALL
+SELECT "British Protected Person" AS country_name, "GBP" AS country_code UNION ALL
+SELECT "British Subject" AS country_name, "GBS" AS country_code UNION ALL
+SELECT "British Virgin Islands" AS country_name, "VGB" AS country_code UNION ALL
+SELECT "Brunei Darussalam" AS country_name, "BRN" AS country_code UNION ALL
+SELECT "Bulgaria" AS country_name, "BGR" AS country_code UNION ALL
+SELECT "Burkina Faso" AS country_name, "BFA" AS country_code UNION ALL
+SELECT "Burundi" AS country_name, "BDI" AS country_code UNION ALL
+SELECT "Cambodia" AS country_name, "KHM" AS country_code UNION ALL
+SELECT "Cameroon" AS country_name, "CMR" AS country_code UNION ALL
+SELECT "Canada" AS country_name, "CAN" AS country_code UNION ALL
+SELECT "Cape Verde" AS country_name, "CPV" AS country_code UNION ALL
+SELECT "Caribbean Community or one of its emissaries" AS country_name, "XCC" AS country_code UNION ALL
+SELECT "Cayman Islands" AS country_name, "CYM" AS country_code UNION ALL
+SELECT "Central African Republic" AS country_name, "CAF" AS country_code UNION ALL
+SELECT "Chad" AS country_name, "TCD" AS country_code UNION ALL
+SELECT "Chile" AS country_name, "CHL" AS country_code UNION ALL
+SELECT "China" AS country_name, "CHN" AS country_code UNION ALL
+SELECT "Christmas Island" AS country_name, "CXR" AS country_code UNION ALL
+SELECT "Cocos (Keeling) Islands" AS country_name, "CCK" AS country_code UNION ALL
+SELECT "Colombia" AS country_name, "COL" AS country_code UNION ALL
+SELECT "Common Market for Eastern and Southern Africa" AS country_name, "XCO" AS country_code UNION ALL
+SELECT "Comoros" AS country_name, "COM" AS country_code UNION ALL
+SELECT "Congo" AS country_name, "COG" AS country_code UNION ALL
+SELECT "Congo (Democratic Republic)" AS country_name, "COD" AS country_code UNION ALL
+SELECT "Cook Islands" AS country_name, "COK" AS country_code UNION ALL
+SELECT "Council of Europe" AS country_name, "XCE" AS country_code UNION ALL
+SELECT "Costa Rica" AS country_name, "CRI" AS country_code UNION ALL
+SELECT "Croatia" AS country_name, "HRV" AS country_code UNION ALL
+SELECT "Cuba" AS country_name, "CUB" AS country_code UNION ALL
+SELECT "Curaçao" AS country_name, "CUW" AS country_code UNION ALL
+SELECT "Cyprus" AS country_name, "CYP" AS country_code UNION ALL
+SELECT "Czech Republic" AS country_name, "CZE" AS country_code UNION ALL
+SELECT "Denmark" AS country_name, "DNK" AS country_code UNION ALL
+SELECT "Djibouti" AS country_name, "DJI" AS country_code UNION ALL
+SELECT "Dominica" AS country_name, "DMA" AS country_code UNION ALL
+SELECT "Dominican Republic" AS country_name, "DOM" AS country_code UNION ALL
+SELECT "East Timor" AS country_name, "TLS" AS country_code UNION ALL
+SELECT "Economic Community of West African States" AS country_name, "XEC" AS country_code UNION ALL
+SELECT "Ecuador" AS country_name, "ECU" AS country_code UNION ALL
+SELECT "Egypt" AS country_name, "EGY" AS country_code UNION ALL
+SELECT "El Salvador" AS country_name, "SLV" AS country_code UNION ALL
+SELECT "Equatorial Guinea" AS country_name, "GNQ" AS country_code UNION ALL
+SELECT "Eritrea" AS country_name, "ERI" AS country_code UNION ALL
+SELECT "Estonia" AS country_name, "EST" AS country_code UNION ALL
+SELECT "Eswatini" AS country_name, "SWZ" AS country_code UNION ALL
+SELECT "Ethiopia" AS country_name, "ETH" AS country_code UNION ALL
+SELECT "European Union" AS country_name, "EUE" AS country_code UNION ALL
+SELECT "Falkland Islands" AS country_name, "FLK" AS country_code UNION ALL
+SELECT "Faroe Islands" AS country_name, "FRO" AS country_code UNION ALL
+SELECT "Fiji" AS country_name, "FJI" AS country_code UNION ALL
+SELECT "Finland" AS country_name, "FIN" AS country_code UNION ALL
+SELECT "France" AS country_name, "FRA" AS country_code UNION ALL
+SELECT "French Guiana" AS country_name, "GUF" AS country_code UNION ALL
+SELECT "French Polynesia" AS country_name, "PYF" AS country_code UNION ALL
+SELECT "French Southern Territories" AS country_name, "ATF" AS country_code UNION ALL
+SELECT "Gabon" AS country_name, "GAB" AS country_code UNION ALL
+SELECT "Gambia" AS country_name, "GMB" AS country_code UNION ALL
+SELECT "Georgia" AS country_name, "GEO" AS country_code UNION ALL
+SELECT "Germany" AS country_name, "DEU" AS country_code UNION ALL
+SELECT "Ghana" AS country_name, "GHA" AS country_code UNION ALL
+SELECT "Gibraltar" AS country_name, "GIB" AS country_code UNION ALL
+SELECT "Greece" AS country_name, "GRC" AS country_code UNION ALL
+SELECT "Greenland" AS country_name, "GRL" AS country_code UNION ALL
+SELECT "Grenada" AS country_name, "GRD" AS country_code UNION ALL
+SELECT "Guadeloupe" AS country_name, "GLP" AS country_code UNION ALL
+SELECT "Guam" AS country_name, "GUM" AS country_code UNION ALL
+SELECT "Guatemala" AS country_name, "GTM" AS country_code UNION ALL
+SELECT "Guernsey" AS country_name, "GGY" AS country_code UNION ALL
+SELECT "Guinea" AS country_name, "GIN" AS country_code UNION ALL
+SELECT "Guinea-Bissau" AS country_name, "GNB" AS country_code UNION ALL
+SELECT "Guyana" AS country_name, "GUY" AS country_code UNION ALL
+SELECT "Haiti" AS country_name, "HTI" AS country_code UNION ALL
+SELECT "Heard Island and McDonald Islands" AS country_name, "HMD" AS country_code UNION ALL
+SELECT "Honduras" AS country_name, "HND" AS country_code UNION ALL
+SELECT "Hong Kong" AS country_name, "HKG" AS country_code UNION ALL
+SELECT "Hungary" AS country_name, "HUN" AS country_code UNION ALL
+SELECT "Iceland" AS country_name, "ISL" AS country_code UNION ALL
+SELECT "India" AS country_name, "IND" AS country_code UNION ALL
+SELECT "Indonesia" AS country_name, "IDN" AS country_code UNION ALL
+SELECT "International Criminal Police Organisation" AS country_name, "XPO" AS country_code UNION ALL
+SELECT "Iran" AS country_name, "IRN" AS country_code UNION ALL
+SELECT "Iraq" AS country_name, "IRQ" AS country_code UNION ALL
+SELECT "Ireland" AS country_name, "IRL" AS country_code UNION ALL
+SELECT "Isle of Man" AS country_name, "IMN" AS country_code UNION ALL
+SELECT "Israel" AS country_name, "ISR" AS country_code UNION ALL
+SELECT "Italy" AS country_name, "ITA" AS country_code UNION ALL
+SELECT "Ivory Coast" AS country_name, "CIV" AS country_code UNION ALL
+SELECT "Jamaica" AS country_name, "JAM" AS country_code UNION ALL
+SELECT "Japan" AS country_name, "JPN" AS country_code UNION ALL
+SELECT "Jersey" AS country_name, "JEY" AS country_code UNION ALL
+SELECT "Jordan" AS country_name, "JOR" AS country_code UNION ALL
+SELECT "Kazakhstan" AS country_name, "KAZ" AS country_code UNION ALL
+SELECT "Kenya" AS country_name, "KEN" AS country_code UNION ALL
+SELECT "Kiribati" AS country_name, "KIR" AS country_code UNION ALL
+SELECT "Republic of Kosovo" AS country_name, "RKS" AS country_code UNION ALL
+SELECT "Kuwait" AS country_name, "KWT" AS country_code UNION ALL
+SELECT "Kyrgyzstan" AS country_name, "KGZ" AS country_code UNION ALL
+SELECT "Laos" AS country_name, "LAO" AS country_code UNION ALL
+SELECT "Latvia" AS country_name, "LVA" AS country_code UNION ALL
+SELECT "Lebanon" AS country_name, "LBN" AS country_code UNION ALL
+SELECT "Lesotho" AS country_name, "LSO" AS country_code UNION ALL
+SELECT "Liberia" AS country_name, "LBR" AS country_code UNION ALL
+SELECT "Libya" AS country_name, "LBY" AS country_code UNION ALL
+SELECT "Liechtenstein" AS country_name, "LIE" AS country_code UNION ALL
+SELECT "Lithuania" AS country_name, "LTU" AS country_code UNION ALL
+SELECT "Luxembourg" AS country_name, "LUX" AS country_code UNION ALL
+SELECT "Macao" AS country_name, "MAC" AS country_code UNION ALL
+SELECT "Madagascar" AS country_name, "MDG" AS country_code UNION ALL
+SELECT "Malawi" AS country_name, "MWI" AS country_code UNION ALL
+SELECT "Malaysia" AS country_name, "MYS" AS country_code UNION ALL
+SELECT "Maldives" AS country_name, "MDV" AS country_code UNION ALL
+SELECT "Mali" AS country_name, "MLI" AS country_code UNION ALL
+SELECT "Malta" AS country_name, "MLT" AS country_code UNION ALL
+SELECT "Marshall Islands" AS country_name, "MHL" AS country_code UNION ALL
+SELECT "Martinique" AS country_name, "MTQ" AS country_code UNION ALL
+SELECT "Mauritania" AS country_name, "MRT" AS country_code UNION ALL
+SELECT "Mauritius" AS country_name, "MUS" AS country_code UNION ALL
+SELECT "Mayotte" AS country_name, "MYT" AS country_code UNION ALL
+SELECT "Mexico" AS country_name, "MEX" AS country_code UNION ALL
+SELECT "Micronesia" AS country_name, "FSM" AS country_code UNION ALL
+SELECT "Moldova" AS country_name, "MDA" AS country_code UNION ALL
+SELECT "Monaco" AS country_name, "MCO" AS country_code UNION ALL
+SELECT "Mongolia" AS country_name, "MNG" AS country_code UNION ALL
+SELECT "Montenegro" AS country_name, "MNE" AS country_code UNION ALL
+SELECT "Montserrat" AS country_name, "MSR" AS country_code UNION ALL
+SELECT "Morocco" AS country_name, "MAR" AS country_code UNION ALL
+SELECT "Mozambique" AS country_name, "MOZ" AS country_code UNION ALL
+SELECT "Myanmar (Burma)" AS country_name, "MMR" AS country_code UNION ALL
+SELECT "Namibia" AS country_name, "NAM" AS country_code UNION ALL
+SELECT "Nauru" AS country_name, "NRU" AS country_code UNION ALL
+SELECT "Nepal" AS country_name, "NPL" AS country_code UNION ALL
+SELECT "Netherlands" AS country_name, "NLD" AS country_code UNION ALL
+SELECT "New Caledonia" AS country_name, "NCL" AS country_code UNION ALL
+SELECT "New Zealand" AS country_name, "NZL" AS country_code UNION ALL
+SELECT "Nicaragua" AS country_name, "NIC" AS country_code UNION ALL
+SELECT "Niger" AS country_name, "NER" AS country_code UNION ALL
+SELECT "Nigeria" AS country_name, "NGA" AS country_code UNION ALL
+SELECT "Niue" AS country_name, "NIU" AS country_code UNION ALL
+SELECT "Norfolk Island" AS country_name, "NFK" AS country_code UNION ALL
+SELECT "North Korea" AS country_name, "PRK" AS country_code UNION ALL
+SELECT "North Macedonia" AS country_name, "MKD" AS country_code UNION ALL
+SELECT "Northern Mariana Islands" AS country_name, "MNP" AS country_code UNION ALL
+SELECT "Norway" AS country_name, "NOR" AS country_code UNION ALL
+SELECT "Oman" AS country_name, "OMN" AS country_code UNION ALL
+SELECT "Organisation of Eastern Caribbean States" AS country_name, "XES" AS country_code UNION ALL
+SELECT "Pakistan" AS country_name, "PAK" AS country_code UNION ALL
+SELECT "Palau" AS country_name, "PLW" AS country_code UNION ALL
+SELECT "Palestine" AS country_name, "PSE" AS country_code UNION ALL
+SELECT "Panama" AS country_name, "PAN" AS country_code UNION ALL
+SELECT "Papua New Guinea" AS country_name, "PNG" AS country_code UNION ALL
+SELECT "Paraguay" AS country_name, "PRY" AS country_code UNION ALL
+SELECT "Parliamentary Assembly of the Mediterranean" AS country_name, "XMP" AS country_code UNION ALL
+SELECT "Peru" AS country_name, "PER" AS country_code UNION ALL
+SELECT "Person of unspecified nationality" AS country_name, "XXX" AS country_code UNION ALL
+SELECT "Philippines" AS country_name, "PHL" AS country_code UNION ALL
+SELECT "Pitcairn, Henderson, Ducie and Oeno Islands" AS country_name, "PCN" AS country_code UNION ALL
+SELECT "Poland" AS country_name, "POL" AS country_code UNION ALL
+SELECT "Portugal" AS country_name, "PRT" AS country_code UNION ALL
+SELECT "Puerto Rico" AS country_name, "PRI" AS country_code UNION ALL
+SELECT "Qatar" AS country_name, "QAT" AS country_code UNION ALL
+SELECT "Refugee as defined in Article 1 of the 1951 Convention Relating to the Status of Refugees" AS country_name, "XXB" AS country_code UNION ALL
+SELECT "Refugee (Other)" AS country_name, "XXC" AS country_code UNION ALL
+SELECT "Resident of Kosovo to whom a travel document has been issued by the United Nations Interim Administration Mission in Kosovo" AS country_name, "UNK" AS country_code UNION ALL
+SELECT "Romania" AS country_name, "ROU" AS country_code UNION ALL
+SELECT "Russia" AS country_name, "RUS" AS country_code UNION ALL
+SELECT "Rwanda" AS country_name, "RWA" AS country_code UNION ALL
+SELECT "Réunion" AS country_name, "REU" AS country_code UNION ALL
+SELECT "Saint Barthélemy" AS country_name, "BLM" AS country_code UNION ALL
+SELECT "Saint Helena, Ascension and Tristan da Cunha" AS country_name, "SHN" AS country_code UNION ALL
+SELECT "Saint Martin (French part)" AS country_name, "MAF" AS country_code UNION ALL
+SELECT "Saint Pierre and Miquelon" AS country_name, "SPM" AS country_code UNION ALL
+SELECT "Samoa" AS country_name, "WSM" AS country_code UNION ALL
+SELECT "San Marino" AS country_name, "SMR" AS country_code UNION ALL
+SELECT "Sao Tome and Principe" AS country_name, "STP" AS country_code UNION ALL
+SELECT "Saudi Arabia" AS country_name, "SAU" AS country_code UNION ALL
+SELECT "Senegal" AS country_name, "SEN" AS country_code UNION ALL
+SELECT "Serbia" AS country_name, "SRB" AS country_code UNION ALL
+SELECT "Seychelles" AS country_name, "SYC" AS country_code UNION ALL
+SELECT "Sierra Leone" AS country_name, "SLE" AS country_code UNION ALL
+SELECT "Singapore" AS country_name, "SGP" AS country_code UNION ALL
+SELECT "Sint Maarten (Dutch part)" AS country_name, "SXM" AS country_code UNION ALL
+SELECT "Slovakia" AS country_name, "SVK" AS country_code UNION ALL
+SELECT "Slovenia" AS country_name, "SVN" AS country_code UNION ALL
+SELECT "Solomon Islands" AS country_name, "SLB" AS country_code UNION ALL
+SELECT "Somalia" AS country_name, "SOM" AS country_code UNION ALL
+SELECT "South Africa" AS country_name, "ZAF" AS country_code UNION ALL
+SELECT "South Georgia and South Sandwich Islands" AS country_name, "SGS" AS country_code UNION ALL
+SELECT "South Korea" AS country_name, "KOR" AS country_code UNION ALL
+SELECT "South Sudan" AS country_name, "SSD" AS country_code UNION ALL
+SELECT "Southern African Development Community" AS country_name, "XDC" AS country_code UNION ALL
+SELECT "Sovereign Military Order of Malta or one of its emissaries" AS country_name, "XOM" AS country_code UNION ALL
+SELECT "Spain" AS country_name, "ESP" AS country_code UNION ALL
+SELECT "Sri Lanka" AS country_name, "LKA" AS country_code UNION ALL
+SELECT "St Kitts and Nevis" AS country_name, "KNA" AS country_code UNION ALL
+SELECT "St Lucia" AS country_name, "LCA" AS country_code UNION ALL
+SELECT "St Vincent" AS country_name, "VCT" AS country_code UNION ALL
+SELECT "Stateless person" AS country_name, "XXA" AS country_code UNION ALL
+SELECT "Sudan" AS country_name, "SDN" AS country_code UNION ALL
+SELECT "Suriname" AS country_name, "SUR" AS country_code UNION ALL
+SELECT "Svalbard and Jan Mayen" AS country_name, "SJM" AS country_code UNION ALL
+SELECT "Sweden" AS country_name, "SWE" AS country_code UNION ALL
+SELECT "Switzerland" AS country_name, "CHE" AS country_code UNION ALL
+SELECT "Syria" AS country_name, "SYR" AS country_code UNION ALL
+SELECT "Taiwan" AS country_name, "TWN" AS country_code UNION ALL
+SELECT "Tajikistan" AS country_name, "TJK" AS country_code UNION ALL
+SELECT "Tanzania" AS country_name, "TZA" AS country_code UNION ALL
+SELECT "Thailand" AS country_name, "THA" AS country_code UNION ALL
+SELECT "Togo" AS country_name, "TGO" AS country_code UNION ALL
+SELECT "Tokelau" AS country_name, "TKL" AS country_code UNION ALL
+SELECT "Tonga" AS country_name, "TON" AS country_code UNION ALL
+SELECT "Trinidad and Tobago" AS country_name, "TTO" AS country_code UNION ALL
+SELECT "Tunisia" AS country_name, "TUN" AS country_code UNION ALL
+SELECT "Turkey" AS country_name, "TUR" AS country_code UNION ALL
+SELECT "Turkmenistan" AS country_name, "TKM" AS country_code UNION ALL
+SELECT "Turks and Caicos Islands" AS country_name, "TCA" AS country_code UNION ALL
+SELECT "Tuvalu" AS country_name, "TUV" AS country_code UNION ALL
+SELECT "Uganda" AS country_name, "UGA" AS country_code UNION ALL
+SELECT "Ukraine" AS country_name, "UKR" AS country_code UNION ALL
+SELECT "United Arab Emirates" AS country_name, "ARE" AS country_code UNION ALL
+SELECT "United Kingdom" AS country_name, "GBR" AS country_code UNION ALL
+SELECT "United Nations Organisation" AS country_name, "UNO" AS country_code UNION ALL
+SELECT "United Nations specialized agency" AS country_name, "UNA" AS country_code UNION ALL
+SELECT "United States Minor Outlying Islands" AS country_name, "UMI" AS country_code UNION ALL
+SELECT "United States" AS country_name, "USA" AS country_code UNION ALL
+SELECT "United States Virgin Islands" AS country_name, "VIR" AS country_code UNION ALL
+SELECT "Uruguay" AS country_name, "URY" AS country_code UNION ALL
+SELECT "Uzbekistan" AS country_name, "UZB" AS country_code UNION ALL
+SELECT "Vanuatu" AS country_name, "VUT" AS country_code UNION ALL
+SELECT "Vatican City" AS country_name, "VAT" AS country_code UNION ALL
+SELECT "Venezuela" AS country_name, "VEN" AS country_code UNION ALL
+SELECT "Vietnam" AS country_name, "VNM" AS country_code UNION ALL
+SELECT "Wallis and Futuna" AS country_name, "WLF" AS country_code UNION ALL
+SELECT "Western Sahara" AS country_name, "ESH" AS country_code UNION ALL
+SELECT "Yemen" AS country_name, "YEM" AS country_code UNION ALL
+SELECT "Zambia" AS country_name, "ZMB" AS country_code UNION ALL
+SELECT "Zimbabwe" AS country_name, "ZWE" AS country_code UNION ALL
+SELECT "Åland Islands" AS country_name, "ALA" AS country_code 
 
