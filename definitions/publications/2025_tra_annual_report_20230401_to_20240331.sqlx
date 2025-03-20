@@ -1,0 +1,99 @@
+config {
+    type: "view",
+    description: "This is a replica view of AQTS data for the 2024 TRA annual report - 01/04/23 TO 31/03/24 with assessment date extended to 31/05/2025. Created in Dataform to provide version control"
+}
+
+  /* Data is limited to applications submitted BETWEEN '2023-04-01'AND '2024-03-31' */
+  /* There are duplicate application_forms and assessments in BigQuery. The CTEs unique_application_forms and unique_assessments remove those.*/
+WITH
+  unique_application_forms AS (
+  SELECT
+    DISTINCT country_name,
+    id AS application_forms_id,
+    declined_at,
+    awarded_at,
+    withdrawn_at,
+    submitted_at
+  FROM
+    ${ref("application_forms_latest_afqts")} AS application_forms
+  JOIN
+    ${ref("joinGeoData")} AS joingeodata
+  ON
+    application_forms.region_id = joingeoData.region_id
+  WHERE
+    DATE(submitted_at) BETWEEN '2023-04-01'AND '2024-03-31'),
+  unique_assessments AS (
+  SELECT
+    DISTINCT application_form_id,
+    induction_required
+  FROM
+    ${ref("assessments_latest_afqts")} AS assessments ),
+  /* This CTE uses the now cleaned up data for calcuations */
+  applications_submitted_in_period AS (
+  SELECT
+    DISTINCT country_name,
+    unique_application_forms.application_forms_id,
+    declined_at,
+    awarded_at,
+    withdrawn_at,
+    submitted_at,
+    induction_required
+  FROM
+    unique_application_forms
+  JOIN
+    unique_assessments
+  ON
+    unique_assessments.application_form_id = unique_application_forms.application_forms_id ),
+  /* The assessed_in_period CTE uses the applications_submitted_in_period CTE data to count the awards,declines,withdrawals and not assessed in the period. */
+  assessed_in_period AS (
+  SELECT
+    country_name,
+    COUNT(submitted_at) AS applications,
+    COUNT(
+      CASE
+        WHEN DATE(awarded_at) BETWEEN '2023-04-01'AND '2025-05-31' THEN application_forms_id
+    END
+      ) AS awarded,
+    COUNT(
+      CASE
+        WHEN DATE(declined_at) BETWEEN '2023-04-01'AND '2025-05-31' THEN application_forms_id
+    END
+      ) AS declined,
+    COUNT(
+      CASE
+        WHEN DATE(withdrawn_at) BETWEEN '2023-04-01'AND '2025-05-31' THEN application_forms_id
+    END
+      ) AS withdrawn,
+    COUNT(
+      CASE
+      /* count any applications that have not been assessed or were assessed after the date range */
+        WHEN ((DATE(awarded_at)> '2025-05-31' OR DATE(declined_at) > '2025-05-31' OR DATE(withdrawn_at) > '2025-05-31' ) ) OR (awarded_at IS NULL AND declined_at IS NULL AND withdrawn_at IS NULL) THEN application_forms_id
+    END
+      ) AS awaiting_decision,
+    COUNT(
+      CASE
+        WHEN induction_required = TRUE AND DATE(awarded_at) BETWEEN '2023-04-01'AND '2025-05-31' THEN application_forms_id
+    END
+      ) AS induction_required
+  FROM
+    applications_submitted_in_period
+  GROUP BY
+    country_name)
+    /* Final outputs by country */
+SELECT
+  assessed_in_period.country_name,
+  /*  applicants,*/
+  applications,
+  (awarded + declined + withdrawn) AS assessed,
+  awarded,
+  declined,
+  withdrawn,
+  awaiting_decision,
+  induction_required,
+  SAFE_CAST( ROUND(
+    IF
+      (awarded = 0, 0, (induction_required / awarded * 100)), 0 ) AS INT64 ) AS percent_induction_required
+FROM
+  assessed_in_period
+ORDER BY
+  country_name
