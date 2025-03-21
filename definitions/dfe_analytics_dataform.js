@@ -1823,6 +1823,14 @@ dfeAnalyticsDataform({
                     description: "",
                 },
             ],
+            
         },
     ],
+     customEventSchema: [{
+            eventType: "form_validation_failure",
+            description: "Occasions when the applicant receives a form validation failure",
+            keys: []
+        }
+        
+    ]
 });
