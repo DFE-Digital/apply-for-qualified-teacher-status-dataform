@@ -74,7 +74,7 @@ WITH
       ) AS awaiting_decision,
     COUNT(
       CASE
-        WHEN induction_required = TRUE AND DATE(awarded_at) BETWEEN '2023-02-01'AND '2024-05-31' THEN application_forms_id
+        WHEN induction_required = TRUE AND DATE(awarded_at) BETWEEN '2023-02-01'AND '2025-05-31' THEN application_forms_id
     END
       ) AS induction_required
   FROM
