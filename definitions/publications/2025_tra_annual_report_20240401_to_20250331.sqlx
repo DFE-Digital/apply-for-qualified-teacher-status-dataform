@@ -1,6 +1,6 @@
 config {
     type: "view",
-    description: "This is a view of AQTS data for the 2025 TRA annual report - 01/04/24 TO 31/03/25 with assessment date extended to 31/05/2025. Created in Dataform to provide version control"
+    description: "This is a view of AQTS data for the 2025 TRA annual report - 01/04/24 TO 31/03/25 with assessment date extended to 31/05/2025. The Methodology states that applications from Zimbabwe are not to be included. However, it was not possible to submit applications for Zimbabwe in this period so no explicit exclusion has been applied. Created in Dataform to provide version control"
 }
 
   /* Data is limited to applications submitted BETWEEN '2023-04-01'AND '2024-03-31' */
