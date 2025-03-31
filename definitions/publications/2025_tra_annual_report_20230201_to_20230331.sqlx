@@ -1,6 +1,6 @@
 config {
     type: "view",
-    description: "This is a replica view of AQTS data for the 2024 TRA annual report - 01/02/23 TO 31/03/23 with assessment date extended to 31/05/2025. Created in Dataform to provide version control"
+    description: "This is a replica view of AQTS data for the 2024 TRA annual report - 01/02/23 TO 31/03/23 with assessment date extended to 31/05/2025. It also has Zimbabwe explicitly removed as per the Methodology document. Created in Dataform to provide version control"
 }
 
   /* Data is limited to applications submitted BETWEEN '2023-02-01'AND '2023-03-31' */
@@ -21,7 +21,8 @@ WITH
   ON
     application_forms.region_id = joingeoData.region_id
   WHERE
-    DATE(submitted_at) BETWEEN '2023-02-01'AND '2023-03-31'),
+    DATE(submitted_at) BETWEEN '2023-02-01'AND '2023-03-31'
+    and country_name != 'Zimbabwe'),
   /* this CTE deduplicates assessment records */
   unique_assessments AS (
   SELECT
