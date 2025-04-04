@@ -23,7 +23,7 @@ SELECT
   further_information_requests.created_at AS further_information_requests_created_at,
   further_information_request_items.id AS further_information_request_items_id,
   information_type,
-  further_information_request_items.failure_reason_key,
+  replace(further_information_request_items.failure_reason_key, '_', ' ') as failure_reason_key,
   further_information_requests.expired_at AS FI_expired_at,
   further_information_requests.received_at AS FI_received_at,
   further_information_requests.requested_at AS FI_requested_at,
