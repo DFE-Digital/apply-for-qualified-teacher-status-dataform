@@ -807,6 +807,17 @@ dfeAnalyticsDataform({
                     description: "",
                 },
                 {
+                    keyName: "review_decision",
+                    dataType: "string",
+                    description: "Review decision on further information item. Feature live from 9th April 2025",
+                },
+                {
+                    keyName: "review_decision_note",
+                    dataType: "string",
+                    description: "Review decision note on further information item where even more further information is requested. Feature live from 9th April 2025",
+                    hidden: true,
+                },
+                {
                     keyName: "work_history_id",
                     dataType: "string",
                     description: "",
@@ -1823,7 +1834,7 @@ dfeAnalyticsDataform({
                     description: "",
                 },
             ],
-            
+
         },
     ],
      customEventSchema: [{
@@ -1831,6 +1842,6 @@ dfeAnalyticsDataform({
             description: "Occasions when the applicant receives a form validation failure",
             keys: []
         }
-        
+
     ]
 });
