@@ -32,6 +32,10 @@ SELECT
   joinGeoData.country_name,
   joinGeoData.country_route,
   joinGeoData.name AS region_name,
+  CASE 
+    WHEN country_route = 'EEA' THEN TRUE
+    ELSE FALSE
+  END AS country_eea,
   application_forms.reference,
   application_forms.submitted_at,
   assessments.started_at,

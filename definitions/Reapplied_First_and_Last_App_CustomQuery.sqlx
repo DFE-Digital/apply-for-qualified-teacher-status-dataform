@@ -74,7 +74,11 @@ SELECT
   sfr.key AS selected_failure_reasons_key,
   assessment_sections.passed,
   joinGeoData.country_name,
-  joinGeoData.name AS region_name
+  joinGeoData.name AS region_name,
+      CASE 
+    WHEN country_route = 'EEA' THEN TRUE
+    ELSE FALSE
+  END AS country_eea
 FROM
   identifies_duplicates_and_first_last_applications
 LEFT JOIN

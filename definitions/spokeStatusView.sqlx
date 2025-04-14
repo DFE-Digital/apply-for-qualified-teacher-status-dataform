@@ -33,7 +33,11 @@ SELECT
   country_id,
   name AS region_name,
   code,
-  country_name
+  country_name,
+      CASE 
+    WHEN country_route = 'EEA' THEN TRUE
+    ELSE FALSE
+  END AS country_eea
 FROM
   ${ref("application_forms_latest_afqts")} UNPIVOT ( spoke_status FOR spokes IN ( personal_information_status,
       identification_document_status,
