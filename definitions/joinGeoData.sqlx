@@ -31,7 +31,11 @@ SELECT
   tableA.id AS region_id,
   string_field_1 AS country_name,
   string_field_2 AS country_route,
-  string_field_2 = 'EEA' AS country_EEA
+  CASE
+    WHEN string_field_2 = 'EEA' THEN TRUE
+    ELSE FALSE
+END
+  AS country_EEA
 FROM
   ${ref("regions_latest_afqts")} AS tableA
 INNER JOIN
