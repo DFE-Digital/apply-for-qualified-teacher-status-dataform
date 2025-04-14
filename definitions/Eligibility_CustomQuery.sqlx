@@ -7,8 +7,7 @@ SELECT
     name,
     code,
     country_id),
-  tableB.name AS region,
-  tableB.country_eea
+  tableB.name AS region
 FROM
   ${ref("eligibility_checks_latest_afqts")} AS tableA
 LEFT JOIN
