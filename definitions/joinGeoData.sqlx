@@ -6,6 +6,7 @@ config {
         name: "region name",
         code: "country code",
         region_id: "region UID",
+        country_EEA: "Indicates if country is in EEA - true or false"
     }
 }
 
@@ -35,7 +36,7 @@ SELECT
     WHEN string_field_2 = 'EEA' THEN TRUE
     ELSE FALSE
 END
-  AS country_EEA
+  AS country_eea
 FROM
   ${ref("regions_latest_afqts")} AS tableA
 INNER JOIN
