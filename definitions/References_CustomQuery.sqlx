@@ -25,6 +25,10 @@ SELECT
   joinGeoData.country_name AS Country,
   joinGeoData.country_route,
   joinGeoData.name AS Region,
+    CASE 
+    WHEN country_route = 'EEA' THEN TRUE
+    ELSE FALSE
+  END AS country_EEA
 FROM
   ${ref("reference_requests_latest_afqts")} AS reference_requests
 LEFT JOIN
