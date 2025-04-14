@@ -11,7 +11,12 @@ SELECT
   dup_count,
   submitted_at,
   joinGeoData.country_name,
-  joinGeoData.name AS region_name
+  joinGeoData.name AS region_name,
+  CASE
+    WHEN country_route = 'EEA' THEN TRUE
+    ELSE FALSE
+END
+  AS country_eea
 FROM (
   SELECT
     *,

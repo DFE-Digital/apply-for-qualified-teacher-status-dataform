@@ -1,5 +1,6 @@
 config {
     type: "table"
+    
 }
 
 SELECT
@@ -28,7 +29,7 @@ SELECT
     CASE 
     WHEN country_route = 'EEA' THEN TRUE
     ELSE FALSE
-  END AS country_EEA
+  END AS country_eea
 FROM
   ${ref("reference_requests_latest_afqts")} AS reference_requests
 LEFT JOIN
