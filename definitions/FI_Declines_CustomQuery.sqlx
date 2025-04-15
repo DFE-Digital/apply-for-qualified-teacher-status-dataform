@@ -1,5 +1,11 @@
 config {
-  type: "table"
+    type: "table",
+    description: "FI Declines dashboard table",
+    columns: {
+       
+        country_eea: "Indicates if country is in EEA - true or false",
+        country_eu: "Indicates if country is in EU - true or false"
+    }
 }
 
 SELECT
@@ -33,6 +39,7 @@ SELECT
   joinGeoData.country_route,
   joinGeoData.name AS region_name,
   country_eea,
+  country_eu,
   application_forms.reference,
   application_forms.submitted_at,
   assessments.started_at,
