@@ -6,7 +6,8 @@ config {
         name: "region name",
         code: "country code",
         region_id: "region UID",
-        country_eea: "Indicates if country is in EEA - true or false"
+        country_eea: "Indicates if country is in EEA - true or false",
+        country_eu: "Indicates if country is in EU - true or false"
     }
 }
 
@@ -36,7 +37,13 @@ SELECT
     WHEN string_field_2 = 'EEA' THEN TRUE
     ELSE FALSE
 END
-  AS country_eea
+  AS country_eea,
+  CASE
+    WHEN string_field_1 in ('Austria', 'Belgium', 'Bulgaria', 'Croatia', 'Cyprus', 'Czech Republic', 'Denmark', 'Estonia', 'Finland', 'France', 'Germany', 'Greece', 'Hungary', 'Ireland', 'Italy', 'Latvia', 'Lithuania', 'Luxembourg', 'Malta', 'Netherlands', 'Poland', 'Portugal', 'Romania', 'Slovakia', 'Slovenia', 'Spain', 'Sweden'
+) THEN TRUE
+    ELSE FALSE
+END
+  AS country_eu
 FROM
   ${ref("regions_latest_afqts")} AS tableA
 INNER JOIN
