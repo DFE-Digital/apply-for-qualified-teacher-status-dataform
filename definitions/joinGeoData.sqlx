@@ -6,7 +6,7 @@ config {
         name: "region name",
         code: "country code",
         region_id: "region UID",
-        country_EEA: "Indicates if country is in EEA - true or false"
+        country_eea: "Indicates if country is in EEA - true or false"
     }
 }
 
