@@ -11,6 +11,7 @@ SELECT
   assessor_id,
   application_forms.region_id,
   country_name,
+  country_eea,
   MIN(valid_from) AS actioned_on
 FROM
   ${ref("application_forms_version_afqts")} AS application_forms
@@ -29,4 +30,5 @@ GROUP BY
   action_required_by,
   assessor_id,
   application_forms.region_id,
-  country_name
+  country_name,
+  country_eea
