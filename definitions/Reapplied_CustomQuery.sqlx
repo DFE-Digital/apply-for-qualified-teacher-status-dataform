@@ -1,5 +1,10 @@
 config {
-    type: "table"
+    type: "table",
+    description: "Reapplied applicants dashboard table",
+    columns: {
+        country_eea: "Indicates if country is in EEA - true or false",
+        country_eu: "Indicates if country is in EU - true or false"
+    }
 }
 
 SELECT
@@ -12,7 +17,8 @@ SELECT
   submitted_at,
   joinGeoData.country_name,
   joinGeoData.name AS region_name,
-  country_eea
+  country_eea,
+  country_eu
 FROM (
   SELECT
     *,

@@ -12,7 +12,9 @@ config {
         submitted_at: "Date application was submitted",
         working_days_since_submission: "Working days since application was created",
         spokes: "Application spoke",
-        spoke_status: "Status of application spoke"
+        spoke_status: "Status of application spoke",
+        country_eea:  "applicant qualified in EEA country - true / false",
+        country_eu:  "applicant qualified in EU country - true / false"
     }
 }
 
@@ -34,7 +36,8 @@ SELECT
   name AS region_name,
   code,
   country_name,
-  country_eea
+  country_eea,
+  country_eu
 FROM
   ${ref("application_forms_latest_afqts")}
 UNPIVOT
