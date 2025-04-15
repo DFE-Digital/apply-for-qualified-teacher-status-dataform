@@ -3,13 +3,17 @@ config {
     description: "Combined application and asessment dashboard table",
     columns: {
         country_eea: "Indicates if country is in EEA - true or false",
-        country_eu: "Indicates if country is in EU - true or false"
+        country_eu: "Indicates if country is in EU - true or false",
+        age: "Applicant's age",
+        age_range: "Applicants age range",
+        passport_country_name: "Country where applicant's passport was issued"
     }
 }
 
 SELECT
   * EXCEPT ( id,
     created_at,
+    country_name,
     region_id,
     subjects,
     last_streamed_event_occurred_at,
@@ -27,12 +31,31 @@ SELECT
     review_passed,
     age_range_min,
     age_range_max,
-    subject_limited ),
+    subject_limited,
+    alternative_family_name,
+    alternative_given_names,
+    date_of_birth,
+    trs_match,
+    family_name),
   assessments.id AS assessment_id,
   professional_standing.expired_at AS ps_expired_at,
   application_forms.id AS id,
   application_forms.created_at AS created_at,
   application_forms.state AS state,
+  DATE_DIFF(CURRENT_DATE(), DATE (date_of_birth), YEAR) AS age,
+  CASE
+    WHEN DATE_DIFF(CURRENT_DATE(), date_of_birth, YEAR) < 21 THEN '<21'
+    WHEN DATE_DIFF(CURRENT_DATE(), date_of_birth, YEAR) BETWEEN 21
+  AND 30 THEN '21-30'
+    WHEN DATE_DIFF(CURRENT_DATE(), date_of_birth, YEAR) BETWEEN 31 AND 40 THEN '31-40'
+    WHEN DATE_DIFF(CURRENT_DATE(), date_of_birth, YEAR) BETWEEN 41
+  AND 50 THEN '41-50'
+    WHEN DATE_DIFF(CURRENT_DATE(), date_of_birth, YEAR) BETWEEN 51 AND 60 THEN '51-60'
+    ELSE '61+'
+END
+  AS age_range,
+  COALESCE(passport_country.country_name, '') AS passport_country_name,
+  COALESCE(joinGeoData.country_name, '') AS country_name,
   assessments.id AS assessment_latest_id,
   assessments.created_at AS assessment_created_at,
   application_forms.region_id AS region_id,
@@ -67,7 +90,6 @@ SELECT
         further_information_requests.created_at), EXTRACT(TIME
       FROM
         started_at), MINUTE)) AS minutes_since_started_to_FIed
-
 FROM
   ${ref("application_forms_latest_afqts")} AS application_forms
 LEFT JOIN
@@ -84,6 +106,9 @@ ON
   assessments.id = further_information_requests.assessment_id
 LEFT JOIN
   ${ref("professional_standing_requests_latest_afqts")} AS professional_standing
-
 ON
   professional_standing.assessment_id = assessments.id
+LEFT JOIN
+  `apply-for-qts-in-england.dataform_production.passport_issue_country` AS passport_country
+ON
+  passport_country_of_issue_code = passport_country.country_code
