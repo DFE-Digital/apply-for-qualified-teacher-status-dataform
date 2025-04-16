@@ -36,7 +36,7 @@ SELECT
     alternative_given_names,
     date_of_birth,
     trs_match,
-    family_name),
+    family_name,country_code),
   assessments.id AS assessment_id,
   professional_standing.expired_at AS ps_expired_at,
   application_forms.id AS id,
