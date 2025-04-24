@@ -4,8 +4,8 @@ config {
     columns: {
         country_eea: "Indicates if country is in EEA - true or false",
         country_eu: "Indicates if country is in EU - true or false",
-        age: "Applicant's age",
-        age_range: "Applicants age range",
+        age: "Applicant's age at the time they created the application (i.e from DOB to application.created_at date)",
+        age_range: "Applicant's age range at the time they created the application (i.e from DOB to application.created_at date)",
         passport_country_name: "Country where applicant's passport was issued"
     }
 }
@@ -36,21 +36,22 @@ SELECT
     alternative_given_names,
     date_of_birth,
     trs_match,
-    family_name,country_code),
+    family_name,
+    country_code),
   assessments.id AS assessment_id,
   professional_standing.expired_at AS ps_expired_at,
   application_forms.id AS id,
   application_forms.created_at AS created_at,
   application_forms.state AS state,
-  DATE_DIFF(CURRENT_DATE(), DATE (date_of_birth), YEAR) AS age,
+  DATE_DIFF(DATE(application_forms.created_at), DATE (date_of_birth), YEAR) AS age,
   CASE
-    WHEN DATE_DIFF(CURRENT_DATE(), date_of_birth, YEAR) < 21 THEN '<21'
-    WHEN DATE_DIFF(CURRENT_DATE(), date_of_birth, YEAR) BETWEEN 21
+    WHEN DATE_DIFF(DATE(application_forms.created_at), date_of_birth, YEAR) < 21 THEN '<21'
+    WHEN DATE_DIFF(DATE(application_forms.created_at), date_of_birth, YEAR) BETWEEN 21
   AND 30 THEN '21-30'
-    WHEN DATE_DIFF(CURRENT_DATE(), date_of_birth, YEAR) BETWEEN 31 AND 40 THEN '31-40'
-    WHEN DATE_DIFF(CURRENT_DATE(), date_of_birth, YEAR) BETWEEN 41
+    WHEN DATE_DIFF(DATE(application_forms.created_at), date_of_birth, YEAR) BETWEEN 31 AND 40 THEN '31-40'
+    WHEN DATE_DIFF(DATE(application_forms.created_at), date_of_birth, YEAR) BETWEEN 41
   AND 50 THEN '41-50'
-    WHEN DATE_DIFF(CURRENT_DATE(), date_of_birth, YEAR) BETWEEN 51 AND 60 THEN '51-60'
+    WHEN DATE_DIFF(DATE(application_forms.created_at), date_of_birth, YEAR) BETWEEN 51 AND 60 THEN '51-60'
     ELSE '61+'
 END
   AS age_range,
