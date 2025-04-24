@@ -57,10 +57,32 @@ END
   AS age_range,
   COALESCE(passport_country.country_name, '') AS passport_country_name,
   COALESCE(joinGeoData.country_name, '') AS country_name,
+  assessments.age_range_min AS assessment_age_range_min,
+  assessments.age_range_max AS assessment_age_range_max,
+  CASE
+    WHEN assessments.age_range_min IS NOT NULL AND assessments.age_range_max IS NOT NULL THEN assessments.age_range_min || ' - ' || assessments.age_range_max
+    ELSE CAST(COALESCE(assessments.age_range_min, assessments.age_range_max) AS STRING)
+END
+  AS assessment_age_range,
   assessments.id AS assessment_latest_id,
   assessments.created_at AS assessment_created_at,
+  REPLACE(LOWER(COALESCE(assessments.subjects, ' ')), '_', ' ') AS assessment_subjects,
+  CASE
+    WHEN withdrawn_at IS NOT NULL THEN 'withdrawn'
+    WHEN declined_at IS NOT NULL THEN 'declined'
+    WHEN awarded_at IS NOT NULL THEN 'awarded'
+END
+  AS assessment_status,
   application_forms.region_id AS region_id,
   application_forms.updated_at AS updated_at,
+  application_forms.age_range_min AS application_age_range_min,
+  application_forms.age_range_max AS application_age_range_max,
+  CASE
+    WHEN application_forms.age_range_min IS NOT NULL AND application_forms.age_range_max IS NOT NULL THEN CAST(application_forms.age_range_min AS STRING) || ' - ' || CAST(application_forms.age_range_max AS STRING)
+    ELSE CAST(COALESCE(application_forms.age_range_min, application_forms.age_range_max) AS STRING)
+END
+  AS application_age_range,
+  LOWER( REGEXP_REPLACE(TRIM(application_forms.subjects), r'[^a-zA-Z0-9 ]', '') ) AS application_subjects,
   assessments.updated_at AS assessment_updated_at,
   further_information_requests.state AS FI_state,
   further_information_requests.created_at AS FI_created_at,
