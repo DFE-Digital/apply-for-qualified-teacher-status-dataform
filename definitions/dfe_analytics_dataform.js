@@ -1378,7 +1378,7 @@ dfeAnalyticsDataform({
                     description: "",
                 },
                 {
-                    keyName: "change_work_history_permission",
+                    keyName: "change_work_history_and_qualification_permission",
                     dataType: "boolean",
                     description: "",
                 },
