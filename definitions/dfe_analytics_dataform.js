@@ -360,12 +360,17 @@ dfeAnalyticsDataform({
                 {
                     keyName: "work_history_status",
                     dataType: "string",
-                    description: " Working days since submission ",
+                    description: "Application forms work history spoke status",
                 },
                 {
-                    keyName: "working_days_since_submission",
+                    keyName: "working_days_between_submitted_and_today",
                     dataType: "integer",
-                    description: " Working days since submission",
+                    description: "Working days between application form being been submitted until today",
+                },
+                {
+                    keyName: "working_days_between_submitted_and_completed",
+                    dataType: "integer",
+                    description: "Working days between application form being submitted until awarded, declined or withdrawn ",
                 },
                 {
                     keyName: "written_statement_confirmation",
@@ -442,7 +447,6 @@ dfeAnalyticsDataform({
             ],
         },
         {
-
             entityTableName: "assessments",
             description: "Table documenting the assessment process for an applicant",
             keys: [
@@ -508,24 +512,29 @@ dfeAnalyticsDataform({
                     description: "indicates the assessor has generated the unsigned consent document ready to be sent to the applicant",
                 },
                 {
-                    keyName: "working_days_since_started",
+                    keyName: "working_days_between_started_and_today",
                     dataType: "integer",
-                    description: " Days since application was first submitted",
+                    description: "Working days between assessment being started and today",
                 },
                 {
-                    keyName: "working_days_started_to_recommendation",
+                    keyName: "working_days_between_started_and_completed",
                     dataType: "integer",
-                    description: " Days since recommendation assessment has started",
+                    description: "Working days between assessment being started and application form being awarded, declined or withdrawn",
                 },
                 {
-                    keyName: "working_days_submission_to_recommendation",
+                    keyName: "working_days_between_submitted_and_started",
                     dataType: "integer",
-                    description: " Days between an application is submitted and a recommendation is decided ",
+                    description: "Working days between application form being submitted and assessment started",
                 },
                 {
-                    keyName: "working_days_submission_to_started",
+                    keyName: "working_days_between_started_and_verification_started",
                     dataType: "integer",
-                    description: "Days between submission started to start",
+                    description: "Working days between assessment started and assessment moving into verification started",
+                },
+                {
+                    keyName: "working_days_between_submitted_and_verification_started",
+                    dataType: "integer",
+                    description: "Working days between application submitted and assessment moving into verification started",
                 },
             ],
         },
@@ -866,19 +875,9 @@ dfeAnalyticsDataform({
                     historic: true,
                 },
                 {
-                    keyName: "working_days_assessment_started_to_creation",
+                    keyName: "working_days_between_assessment_started_to_requested",
                     dataType: "integer",
-                    description: "",
-                },
-                {
-                    keyName: "working_days_received_to_recommendation",
-                    dataType: "integer",
-                    description: "",
-                },
-                {
-                    keyName: "working_days_since_received",
-                    dataType: "integer",
-                    description: "",
+                    description: "Working days between assessment started and further information request being requested",
                 },
             ],
         },
