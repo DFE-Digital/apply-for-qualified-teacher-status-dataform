@@ -1808,6 +1808,11 @@ dfeAnalyticsDataform({
                     description: "",
                 },
                 {
+                    keyName: "postcode",
+                    dataType: "string",
+                    description: "Postal code of the school (Released 2nd June 2025)",
+                },
+                {
                     keyName: "school_name",
                     dataType: "string",
                     description: "",
