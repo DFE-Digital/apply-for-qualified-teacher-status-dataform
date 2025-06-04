@@ -502,6 +502,11 @@ dfeAnalyticsDataform({
                     description: "When an assessor assesses any part of the application. For applications which require a preliminary check, that includes the preliminary check",
                 },
                 {
+                    keyName: "verification_started_at",
+                    dataType: "timestamp",
+                    description: "When an assessor starts the verification stage on an assessment",
+                },
+                {
                     keyName: "subjects",
                     dataType: "string",
                     description: "",
