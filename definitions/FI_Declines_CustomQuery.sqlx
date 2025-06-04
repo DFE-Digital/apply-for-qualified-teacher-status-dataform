@@ -2,7 +2,7 @@ config {
     type: "table",
     description: "FI Declines dashboard table",
     columns: {
-       
+
         country_eea: "Indicates if country is in EEA - true or false",
         country_eu: "Indicates if country is in EU - true or false"
     }
@@ -16,10 +16,8 @@ SELECT
   preliminary,
   recommendation,
   recommended_at,
-  working_days_received_to_recommendation,
-  working_days_submission_to_recommendation,
-  working_days_since_received,
-  working_days_since_submission,
+  working_days_between_submitted_and_completed,
+  working_days_between_submitted_and_today,
   assessment_sections.id AS section_id,
   assessment_sections.passed,
   further_information_requests.id AS further_information_requests_id,
@@ -54,7 +52,7 @@ SELECT
   qualifications.part_of_university_degree,
   qualifications.institution_country_code,
 
-  
+
 FROM
   ${ref("assessments_latest_afqts")} AS assessments
   LEFT JOIN ${ref("assessment_sections_latest_afqts")} AS assessment_sections ON assessments.id = assessment_sections.assessment_id
