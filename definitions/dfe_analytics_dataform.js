@@ -736,6 +736,11 @@ dfeAnalyticsDataform({
                     dataType: "string",
                     description: "",
                 },
+                {
+                    keyName: "eligible_work_experience_in_england",
+                    dataType: "boolean",
+                    description: "Whether user has 'valid educational setting in England within the last 12 months?' during eligibility checker for prioritisation",
+                },
             ],
         },
         {
