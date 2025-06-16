@@ -131,9 +131,19 @@ dfeAnalyticsDataform({
                     description: "Pseudonymised data",
                 },
                 {
+                    keyName: "has_other_england_work_history",
+                    dataType: "boolean",
+                    description: "Application forms where applicant has indicated that they have other work experience in England",
+                },
+                {
                     keyName: "has_work_history",
                     dataType: "string",
                     description: "Pseudonymised data",
+                },
+                {
+                    keyName: "includes_prioritisation_features",
+                    dataType: "boolean",
+                    description: "Application forms whether the prioritisation features for including other work experience in England is present",
                 },
                 {
                     keyName: "identification_document_status",
@@ -154,6 +164,11 @@ dfeAnalyticsDataform({
                     keyName: "needs_written_statement",
                     dataType: "boolean",
                     description: "If there isn't an online checker for competent authority, then written statment checks need to be uploaded",
+                },
+                {
+                    keyName: "other_england_work_history_status",
+                    dataType: "string",
+                    description: "Application form where the other work experience in England task is completed while in draft",
                 },
                 {
                     keyName: "overdue_further_information",
@@ -1811,6 +1826,11 @@ dfeAnalyticsDataform({
                     keyName: "hours_per_week",
                     dataType: "integer",
                     description: "",
+                },
+                {
+                    keyName: "is_other_england_educational_role",
+                    dataType: "boolean",
+                    description: "This determines work histories which were entered as part of 'Other work experience in England' which do not count towards their experience and only used for prioritisation of application forms",
                 },
                 {
                     keyName: "job",
