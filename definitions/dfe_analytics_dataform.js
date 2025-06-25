@@ -809,6 +809,12 @@ dfeAnalyticsDataform({
             description: "",
             keys: [
                 {
+                    keyName: "failure_reason_assessor_feedback",
+                    dataType: "string",
+                    description: "",
+                    hidden: true,
+                },
+                {
                     keyName: "contact_email",
                     dataType: "string",
                     description: "",
