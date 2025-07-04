@@ -1393,11 +1393,6 @@ dfeAnalyticsDataform({
                     description: "",
                 },
                 {
-                    keyName: "award_decline_permission",
-                    dataType: "boolean",
-                    description: "",
-                },
-                {
                     keyName: "change_email_permission",
                     dataType: "boolean",
                     description: "Whether the user has permission to change the application email address.",
@@ -1493,11 +1488,6 @@ dfeAnalyticsDataform({
                 {
                     keyName: "locked_at",
                     dataType: "string",
-                    description: "",
-                },
-                {
-                    keyName: "manage_applications_permission",
-                    dataType: "boolean",
                     description: "",
                 },
                 {
@@ -1679,16 +1669,6 @@ dfeAnalyticsDataform({
                     dataType: "string",
                     description: "",
                     hidden: true,
-                },
-                {
-                    keyName: "otp_created_at",
-                    dataType: "timestamp",
-                    description: "",
-                },
-                {
-                    keyName: "otp_guesses",
-                    dataType: "integer",
-                    description: "",
                 },
                 {
                     keyName: "sign_in_count",
