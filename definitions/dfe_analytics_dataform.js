@@ -556,6 +556,16 @@ dfeAnalyticsDataform({
                     dataType: "integer",
                     description: "Working days between application submitted and assessment moving into verification started",
                 },
+                {
+                    keyName: "prioritisation_decision_at",
+                    dataType: "timestamp",
+                    description: "This represents the timestamp at which the prioritisation decision was made at (regardless of result). This is only relevant for assessments that go through prioritisation checks.",
+                },
+                {
+                    keyName: "prioritised",
+                    dataType: "boolean",
+                    description: "This represents whether an assessment is prioritised or not. This is only relevant for assessments that go through prioritisation checks. This will remain as 'null' if assessment has not gone through prioritisation checks.",
+                },
             ],
         },
         {
@@ -1007,6 +1017,99 @@ dfeAnalyticsDataform({
                     keyName: "verify_passed",
                     dataType: "boolean",
                     description: "",
+                },
+            ],
+        },
+        {
+            entityTableName: "prioritisation_reference_requests",
+            description: "For any assessments that have gone through initial prioritisation work history checks and passed, will have prioritisation reference requests sent for those work histories.",
+            keys: [
+                {
+                    keyName: "assessment_id",
+                    dataType: "string",
+                    description: "An assessment can has multiple prioritisation_reference_requests.",
+                },
+                {
+                    keyName: "work_history_id",
+                    dataType: "string",
+                    description: "This column will be unique against all records.",
+                },
+                {
+                    keyName: "prioritisation_work_history_check_id",
+                    dataType: "string",
+                    description: "This column will be unique against all records.",
+                },
+                {
+                    keyName: "contact_response",
+                    dataType: "boolean",
+                    description: "Response of the referee indicating whether the information is correct or not about the referee.",
+                },
+                {
+                    keyName: "confirm_applicant_response",
+                    dataType: "boolean",
+                    description: "Response of the referee indicating whether the information is correct or not about the applicant and their role.",
+                },
+                {
+                    keyName: "requested_at",
+                    dataType: "timestamp",
+                    description: "",
+                },
+                {
+                    keyName: "received_at",
+                    dataType: "timestamp",
+                    description: "",
+                },
+                {
+                    keyName: "expired_at",
+                    dataType: "timestamp",
+                    description: "",
+                },
+                {
+                    keyName: "review_passed",
+                    dataType: "boolean",
+                    description: "",
+                },
+                {
+                    keyName: "reviewed_at",
+                    dataType: "timestamp",
+                    description: "",
+                },
+                {
+                    keyName: "review_note",
+                    dataType: "string",
+                    description: "",
+                    hidden: true,
+                },
+            ],
+        },
+        {
+            entityTableName: "prioritisation_work_history_checks",
+            description: "This represents a prioritisation check on an assessment for any work history that is in England and within the last 12 months of being submitted. Any assessment that has this record, indicates that they're going through or have gone through prioritisation checks.",
+            keys: [
+                {
+                    keyName: "assessment_id",
+                    dataType: "string",
+                    description: "An assessment can has multiple prioritisation_work_history_checks.",
+                },
+                {
+                    keyName: "work_history_id",
+                    dataType: "string",
+                    description: "This column will be unique against all records.",
+                },
+                {
+                    keyName: "checks",
+                    dataType: "string",
+                    description: "Array of checks conducted during prioritisation role and setting check",
+                },
+                {
+                    keyName: "failure_reasons",
+                    dataType: "string",
+                    description: "Array of potential failure reasons while conducting prioritisation role and setting checks",
+                },
+                {
+                    keyName: "passed",
+                    dataType: "boolean",
+                    description: "The result of whether the prioritisation work history check has passed or not. When null, this represent the check being incomplete.",
                 },
             ],
         },
