@@ -1080,16 +1080,6 @@ dfeAnalyticsDataform({
                     description: "",
                     hidden: true,
                 },
-                {
-                    keyName: "created_at",
-                    dataType: "timestamp",
-                    description: "",
-                },
-                {
-                    keyName: "updated_at",
-                    dataType: "timestamp",
-                    description: "",
-                },
             ],
         },
         {
@@ -1117,20 +1107,9 @@ dfeAnalyticsDataform({
                     description: "Array of potential failure reasons while conducting prioritisation role and setting checks",
                 },
                 {
-                    keyName: "created_at",
-                    dataType: "timestamp",
-                    description: "",
-                },
-
-                {
                     keyName: "passed",
                     dataType: "boolean",
                     description: "The result of whether the prioritisation work history check has passed or not. When null, this represent the check being incomplete.",
-                },
-                {
-                    keyName: "updated_at",
-                    dataType: "timestamp",
-                    description: "",
                 },
             ],
         },
