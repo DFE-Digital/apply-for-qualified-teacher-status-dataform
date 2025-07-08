@@ -1027,17 +1027,17 @@ dfeAnalyticsDataform({
                 {
                     keyName: "assessment_id",
                     dataType: "string",
-                    description: "",
+                    description: "An assessment can has multiple prioritisation_reference_requests.",
                 },
                 {
                     keyName: "work_history_id",
                     dataType: "string",
-                    description: "",
+                    description: "This column will be unique against all records.",
                 },
                 {
                     keyName: "prioritisation_work_history_check_id",
                     dataType: "string",
-                    description: "",
+                    description: "This column will be unique against all records.",
                 },
                 {
                     keyName: "contact_response",
@@ -1089,12 +1089,12 @@ dfeAnalyticsDataform({
                 {
                     keyName: "assessment_id",
                     dataType: "string",
-                    description: "",
+                    description: "An assessment can has multiple prioritisation_work_history_checks.",
                 },
                 {
                     keyName: "work_history_id",
                     dataType: "string",
-                    description: "",
+                    description: "This column will be unique against all records.",
                 },
                 {
                     keyName: "checks",
