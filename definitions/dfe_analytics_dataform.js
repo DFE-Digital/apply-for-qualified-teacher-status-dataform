@@ -1461,10 +1461,15 @@ dfeAnalyticsDataform({
         },
         {
             entityTableName: "selected_failure_reasons",
-            description: "",
+            description: "The selected failure reasons by assessor either during prioritisation work history check or during specific assessment sections",
             keys: [
                 {
                     keyName: "assessment_section_id",
+                    dataType: "string",
+                    description: "",
+                },
+                {
+                    keyName: "prioritisation_work_history_check_id",
                     dataType: "string",
                     description: "",
                 },
