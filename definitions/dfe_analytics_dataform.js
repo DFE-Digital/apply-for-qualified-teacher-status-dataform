@@ -557,6 +557,11 @@ dfeAnalyticsDataform({
                     description: "Working days between application submitted and assessment moving into verification started",
                 },
                 {
+                    keyName: "working_days_between_submitted_and_prioritisation_decision",
+                    dataType: "integer",
+                    description: "Working days between application submitted and assessment having a prioritisation decision made (prioritisation_decision_at being present)",
+                },
+                {
                     keyName: "prioritisation_decision_at",
                     dataType: "timestamp",
                     description: "This represents the timestamp at which the prioritisation decision was made at (regardless of result). This is only relevant for assessments that go through prioritisation checks.",
