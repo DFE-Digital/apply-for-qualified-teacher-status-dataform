@@ -407,6 +407,7 @@ dfeAnalyticsDataform({
         {
             entityTableName: "application_forms_suitability_records",
             description: "Table documenting status per assessment section",
+            primaryKey: "application_form_id",
             keys: [
                 {
                     keyName: "application_form_id",
@@ -1702,8 +1703,9 @@ dfeAnalyticsDataform({
             description: "",
             keys: [
                 {
-                    keyName: "suitability_record_id",
+                    keyName: "id",
                     dataType: "timestamp",
+                    alias: "suitability_record_id",
                     description: "",
                 },
                 {
