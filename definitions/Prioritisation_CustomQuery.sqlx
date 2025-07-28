@@ -69,7 +69,7 @@ working_days_between_started_and_today AS working_days_between_assessment_starte
 FROM ${ref("assessments_latest_afqts")}
 ),
 
-earlierst_prioritisation_reference_received AS ( 
+earliest_prioritisation_reference_received AS ( 
 SELECT *
 FROM (
 SELECT
@@ -124,19 +124,19 @@ application_forms.working_days_between_submitted_and_completed,--completed=award
 assessments.working_days_between_assessment_started_and_verification_started,
 assessments.working_days_between_assessment_started_and_completed, --completed=awarded, declined or withdrawn
 assessments.working_days_between_assessment_started_and_today,
-earlierst_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference as days_taken_to_receive_first_prioritisation_reference,
-CASE WHEN earlierst_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference = 0 THEN 'a) Same day'
-WHEN earlierst_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference =1 THEN 'b) Next day'
-WHEN earlierst_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference =1 THEN 'c) 2 days'
-WHEN earlierst_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference >=3 AND earlierst_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference <=5 THEN 'd) 3-5 Days'
-WHEN earlierst_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference >=6 AND earlierst_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference <=7 THEN 'e) 6-7 Days'
-WHEN earlierst_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference >=8 AND earlierst_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference <=14 THEN 'f) 2 Weeks'
-WHEN earlierst_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference >=15 AND earlierst_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference <=21 THEN 'g) 3 Weeks'
-WHEN earlierst_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference >=22 AND earlierst_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference <=28 THEN 'h) 4 Weeks'
-WHEN earlierst_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference >=29 AND earlierst_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference <=35 THEN 'i) 5 Weeks'
-WHEN earlierst_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference >=36 AND earlierst_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference <=42 THEN 'j) 6 Weeks'
+earliest_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference as days_taken_to_receive_first_prioritisation_reference,
+CASE WHEN earliest_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference = 0 THEN 'a) Same day'
+WHEN earliest_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference =1 THEN 'b) Next day'
+WHEN earliest_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference =2 THEN 'c) 2 days'
+WHEN earliest_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference >=3 AND earliest_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference <=5 THEN 'd) 3-5 Days'
+WHEN earliest_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference >=6 AND earliest_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference <=7 THEN 'e) 6-7 Days'
+WHEN earliest_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference >=8 AND earliest_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference <=14 THEN 'f) 2 Weeks'
+WHEN earliest_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference >=15 AND earliest_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference <=21 THEN 'g) 3 Weeks'
+WHEN earliest_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference >=22 AND earliest_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference <=28 THEN 'h) 4 Weeks'
+WHEN earliest_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference >=29 AND earliest_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference <=35 THEN 'i) 5 Weeks'
+WHEN earliest_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference >=36 AND earliest_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference <=42 THEN 'j) 6 Weeks'
 ELSE 'k) No reference received yet' END as time_taken_to_receive_first_reference,
-earlierst_prioritisation_reference_received.referee_confirmation_of_referee_and_applicant_details as first_referee_confirmation_of_referee_and_applicant_details,
+earliest_prioritisation_reference_received.referee_confirmation_of_referee_and_applicant_details as first_referee_confirmation_of_referee_and_applicant_details,
 CASE WHEN application_forms.awarded_at IS NOT NULL THEN 'Awarded'
 WHEN application_forms.declined_at IS NOT NULL THEN 'Declined'
 WHEN application_forms.withdrawn_at IS NOT NULL THEN 'Withdrawn'
@@ -152,8 +152,8 @@ LEFT JOIN ${ref("joinGeoData")} AS joinGeoData
 ON application_forms.region_id = joinGeoData.region_id
 LEFT JOIN assessments
 ON application_forms.id = assessments.application_form_id
-LEFT JOIN earlierst_prioritisation_reference_received
-ON assessments.assessment_id = earlierst_prioritisation_reference_received.assessment_id
+LEFT JOIN earliest_prioritisation_reference_received
+ON assessments.assessment_id = earliest_prioritisation_reference_received.assessment_id
 LEFT JOIN prioritisation_check_started
 ON assessments.assessment_id = prioritisation_check_started.assessment_id
 
