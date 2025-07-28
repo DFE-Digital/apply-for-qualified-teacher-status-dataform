@@ -1,9 +1,9 @@
 config {
     type: "table",
-    description: "Custom query with 1 row representing a unique application to AFQTS that has been sumbitted. Columns have been added to enable success measures reporting of minister options mainly with Prioritisation feature release",
+    description: "Custom query with 1 row representing a unique application to AFQTS that has been submitted. Columns have been added to enable success measures reporting of minister options mainly with Prioritisation feature release",
     columns: {
         application_reference_number: "Reference number of the application from application_forms_latest_afqts table",
-        was_application_started_after_prioritisation_release: "Indicates if aplication was started after feature release.",
+        was_application_started_after_prioritisation_release: "Indicates if application was started after feature release.",
         applicant_country: "Indicates the country of origin of the applicant",
         EEA: "Indicates if country of origin is considered part of the European Economic Area (EEA). Column included for ease of filtering in the dashboard page",
         EU: "Indicates if country of origin is considered part of the European Union (EU). Column included for ease of filtering in the dashboard page",
@@ -13,13 +13,13 @@ config {
         has_prioritisation_check_started: "Indicates if there is at least one prioritisation check which we are using as our indicator that prioritisation checks have started",
         assessment_started_date: "Date the application started to be assessed",
         application_prioritisation_outcome: "Decision of whether the application has been prioritised or not",
-        applicant_subject_restricted: "Is the applicant be subject resctricted",
+        applicant_subject_restricted: "Is the applicant be subject restricted",
         prioritisation_decision_date: "Date prioritisation decision was made",
         working_days_between_submitted_and_prioritisation_decision: "The number of working days it took from application being submitted to the prioritisation decision being made",
         working_days_between_submitted_and_assessment_started: "The number of working days it took from application being submitted to the assessment starting",
         working_days_between_submitted_and_verification_started: "The number of working days it took from application being submitted to the verification stage starting",
         working_days_between_submitted_and_completed: "The number of working days it took from application being submitted to the application outcome of either award, decline or withdraw",
-        working_days_between_assessment_started_and_verification_started: "The number of working days it took from assessment starting to the verification stage srating",
+        working_days_between_assessment_started_and_verification_started: "The number of working days it took from assessment starting to the verification stage starting",
         working_days_between_assessment_started_and_completed: "The number of working days it took from assessment starting to the application outcome of either award, decline or withdraw",
         working_days_between_assessment_started_and_today: "The number of working days it took from assessment starting to todays date",
         days_taken_to_receive_first_prioritisation_reference: "The number of days it took from referees being sent to receiving the earliest (first) reference back",
@@ -140,7 +140,7 @@ earliest_prioritisation_reference_received.referee_confirmation_of_referee_and_a
 CASE WHEN application_forms.awarded_at IS NOT NULL THEN 'Awarded'
 WHEN application_forms.declined_at IS NOT NULL THEN 'Declined'
 WHEN application_forms.withdrawn_at IS NOT NULL THEN 'Withdrawn'
-ELSE 'Assesment' END AS application_status,
+ELSE 'Assessment' END AS application_status,
 
 
 FROM ${ref("application_forms_latest_afqts")} AS application_forms
