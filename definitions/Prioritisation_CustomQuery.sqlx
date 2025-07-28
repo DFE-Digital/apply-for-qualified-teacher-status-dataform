@@ -1,0 +1,160 @@
+config {
+    type: "table",
+    description: "Custom query with 1 row representing a unique application to AFQTS that has been sumbitted. Columns have been added to enable success measures reporting of minister options mainly with Prioritisation feature release",
+    columns: {
+        application_reference_number: "Reference number of the application from application_forms_latest_afqts table",
+        was_application_started_after_prioritisation_release: "Indicates if aplication was started after feature release.",
+        applicant_country: "Indicates the country of origin of the applicant",
+        EEA: "Indicates if country of origin is considered part of the European Economic Area (EEA). Column included for ease of filtering in the dashboard page",
+        EU: "Indicates if country of origin is considered part of the European Union (EU). Column included for ease of filtering in the dashboard page",
+        latest_work_history_in_england: "Indicates if the most recent work history entered by the applicant is in England",
+        has_entered_other_work_experience: "Indicates if the applicant has entered any work experience that is Other work experience in their application",
+        application_submitted_date: "Date application submitted",
+        has_prioritisation_check_started: "Indicates if there is at least one prioritisation check which we are using as our indicator that prioritisation checks have started",
+        assessment_started_date: "Date the application started to be assessed",
+        application_prioritisation_outcome: "Decision of whether the application has been prioritised or not",
+        applicant_subject_restricted: "Is the applicant be subject resctricted",
+        prioritisation_decision_date: "Date prioritisation decision was made",
+        working_days_between_submitted_and_prioritisation_decision: "The number of working days it took from application being submitted to the prioritisation decision being made",
+        working_days_between_submitted_and_assessment_started: "The number of working days it took from application being submitted to the assessment starting",
+        working_days_between_submitted_and_verification_started: "The number of working days it took from application being submitted to the verification stage starting",
+        working_days_between_submitted_and_completed: "The number of working days it took from application being submitted to the application outcome of either award, decline or withdraw",
+        working_days_between_assessment_started_and_verification_started: "The number of working days it took from assessment starting to the verification stage srating",
+        working_days_between_assessment_started_and_completed: "The number of working days it took from assessment starting to the application outcome of either award, decline or withdraw",
+        working_days_between_assessment_started_and_today: "The number of working days it took from assessment starting to todays date",
+        days_taken_to_receive_first_prioritisation_reference: "The number of days it took from referees being sent to receiving the earliest (first) reference back",
+        time_taken_to_receive_first_reference: "The time takento receiving the earliest (first) reference back categorised and grouped for reporting",
+        first_referee_confirmation_of_referee_and_applicant_details: "Indicates if the earliest (first) referee confirmed yes to both referee and applicant details to be correct or not",
+        application_status: "Indicates if the application has been either awarded, declined or withdrawn",
+
+    }
+}
+
+WITH latest_work_history_country AS (
+SELECT *
+FROM (
+SELECT 
+application_form_id,
+country_code as work_history_country_code,
+ROW_NUMBER() OVER (PARTITION BY application_form_id ORDER BY start_date DESC) AS rn
+FROM ${ref("work_histories_latest_afqts")}
+)
+WHERE rn = 1
+),
+
+other_work_experience_entered AS (
+SELECT 
+distinct(application_form_id) as application_form_id,--can have multiple different work hitsories as other for one application, we just want to know if they have at least 1
+'Yes' as has_entered_other_work_experience
+FROM ${ref("work_histories_latest_afqts")}
+WHERE is_other_england_educational_role= TRUE
+),
+
+assessments AS (
+SELECT
+id AS assessment_id,
+application_form_id,
+DATE(started_at) AS assessment_started_date, --When an assessor assesses any part of the application. For applications which require a preliminary check, that includes the preliminary check
+CASE WHEN prioritised = TRUE then 'Yes'
+WHEN prioritised = FALSE then 'No'
+WHEN prioritised IS NULL then 'Application has not gone through prioritisation checks'
+END AS application_prioritisation_outcome,
+DATE(prioritisation_decision_at) AS prioritisation_decision_date,
+working_days_between_submitted_and_prioritisation_decision,
+working_days_between_submitted_and_started AS working_days_between_submitted_and_assessment_started,--this includes when prioritisation checks & prelim checks start as well
+working_days_between_submitted_and_verification_started,
+working_days_between_started_and_verification_started AS working_days_between_assessment_started_and_verification_started,
+working_days_between_started_and_completed AS working_days_between_assessment_started_and_completed,
+working_days_between_started_and_today AS working_days_between_assessment_started_and_today,
+FROM ${ref("assessments_latest_afqts")}
+),
+
+earlierst_prioritisation_reference_received AS ( 
+SELECT *
+FROM (
+SELECT
+assessment_id,
+DATE(requested_at) AS prioritisation_reference_requested_date,
+DATE(received_at) AS prioritisation_reference_received_date,
+DATE_DIFF(DATE(received_at), DATE(requested_at), DAY) AS days_taken_to_receive_prioritisation_reference,
+ROW_NUMBER() OVER (PARTITION BY assessment_id ORDER BY received_at ASC) AS rn,
+CASE WHEN contact_response = TRUE AND confirm_applicant_response = TRUE THEN 'Referee has confirmed both referee and applicants details are correct' 
+WHEN contact_response = TRUE AND confirm_applicant_response = FALSE THEN 'Referee has confirmed referee details are correct but applicants are incorrect'
+WHEN contact_response = FALSE AND confirm_applicant_response = TRUE THEN 'Referee has confirmed referee details are incorrect but applicants are correct'
+WHEN contact_response = FALSE AND confirm_applicant_response = FALSE THEN 'Referee has confirmed both referee and applicants details are incorrect'
+ELSE NULL END AS referee_confirmation_of_referee_and_applicant_details
+FROM ${ref("prioritisation_reference_requests_latest_afqts")}
+)
+WHERE rn=1
+),
+
+prioritisation_check_started AS (
+SELECT
+distinct(assessment_id) AS assessment_id,--many:1 relationship with assessments_latest_afqts table - current reporting requirements only need to know if prioritisation check as started 
+'Yes' AS has_prioritisation_check --if record exists in this table, then prioritisation checks have started 
+FROM
+${ref("prioritisation_work_history_checks_latest_afqts")}
+)
+
+
+SELECT
+application_forms.reference as application_reference_number,
+CASE WHEN application_forms.includes_prioritisation_features = TRUE THEN 'Yes'
+ELSE 'No' END AS was_application_started_after_prioritisation_release,
+joinGeoData.country_name as applicant_country,
+CASE WHEN joinGeoData.country_eea = TRUE THEN 'EEA Country' 
+ELSE 'Non EEA Country'END as EEA,
+CASE WHEN joinGeoData.country_eu = TRUE THEN 'EU Country' 
+ELSE 'Non EU Country'END as EU,
+CASE WHEN latest_work_history_country.work_history_country_code = 'GB-ENG' THEN 'Yes'
+ELSE 'No' END AS latest_work_history_in_england,
+CASE WHEN other_work_experience_entered.has_entered_other_work_experience = 'Yes' THEN 'Yes'
+ELSE 'No' END AS has_entered_other_work_experience,
+DATE(application_forms.submitted_at) as application_submitted_date,
+CASE WHEN prioritisation_check_started.has_prioritisation_check = 'Yes' THEN 'Yes'
+ELSE 'No' END as has_prioritisation_check_started,
+assessments.assessment_started_date,
+assessments.application_prioritisation_outcome,
+application_forms.subject_limited as applicant_subject_restricted,
+assessments.prioritisation_decision_date,
+assessments.working_days_between_submitted_and_prioritisation_decision,
+assessments.working_days_between_submitted_and_assessment_started,
+assessments.working_days_between_submitted_and_verification_started,
+application_forms.working_days_between_submitted_and_completed,--completed=awarded, declined or withdrawn
+assessments.working_days_between_assessment_started_and_verification_started,
+assessments.working_days_between_assessment_started_and_completed, --completed=awarded, declined or withdrawn
+assessments.working_days_between_assessment_started_and_today,
+earlierst_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference as days_taken_to_receive_first_prioritisation_reference,
+CASE WHEN earlierst_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference = 0 THEN 'a) Same day'
+WHEN earlierst_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference =1 THEN 'b) Next day'
+WHEN earlierst_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference =1 THEN 'c) 2 days'
+WHEN earlierst_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference >=3 AND earlierst_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference <=5 THEN 'd) 3-5 Days'
+WHEN earlierst_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference >=6 AND earlierst_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference <=7 THEN 'e) 6-7 Days'
+WHEN earlierst_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference >=8 AND earlierst_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference <=14 THEN 'f) 2 Weeks'
+WHEN earlierst_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference >=15 AND earlierst_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference <=21 THEN 'g) 3 Weeks'
+WHEN earlierst_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference >=22 AND earlierst_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference <=28 THEN 'h) 4 Weeks'
+WHEN earlierst_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference >=29 AND earlierst_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference <=35 THEN 'i) 5 Weeks'
+WHEN earlierst_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference >=36 AND earlierst_prioritisation_reference_received.days_taken_to_receive_prioritisation_reference <=42 THEN 'j) 6 Weeks'
+ELSE 'k) No reference received yet' END as time_taken_to_receive_first_reference,
+earlierst_prioritisation_reference_received.referee_confirmation_of_referee_and_applicant_details as first_referee_confirmation_of_referee_and_applicant_details,
+CASE WHEN application_forms.awarded_at IS NOT NULL THEN 'Awarded'
+WHEN application_forms.declined_at IS NOT NULL THEN 'Declined'
+WHEN application_forms.withdrawn_at IS NOT NULL THEN 'Withdrawn'
+ELSE 'Assesment' END AS application_status,
+
+
+FROM ${ref("application_forms_latest_afqts")} AS application_forms
+LEFT JOIN latest_work_history_country 
+ON application_forms.id = latest_work_history_country.application_form_id
+LEFT JOIN other_work_experience_entered
+ON application_forms.id = other_work_experience_entered.application_form_id
+LEFT JOIN ${ref("joinGeoData")} AS joinGeoData
+ON application_forms.region_id = joinGeoData.region_id
+LEFT JOIN assessments
+ON application_forms.id = assessments.application_form_id
+LEFT JOIN earlierst_prioritisation_reference_received
+ON assessments.assessment_id = earlierst_prioritisation_reference_received.assessment_id
+LEFT JOIN prioritisation_check_started
+ON assessments.assessment_id = prioritisation_check_started.assessment_id
+
+WHERE application_forms.submitted_at IS NOT NULL
