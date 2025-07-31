@@ -7,7 +7,30 @@ SELECT
     name,
     code,
     country_id),
-  tableB.name AS region
+  tableB.name AS region,
+  CASE
+    WHEN tableA.eligible_work_experience_in_england = TRUE THEN 'Selected Yes'
+    WHEN tableA.eligible_work_experience_in_england = FALSE THEN 'Selected No'
+    ELSE 'No Eligible work experience in England data present'
+    END
+    AS eligible_work_experience_in_england_reporting,
+  CASE
+    WHEN tableB.country_name IS NOT NULL THEN tableB.country_name
+    ELSE 'No country data present'
+    END
+    AS country_name_reporting,
+  CASE
+    WHEN tableB.country_eea = TRUE THEN 'EEA Country'
+    WHEN tableB.country_eea = FALSE THEN 'Non EEA Country'
+    ELSE 'No EEA data present'
+    END
+    AS country_eea_reporting,
+  CASE
+    WHEN tableB.country_eu = TRUE THEN 'EU Country'
+    WHEN tableB.country_eu = FALSE THEN 'Non EU Country'
+    ELSE 'No EU data present'
+    END
+    AS country_eu_reporting,
 FROM
   ${ref("eligibility_checks_latest_afqts")} AS tableA
 LEFT JOIN
