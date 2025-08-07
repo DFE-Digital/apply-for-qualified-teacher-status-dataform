@@ -1702,11 +1702,6 @@ dfeAnalyticsDataform({
             description: "",
             keys: [
                 {
-                    keyName: "suitability_record_id",
-                    dataType: "timestamp",
-                    description: "",
-                },
-                {
                     keyName: "archived_at",
                     dataType: "timestamp",
                     description: "",
