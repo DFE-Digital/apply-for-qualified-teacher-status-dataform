@@ -79,6 +79,11 @@ dfeAnalyticsDataform({
                     pastKeyNames: ['dqt_match']
                 },
                 {
+                    keyName: "eligibility_check_id",
+                    dataType: "string",
+                    description: "Eligibility check ID - This will be the link to the eligibility check record that the applicant used to generate the application form",
+                },
+                {
                     keyName: "english_language_citizenship_exempt",
                     dataType: "boolean",
                     description: "Applicant is from one of the exempt countries. Therefore only needs to prove citizenship",
