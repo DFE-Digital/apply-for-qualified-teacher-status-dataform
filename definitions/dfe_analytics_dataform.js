@@ -808,6 +808,11 @@ dfeAnalyticsDataform({
                     description: "",
                 },
                 {
+                    keyName: "other_information",
+                    dataType: "string",
+                    description: "",
+                },
+                {
                     keyName: "reference_hint",
                     dataType: "string",
                     description: "",
