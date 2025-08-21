@@ -410,22 +410,6 @@ dfeAnalyticsDataform({
             ],
         },
         {
-            entityTableName: "application_forms_suitability_records",
-            description: "Table documenting status per assessment section",
-            keys: [
-                {
-                    keyName: "application_form_id",
-                    dataType: "string",
-                    description: "",
-                },
-                {
-                    keyName: "suitability_record_id",
-                    dataType: "string",
-                    description: "",
-                },
-            ],
-        },
-        {
             entityTableName: "assessment_sections",
             description: "Table documenting status per assessment section",
             keys: [
