@@ -33,16 +33,13 @@ config {
 WITH
   latest_work_history_country AS (
   SELECT
-    *
-  FROM (
-    SELECT
-      application_form_id,
-      country_code AS work_history_country_code,
-      ROW_NUMBER() OVER (PARTITION BY application_form_id ORDER BY start_date DESC) AS rn
-    FROM
-      ${ref("work_histories_latest_afqts")} )
-  WHERE
-    rn = 1 ),
+    application_form_id,
+    country_code AS work_history_country_code,
+    `apply-for-qts-in-england.dataform_production.categorise_job`(job) AS latest_work_history_job_parsed
+  FROM
+    ${ref("work_histories_latest_afqts")}
+  QUALIFY
+    ROW_NUMBER() OVER (PARTITION BY application_form_id ORDER BY start_date DESC) = 1 ),
   other_work_experience_entered AS (
   SELECT
     DISTINCT(application_form_id) AS application_form_id,
@@ -76,28 +73,24 @@ WITH
     ${ref("assessments_latest_afqts")} ),
   earliest_prioritisation_reference_received AS (
   SELECT
-    *
-  FROM (
-    SELECT
-      assessment_id,
-      DATE(requested_at) AS prioritisation_reference_requested_date,
-      DATE(received_at) AS prioritisation_reference_received_date,
-      DATE_DIFF(DATE(received_at), DATE(requested_at), DAY) AS days_taken_to_receive_prioritisation_reference,
-      ROW_NUMBER() OVER (PARTITION BY assessment_id ORDER BY received_at ASC) AS rn,
-      CASE
-        WHEN contact_response = TRUE AND confirm_applicant_response = TRUE THEN 'Referee has confirmed both referee and applicants details are correct'
-        WHEN contact_response = TRUE
-      AND confirm_applicant_response = FALSE THEN 'Referee has confirmed referee details are correct but applicants are incorrect'
-        WHEN contact_response = FALSE AND confirm_applicant_response = TRUE THEN 'Referee has confirmed referee details are incorrect but applicants are correct'
-        WHEN contact_response = FALSE
-      AND confirm_applicant_response = FALSE THEN 'Referee has confirmed both referee and applicants details are incorrect'
-        ELSE NULL
-    END
-      AS referee_confirmation_of_referee_and_applicant_details
-    FROM
-      ${ref("prioritisation_reference_requests_latest_afqts")} )
-  WHERE
-    rn=1 ),
+    assessment_id,
+    DATE(requested_at) AS prioritisation_reference_requested_date,
+    DATE(received_at) AS prioritisation_reference_received_date,
+    DATE_DIFF(DATE(received_at), DATE(requested_at), DAY) AS days_taken_to_receive_prioritisation_reference,
+    CASE
+      WHEN contact_response AND confirm_applicant_response THEN 'Referee has confirmed both referee and applicants details are correct'
+      WHEN contact_response
+    AND NOT confirm_applicant_response THEN 'Referee has confirmed referee details are correct but applicants are incorrect'
+      WHEN NOT contact_response AND confirm_applicant_response THEN 'Referee has confirmed referee details are incorrect but applicants are correct'
+      WHEN NOT contact_response
+    AND NOT confirm_applicant_response THEN 'Referee has confirmed both referee and applicants details are incorrect'
+      ELSE NULL
+  END
+    AS referee_confirmation_of_referee_and_applicant_details
+  FROM
+    ${ref("prioritisation_reference_requests_latest_afqts")}
+  QUALIFY
+    ROW_NUMBER() OVER (PARTITION BY assessment_id ORDER BY received_at ASC) = 1 ),
   prioritisation_check_started AS (
   SELECT
     DISTINCT(assessment_id) AS assessment_id,
@@ -125,6 +118,7 @@ END
     ELSE 'No'
 END
   AS latest_work_history_in_england,
+  latest_work_history_country.latest_work_history_job_parsed,
   CASE
     WHEN other_work_experience_entered.has_entered_other_work_experience = 'Yes' THEN 'Yes'
     ELSE 'No'

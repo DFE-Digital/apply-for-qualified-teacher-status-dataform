@@ -1,0 +1,28 @@
+/*
+  Contains useful string processing functions that can be reused across multiple scheduled queries and views in BigQuery.
+  This script must be run in BigQuery for these functions to become available,
+  and re - run to overwrite the available functions with any new version.
+  Dataform handles this automatically as an operation, updating these each night.
+  The dependencies sqlx configuration option can be used to ensure that queries which use these UDFs wait for this script to finish executing successfully first.
+  */
+CREATE OR REPLACE FUNCTION
+  `apply-for-qts-in-england.dataform_production.categorise_job`(job STRING) OPTIONS (description = "Categorise the job of work histories into the broad categories we anticipate") AS (
+    CASE
+      WHEN job_title IS NULL OR TRIM(job_title) = '' THEN 'Other'
+      -- Teaching related
+      WHEN REGEXP_CONTAINS(LOWER(job_title), r'\bteacher\b')
+    OR REGEXP_CONTAINS(LOWER(job_title), r'teaching') THEN 'Teacher/Teaching'
+    -- Learning Support Assistant
+      WHEN REGEXP_CONTAINS(LOWER(job_title), r'learning.?support.?assistant') THEN 'Learning Support Assistant'
+      -- Cover supervisor
+      WHEN REGEXP_CONTAINS(LOWER(job_title), r'cover.?supervisor') THEN 'Cover Supervisor'
+      -- Teaching assistant
+      WHEN REGEXP_CONTAINS(LOWER(job_title), r'\bta\b') OR REGEXP_CONTAINS(LOWER(job_title), r'teaching.?assistant') THEN 'Teaching Assistant'
+      -- Lecturer
+      WHEN REGEXP_CONTAINS(LOWER(job_title), r'lecturer?') THEN 'Lecturer'
+      -- Tutor
+      WHEN REGEXP_CONTAINS(LOWER(job_title), r'tutor') THEN 'Tutor'
+      -- Default catch-all
+      ELSE 'Other'
+  END
+    );
