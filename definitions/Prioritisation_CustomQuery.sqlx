@@ -8,6 +8,7 @@ config {
         EEA: "Indicates if country of origin is considered part of the European Economic Area (EEA). Column included for ease of filtering in the dashboard page",
         EU: "Indicates if country of origin is considered part of the European Union (EU). Column included for ease of filtering in the dashboard page",
         latest_work_history_in_england: "Indicates if the most recent work history entered by the applicant is in England",
+        latest_work_history_job_parsed: "A parsed version of the job field from work histories latest that tries to broadly categorise roles",
         has_entered_other_work_experience: "Indicates if the applicant has entered any work experience that is Other work experience in their application",
         application_submitted_date: "Date application submitted",
         has_prioritisation_check_started: "Indicates if there is at least one prioritisation check which we are using as our indicator that prioritisation checks have started",
