@@ -8,20 +8,20 @@
 CREATE OR REPLACE FUNCTION
   `apply-for-qts-in-england.dataform_production.categorise_job`(job STRING) OPTIONS (description = "Categorise the job of work histories into the broad categories we anticipate") AS (
     CASE
-      WHEN job_title IS NULL OR TRIM(job_title) = '' THEN 'Other'
+      WHEN job IS NULL OR TRIM(job) = '' THEN 'Other'
       -- Teaching related
-      WHEN REGEXP_CONTAINS(LOWER(job_title), r'\bteacher\b')
-    OR REGEXP_CONTAINS(LOWER(job_title), r'teaching') THEN 'Teacher/Teaching'
+      WHEN REGEXP_CONTAINS(LOWER(job), r'\bteacher\b')
+    OR REGEXP_CONTAINS(LOWER(job), r'teaching') THEN 'Teacher/Teaching'
     -- Learning Support Assistant
-      WHEN REGEXP_CONTAINS(LOWER(job_title), r'learning.?support.?assistant') THEN 'Learning Support Assistant'
+      WHEN REGEXP_CONTAINS(LOWER(job), r'learning.?support.?assistant') THEN 'Learning Support Assistant'
       -- Cover supervisor
-      WHEN REGEXP_CONTAINS(LOWER(job_title), r'cover.?supervisor') THEN 'Cover Supervisor'
+      WHEN REGEXP_CONTAINS(LOWER(job), r'cover.?supervisor') THEN 'Cover Supervisor'
       -- Teaching assistant
-      WHEN REGEXP_CONTAINS(LOWER(job_title), r'\bta\b') OR REGEXP_CONTAINS(LOWER(job_title), r'teaching.?assistant') THEN 'Teaching Assistant'
+      WHEN REGEXP_CONTAINS(LOWER(job), r'\bta\b') OR REGEXP_CONTAINS(LOWER(job), r'teaching.?assistant') THEN 'Teaching Assistant'
       -- Lecturer
-      WHEN REGEXP_CONTAINS(LOWER(job_title), r'lecturer?') THEN 'Lecturer'
+      WHEN REGEXP_CONTAINS(LOWER(job), r'lecturer?') THEN 'Lecturer'
       -- Tutor
-      WHEN REGEXP_CONTAINS(LOWER(job_title), r'tutor') THEN 'Tutor'
+      WHEN REGEXP_CONTAINS(LOWER(job), r'tutor') THEN 'Tutor'
       -- Default catch-all
       ELSE 'Other'
   END
