@@ -1415,12 +1415,7 @@ dfeAnalyticsDataform({
                     pastKeyNames: ['teaching_authority_website']
                 },
                 {
-                    keyName: "teaching_authority_email_address",
-                    dataType: "string",
-                    description: "",
-                },
-                {
-                    keyName: "teaching_authority_other",
+                    keyName: "other_information",
                     dataType: "string",
                     description: "",
                 },
@@ -1429,11 +1424,6 @@ dfeAnalyticsDataform({
                     dataType: "boolean",
                     description: "",
                     alias: "regions_written_statement_optional",
-                },
-                {
-                    keyName: "legacy",
-                    dataType: "boolean",
-                    description: "",
                 },
             ],
         },
