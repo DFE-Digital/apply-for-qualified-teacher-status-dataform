@@ -1415,11 +1415,6 @@ dfeAnalyticsDataform({
                     pastKeyNames: ['teaching_authority_website']
                 },
                 {
-                    keyName: "other_information",
-                    dataType: "string",
-                    description: "",
-                },
-                {
                     keyName: "written_statement_optional",
                     dataType: "boolean",
                     description: "",
