@@ -25,7 +25,6 @@ SELECT
     last_streamed_event_occurred_at,
     sanction_check,
     status_check,
-    legacy,
     string_field_0,
     string_field_1,
     string_field_2 ),
