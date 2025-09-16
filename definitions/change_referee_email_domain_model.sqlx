@@ -1,0 +1,79 @@
+config {
+    type: "table"
+}
+
+WITH
+  work_history_fi_request AS (
+  SELECT
+    fi_items.id AS fi_request_id,
+    received_at,
+    reviewed_at,
+    work_history_id,
+    review_decision,
+    reference,
+    contact_email
+  FROM
+    `apply-for-qts-in-england.dataform_production.further_information_request_items_latest_afqts` AS fi_items
+  INNER JOIN
+    `apply-for-qts-in-england.dataform_production.further_information_requests_latest_afqts` AS fi_requests
+  ON
+    fi_requests.id = fi_items.further_information_request_id
+  INNER JOIN
+    `apply-for-qts-in-england.dataform_production.assessments_latest_afqts` AS assessments
+  ON
+    assessments.id = fi_requests.assessment_id
+  INNER JOIN
+    `apply-for-qts-in-england.dataform_production.application_forms_latest_afqts` AS application_forms
+  ON
+    application_forms.id = assessments.application_form_id
+  WHERE
+    fi_items.information_type = "work_history_contact"),
+  pre_fi_email AS (
+  SELECT
+    fi.fi_request_id,
+    wh_version.contact_email AS pre_email,
+  FROM
+    work_history_fi_request AS fi
+  JOIN
+    `apply-for-qts-in-england.dataform_production.work_histories_version_afqts` AS wh_version
+  ON
+    wh_version.id = fi.work_history_id
+  WHERE
+    wh_version.valid_from < fi.received_at
+    AND (wh_version.valid_to <= fi.received_at
+      OR wh_version.valid_to IS NULL)
+  QUALIFY
+    ROW_NUMBER() OVER (PARTITION BY fi.fi_request_id ORDER BY wh_version.valid_from DESC) = 1 ),
+  fi_comparison AS (
+  SELECT
+    fi.fi_request_id,
+    fi.reviewed_at,
+    fi.review_decision,
+    pre.pre_email,
+    CASE
+      WHEN fi.contact_email IS NULL THEN 'null'
+      WHEN pre.pre_email IS DISTINCT
+  FROM
+    fi.contact_email THEN 'changed'
+      ELSE 'unchanged'
+  END
+    AS email_change_status
+  FROM
+    work_history_fi_request AS fi
+  LEFT JOIN
+    pre_fi_email AS pre
+  ON
+    fi.fi_request_id = pre.fi_request_id )
+SELECT
+  DATE(reviewed_at) AS reviewed_date,
+  COUNTIF(email_change_status = 'changed') AS fi_reference_item_reviewed_with_different_email,
+  COUNTIF(email_change_status = 'unchanged') AS fi_reference_item_reviewed_with_same_email,
+  COUNT(*) AS total_fi_reviewed_count
+FROM
+  fi_comparison
+WHERE
+  reviewed_at IS NOT NULL
+GROUP BY
+  reviewed_date
+ORDER BY
+  reviewed_date DESC
