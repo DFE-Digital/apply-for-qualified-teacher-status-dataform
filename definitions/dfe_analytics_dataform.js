@@ -756,6 +756,11 @@ dfeAnalyticsDataform({
                     description: "",
                 },
                 {
+                    keyName: "work_experience_referee",
+                    dataType: "boolean",
+                    description: "Whether user has a valid referee to verify their work experience",
+                },
+                {
                     keyName: "eligible_work_experience_in_england",
                     dataType: "boolean",
                     description: "Whether user has 'valid educational setting in England within the last 12 months?' during eligibility checker for prioritisation",
