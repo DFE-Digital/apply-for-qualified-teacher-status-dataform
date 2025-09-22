@@ -23,6 +23,7 @@ SELECT
   reference_requests.expired_at,
   reference_requests.verify_passed,
   assessments.application_form_id,
+  assessments.prioritised,
   application_forms.region_id,
   application_forms.state,
   application_forms.stage,
