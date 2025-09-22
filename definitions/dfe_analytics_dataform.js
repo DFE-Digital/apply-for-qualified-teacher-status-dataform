@@ -287,6 +287,11 @@ dfeAnalyticsDataform({
                     description: "requires passport as identity proof",
                 },
                 {
+                    keyName: "requires_private_email_for_referee",
+                    dataType: "boolean",
+                    description: "Requires private email domain for referees when submitting application form",
+                },
+                {
                     keyName: "requires_preliminary_check",
                     dataType: "boolean",
                     description: "requires preliminary check",
@@ -300,6 +305,11 @@ dfeAnalyticsDataform({
                     keyName: "stage",
                     dataType: "string",
                     description: "Lifecycle of the application journey - draft, pre_assessment, not_started, assessment, verification, review or completed",
+                },
+                {
+                    keyName: "started_with_private_email_for_referee",
+                    dataType: "boolean",
+                    description: "Started application form after the private email domain for referee requirement was released. Note that this is a temporary column to handle some features for existing applications and will be removed within the next year.",
                 },
                 {
                     keyName: "status",
