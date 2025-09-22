@@ -11,24 +11,14 @@ config {
 }
 
 SELECT
-  * EXCEPT ( id,
+  application_forms.* EXCEPT ( id,
     created_at,
-    country_name,
     region_id,
     subjects,
     last_streamed_event_occurred_at,
     last_streamed_event_type,
     updated_at,
     state,
-    assessment_id,
-    expired_at,
-    ready_for_review,
-    verified_at,
-    verify_passed,
-    received_at,
-    requested_at,
-    reviewed_at,
-    review_passed,
     age_range_min,
     age_range_max,
     subject_limited,
@@ -36,8 +26,29 @@ SELECT
     alternative_given_names,
     date_of_birth,
     trs_match,
-    family_name,
-    country_code),
+    family_name),
+  joinGeoData.* EXCEPT ( country_name,
+    region_id),
+  assessments.* EXCEPT ( id,
+    created_at,
+    subjects,
+    last_streamed_event_occurred_at,
+    last_streamed_event_type,
+    updated_at,
+    age_range_min,
+    age_range_max),
+  further_information_requests.* EXCEPT ( id,
+    created_at,
+    last_streamed_event_occurred_at,
+    last_streamed_event_type,
+    updated_at,
+    state,
+    assessment_id,
+    expired_at,
+    received_at,
+    requested_at,
+    reviewed_at,
+    review_passed),
   assessments.id AS assessment_id,
   professional_standing.expired_at AS ps_expired_at,
   application_forms.id AS id,
@@ -73,6 +84,8 @@ END
     WHEN awarded_at IS NOT NULL THEN 'awarded'
 END
   AS assessment_status,
+  assessment_sections.failure_reasons,
+  assessment_sections.key AS failure_key,
   application_forms.region_id AS region_id,
   application_forms.updated_at AS updated_at,
   application_forms.age_range_min AS application_age_range_min,
@@ -134,4 +147,9 @@ ON
 LEFT JOIN
   `apply-for-qts-in-england.dataform_production.passport_issue_country` AS passport_country
 ON
-  passport_country_of_issue_code = passport_country.country_code
+  application_forms.passport_country_of_issue_code = passport_country.country_code
+LEFT JOIN
+  ${ref("assessment_sections_latest_afqts")} AS assessment_sections
+ON
+  assessment_sections.assessment_id = assessments.id
+  AND NOT passed

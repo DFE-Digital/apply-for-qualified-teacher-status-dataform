@@ -1,0 +1,55 @@
+config {
+    type: "incremental",
+    dependencies: ["afqts_events_data_is_not_fresh"],
+    bigquery: {
+        partitionBy: "DATE(occurred_at)"
+    },
+    description: "Errors experienced by users attempting to submit forms. Each row represents a single error associated with a single field within a form.",
+    columns: {
+        occurred_at: "The timestamp at which this validation occurred.",
+        request_uuid: "ID of the web request which returned the HTML containing this validation error. There may be multiple errors with the same request_uuid if more than one error was displayed within a page.",
+        request_user_agent: "From the browser, describing the user's device and browser.",
+        request_path: "The path of the page on which this error was displayed.",
+        grouped_request_path: "The path of the page on which this error was displayed, with any UIDs between forward slashes replaced with the 3 character string UID.",
+        device_category: "Mobile, desktop or unknown.",
+        anonymised_user_agent_and_ip: "Hash-anonymised version of a combination of the user who experienced this error's IP address and device/browser.",
+        request_user_id: "Hash-anonymised version of the ID of any authenticated user logged in when this error was experienced.",
+        form_audience: "The category of user this form is intended for e.g. jobseekers, publishers",
+        form_name: "The form which this validation error was displayed within.",
+        field_with_error: "The field within form_name that did not meet validation checks, resulting in this error being displayed.",
+        error: "Description of the type of validation check that this field did not meet."
+    }
+}
+
+SELECT
+  occurred_at,
+  request_uuid,
+  request_user_agent,
+  device_category,
+  request_path,
+  request_query,
+  request_referer,
+  response_status,
+  anonymised_user_agent_and_ip,
+  request_user_id,
+  ${data_functions.eventDataExtract("DATA", "form_class")} AS form_class,
+  ${data_functions.eventDataExtract("DATA", "error_attribute")} AS error_attribute,
+  ${data_functions.eventDataExtract("DATA", "error_message")} AS error_message
+FROM
+  ${ref("events_afqts")}
+WHERE
+  occurred_at > event_timestamp_checkpoint
+  AND DATE(occurred_at) < CURRENT_DATE
+  AND event_type = "form_validation_failure"
+  AND device_category != "bot"
+
+pre_operations {
+  DECLARE
+    event_timestamp_checkpoint DEFAULT (
+    ${
+        when(incremental(),
+            `select MAX(occurred_at) from ${self()}`,
+            `select TIMESTAMP("2025-03-20")`)
+    }
+    )
+}
