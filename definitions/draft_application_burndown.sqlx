@@ -1,0 +1,95 @@
+config {
+    type: "table",
+    description: ""
+}
+
+WITH
+  applications_latest AS (
+  SELECT
+    id,
+    created_at
+  FROM
+    `apply-for-qts-in-england.dataform_production.application_forms_latest_afqts` ),
+  -- 2) Read the version table which holds status per valid_from / valid_to interval
+  applications_version AS (
+SELECT
+  id,
+  DATE(valid_from) AS valid_from,
+  DATE(COALESCE(DATE(valid_to), DATE '9999-12-31')) AS valid_to,
+  -- treat open-ended as far future
+  statuses
+FROM
+  `apply-for-qts-in-england.dataform_production.application_forms_version_afqts` ),
+  -- 3) Build applications CTE with created_date, expiry_date (6 months), and the first_non_draft_date from versions
+  applications AS (
+SELECT
+  applications_latest.id,
+  -- prefer explicit created_at if available, otherwise earliest valid_from in versions
+  COALESCE( DATE(applications_latest.created_at), (
+SELECT
+  MIN(applications_version.valid_from)
+FROM
+  applications_version
+WHERE
+  applications_version.id = applications_latest.id ) ) AS created_date,
+  DATE_ADD( COALESCE( DATE(applications_latest.created_at), (
+      SELECT
+        MIN(applications_version.valid_from)
+      FROM
+        applications_version
+      WHERE
+        applications_version.id = applications_latest.id ) ), INTERVAL 6 MONTH ) AS expiry_date,
+  -- earliest date the application was not in draft according to versions (NULL if still draft)
+  (
+SELECT
+  MIN(applications_version.valid_from)
+FROM
+  applications_version
+WHERE
+  applications_version.id = applications_latest.id
+  AND applications_version.statuses != 'draft' ) AS first_non_draft_date
+FROM
+  applications_latest ),
+  -- 4) calendar: from earliest create to the latest expiry (this may include future expiry dates for projection)
+  calendar AS (
+SELECT
+  day
+FROM
+  UNNEST( GENERATE_DATE_ARRAY( (
+      SELECT
+        MIN(created_date)
+      FROM
+        applications), GREATEST(CURRENT_DATE(), (
+        SELECT
+          MAX(expiry_date)
+        FROM
+          applications)), INTERVAL 1 DAY ) ) AS day )
+          -- 5) final aggregation: active_drafts (draft on that day), cumulative finished, cumulative expired
+SELECT
+  calendar_day.day,
+  -- active drafts: application exists, created on/before day, not expired yet, and status on that day = 'draft'
+  COUNT(DISTINCT
+  CASE
+    WHEN applications.created_date <= calendar_day.day AND calendar_day.day <= applications.expiry_date AND EXISTS ( SELECT 1 FROM applications_version WHERE applications_version.id = applications.id AND calendar_day.day BETWEEN applications_version.valid_from AND applications_version.valid_to AND applications_version.statuses = 'draft' ) THEN applications.id
+END
+  ) AS active_drafts,
+  -- cumulative finished: first_non_draft_date exists and is <= day
+  COUNT(DISTINCT
+  CASE
+    WHEN applications.created_date <= calendar_day.day AND applications.first_non_draft_date IS NOT NULL AND applications.first_non_draft_date <= calendar_day.day THEN applications.id
+END
+  ) AS cumulative_finished,
+  -- cumulative expired: expiry_date <= day
+  COUNT(DISTINCT
+  CASE
+    WHEN applications.created_date <= calendar_day.day AND applications.expiry_date <= calendar_day.day THEN applications.id
+END
+  ) AS cumulative_expired
+FROM
+  calendar AS calendar_day
+CROSS JOIN
+  applications
+GROUP BY
+  calendar_day.day
+ORDER BY
+  calendar_day.day
