@@ -11,145 +11,137 @@ config {
 }
 
 SELECT
-  application_forms.* EXCEPT ( id,
-    created_at,
-    region_id,
-    subjects,
-    last_streamed_event_occurred_at,
-    last_streamed_event_type,
-    updated_at,
-    state,
-    age_range_min,
-    age_range_max,
-    subject_limited,
-    alternative_family_name,
-    alternative_given_names,
-    date_of_birth,
-    trs_match,
-    family_name),
-  joinGeoData.* EXCEPT ( country_name,
-    region_id),
-  assessments.* EXCEPT ( id,
-    created_at,
-    subjects,
-    last_streamed_event_occurred_at,
-    last_streamed_event_type,
-    updated_at,
-    age_range_min,
-    age_range_max),
-  further_information_requests.* EXCEPT ( id,
-    created_at,
-    last_streamed_event_occurred_at,
-    last_streamed_event_type,
-    updated_at,
-    state,
-    assessment_id,
-    expired_at,
-    received_at,
-    requested_at,
-    reviewed_at,
-    review_passed),
-  assessments.id AS assessment_id,
-  professional_standing.expired_at AS ps_expired_at,
-  application_forms.id AS id,
-  application_forms.created_at AS created_at,
-  application_forms.state AS state,
-  DATE_DIFF(DATE(application_forms.created_at), DATE (date_of_birth), YEAR) AS age,
-  CASE
-    WHEN DATE_DIFF(DATE(application_forms.created_at), date_of_birth, YEAR) < 21 THEN '<21'
-    WHEN DATE_DIFF(DATE(application_forms.created_at), date_of_birth, YEAR) BETWEEN 21
-  AND 30 THEN '21-30'
-    WHEN DATE_DIFF(DATE(application_forms.created_at), date_of_birth, YEAR) BETWEEN 31 AND 40 THEN '31-40'
-    WHEN DATE_DIFF(DATE(application_forms.created_at), date_of_birth, YEAR) BETWEEN 41
-  AND 50 THEN '41-50'
-    WHEN DATE_DIFF(DATE(application_forms.created_at), date_of_birth, YEAR) BETWEEN 51 AND 60 THEN '51-60'
-    ELSE '61+'
-END
-  AS age_range,
-  COALESCE(passport_country.country_name, '') AS passport_country_name,
-  COALESCE(joinGeoData.country_name, '') AS country_name,
-  assessments.age_range_min AS assessment_age_range_min,
-  assessments.age_range_max AS assessment_age_range_max,
-  CASE
-    WHEN assessments.age_range_min IS NOT NULL AND assessments.age_range_max IS NOT NULL THEN assessments.age_range_min || ' - ' || assessments.age_range_max
-    ELSE CAST(COALESCE(assessments.age_range_min, assessments.age_range_max) AS STRING)
-END
-  AS assessment_age_range,
-  assessments.id AS assessment_latest_id,
-  assessments.created_at AS assessment_created_at,
-  REPLACE(LOWER(COALESCE(assessments.subjects, ' ')), '_', ' ') AS assessment_subjects,
-  CASE
-    WHEN withdrawn_at IS NOT NULL THEN 'withdrawn'
-    WHEN declined_at IS NOT NULL THEN 'declined'
-    WHEN awarded_at IS NOT NULL THEN 'awarded'
-END
-  AS assessment_status,
+  *,
   assessment_sections.failure_reasons,
   assessment_sections.key AS failure_key,
-  application_forms.region_id AS region_id,
-  application_forms.updated_at AS updated_at,
-  application_forms.age_range_min AS application_age_range_min,
-  application_forms.age_range_max AS application_age_range_max,
-  CASE
-    WHEN application_forms.age_range_min IS NOT NULL AND application_forms.age_range_max IS NOT NULL THEN CAST(application_forms.age_range_min AS STRING) || ' - ' || CAST(application_forms.age_range_max AS STRING)
-    ELSE CAST(COALESCE(application_forms.age_range_min, application_forms.age_range_max) AS STRING)
-END
-  AS application_age_range,
-  LOWER( REGEXP_REPLACE(TRIM(application_forms.subjects), r'[^a-zA-Z0-9 ]', '') ) AS application_subjects,
-  assessments.updated_at AS assessment_updated_at,
-  further_information_requests.state AS FI_state,
-  further_information_requests.created_at AS FI_created_at,
-  further_information_requests.expired_at AS FI_expired_at,
-  further_information_requests.received_at AS FI_received_at,
-  further_information_requests.requested_at AS FI_requested_at,
-  further_information_requests.reviewed_at AS FI_reviewed_at,
-  further_information_requests.review_passed AS FI_review_passed,
-  assessments.subjects AS subjects,
-  ABS(TIME_DIFF(EXTRACT(TIME
-      FROM
-        started_at), EXTRACT(TIME
-      FROM
-        recommended_at), MINUTE)) AS minutes_started_to_recommended,
-  ABS(TIME_DIFF(EXTRACT(TIME
-      FROM
-        started_at), CURRENT_TIME(), MINUTE)) AS minutes_since_started,
-  ABS(TIME_DIFF(EXTRACT(TIME
-      FROM
-        further_information_requests.received_at), EXTRACT(TIME
-      FROM
-        recommended_at), MINUTE)) AS minutes_received_to_recommended,
-  ABS(TIME_DIFF(EXTRACT(TIME
-      FROM
-        further_information_requests.received_at), CURRENT_TIME(), MINUTE)) AS minutes_since_received,
-  ABS(TIME_DIFF(EXTRACT(TIME
-      FROM
-        further_information_requests.created_at), EXTRACT(TIME
-      FROM
-        started_at), MINUTE)) AS minutes_since_started_to_FIed
-FROM
-  ${ref("application_forms_latest_afqts")} AS application_forms
-LEFT JOIN
-  ${ref("joinGeoData")} AS joinGeoData
-ON
-  application_forms.region_id = joinGeoData.region_id
-LEFT JOIN
-  ${ref("assessments_latest_afqts")} AS assessments
-ON
-  application_forms.id = assessments.application_form_id
-LEFT JOIN
-  ${ref("further_information_requests_latest_afqts")} AS further_information_requests
-ON
-  assessments.id = further_information_requests.assessment_id
-LEFT JOIN
-  ${ref("professional_standing_requests_latest_afqts")} AS professional_standing
-ON
-  professional_standing.assessment_id = assessments.id
-LEFT JOIN
-  `apply-for-qts-in-england.dataform_production.passport_issue_country` AS passport_country
-ON
-  application_forms.passport_country_of_issue_code = passport_country.country_code
+FROM (
+  SELECT
+    * EXCEPT ( id,
+      created_at,
+      country_name,
+      region_id,
+      subjects,
+      last_streamed_event_occurred_at,
+      last_streamed_event_type,
+      updated_at,
+      state,
+      assessment_id,
+      expired_at,
+      ready_for_review,
+      verified_at,
+      verify_passed,
+      received_at,
+      requested_at,
+      reviewed_at,
+      review_passed,
+      age_range_min,
+      age_range_max,
+      subject_limited,
+      alternative_family_name,
+      alternative_given_names,
+      date_of_birth,
+      trs_match,
+      family_name,
+      country_code),
+    assessments.id AS assessment_id,
+    professional_standing.expired_at AS ps_expired_at,
+    application_forms.id AS id,
+    application_forms.created_at AS created_at,
+    application_forms.state AS state,
+    DATE_DIFF(DATE(application_forms.created_at), DATE (date_of_birth), YEAR) AS age,
+    CASE
+      WHEN DATE_DIFF(DATE(application_forms.created_at), date_of_birth, YEAR) < 21 THEN '<21'
+      WHEN DATE_DIFF(DATE(application_forms.created_at), date_of_birth, YEAR) BETWEEN 21
+    AND 30 THEN '21-30'
+      WHEN DATE_DIFF(DATE(application_forms.created_at), date_of_birth, YEAR) BETWEEN 31 AND 40 THEN '31-40'
+      WHEN DATE_DIFF(DATE(application_forms.created_at), date_of_birth, YEAR) BETWEEN 41
+    AND 50 THEN '41-50'
+      WHEN DATE_DIFF(DATE(application_forms.created_at), date_of_birth, YEAR) BETWEEN 51 AND 60 THEN '51-60'
+      ELSE '61+'
+  END
+    AS age_range,
+    COALESCE(passport_country.country_name, '') AS passport_country_name,
+    COALESCE(joinGeoData.country_name, '') AS country_name,
+    assessments.age_range_min AS assessment_age_range_min,
+    assessments.age_range_max AS assessment_age_range_max,
+    CASE
+      WHEN assessments.age_range_min IS NOT NULL AND assessments.age_range_max IS NOT NULL THEN assessments.age_range_min || ' - ' || assessments.age_range_max
+      ELSE CAST(COALESCE(assessments.age_range_min, assessments.age_range_max) AS STRING)
+  END
+    AS assessment_age_range,
+    assessments.id AS assessment_latest_id,
+    assessments.created_at AS assessment_created_at,
+    REPLACE(LOWER(COALESCE(assessments.subjects, ' ')), '_', ' ') AS assessment_subjects,
+    CASE
+      WHEN withdrawn_at IS NOT NULL THEN 'withdrawn'
+      WHEN declined_at IS NOT NULL THEN 'declined'
+      WHEN awarded_at IS NOT NULL THEN 'awarded'
+  END
+    AS assessment_status,
+    application_forms.region_id AS region_id,
+    application_forms.updated_at AS updated_at,
+    application_forms.age_range_min AS application_age_range_min,
+    application_forms.age_range_max AS application_age_range_max,
+    CASE
+      WHEN application_forms.age_range_min IS NOT NULL AND application_forms.age_range_max IS NOT NULL THEN CAST(application_forms.age_range_min AS STRING) || ' - ' || CAST(application_forms.age_range_max AS STRING)
+      ELSE CAST(COALESCE(application_forms.age_range_min, application_forms.age_range_max) AS STRING)
+  END
+    AS application_age_range,
+    LOWER( REGEXP_REPLACE(TRIM(application_forms.subjects), r'[^a-zA-Z0-9 ]', '') ) AS application_subjects,
+    assessments.updated_at AS assessment_updated_at,
+    further_information_requests.state AS FI_state,
+    further_information_requests.created_at AS FI_created_at,
+    further_information_requests.expired_at AS FI_expired_at,
+    further_information_requests.received_at AS FI_received_at,
+    further_information_requests.requested_at AS FI_requested_at,
+    further_information_requests.reviewed_at AS FI_reviewed_at,
+    further_information_requests.review_passed AS FI_review_passed,
+    assessments.subjects AS subjects,
+    ABS(TIME_DIFF(EXTRACT(TIME
+        FROM
+          started_at), EXTRACT(TIME
+        FROM
+          recommended_at), MINUTE)) AS minutes_started_to_recommended,
+    ABS(TIME_DIFF(EXTRACT(TIME
+        FROM
+          started_at), CURRENT_TIME(), MINUTE)) AS minutes_since_started,
+    ABS(TIME_DIFF(EXTRACT(TIME
+        FROM
+          further_information_requests.received_at), EXTRACT(TIME
+        FROM
+          recommended_at), MINUTE)) AS minutes_received_to_recommended,
+    ABS(TIME_DIFF(EXTRACT(TIME
+        FROM
+          further_information_requests.received_at), CURRENT_TIME(), MINUTE)) AS minutes_since_received,
+    ABS(TIME_DIFF(EXTRACT(TIME
+        FROM
+          further_information_requests.created_at), EXTRACT(TIME
+        FROM
+          started_at), MINUTE)) AS minutes_since_started_to_FIed
+  FROM
+    ${ref("application_forms_latest_afqts")} AS application_forms
+  LEFT JOIN
+    ${ref("joinGeoData")} AS joinGeoData
+  ON
+    application_forms.region_id = joinGeoData.region_id
+  LEFT JOIN
+    ${ref("assessments_latest_afqts")} AS assessments
+  ON
+    application_forms.id = assessments.application_form_id
+  LEFT JOIN
+    ${ref("further_information_requests_latest_afqts")} AS further_information_requests
+  ON
+    assessments.id = further_information_requests.assessment_id
+  LEFT JOIN
+    ${ref("professional_standing_requests_latest_afqts")} AS professional_standing
+  ON
+    professional_standing.assessment_id = assessments.id
+  LEFT JOIN
+    `apply-for-qts-in-england.dataform_production.passport_issue_country` AS passport_country
+  ON
+    passport_country_of_issue_code = passport_country.country_code) AS applications
 LEFT JOIN
   ${ref("assessment_sections_latest_afqts")} AS assessment_sections
 ON
-  assessment_sections.assessment_id = assessments.id
+  assessment_sections.assessment_id = applications.id
   AND NOT passed
