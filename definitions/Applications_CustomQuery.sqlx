@@ -11,7 +11,7 @@ config {
 }
 
 SELECT
-  *,
+  applications.*,
   assessment_sections.failure_reasons,
   assessment_sections.key AS failure_key,
 FROM (
