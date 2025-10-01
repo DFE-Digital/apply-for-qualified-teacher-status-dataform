@@ -778,6 +778,32 @@ dfeAnalyticsDataform({
             ],
         },
         {
+            entityTableName: "eligibility_domains",
+            description: "",
+            keys: [
+                {
+                    keyName: "archived_at",
+                    dataType: "timestamp",
+                    description: "When an eligibility domain has been archived, we indicate this by setting this timestamp",
+                },
+                {
+                    keyName: "domain",
+                    dataType: "string",
+                    description: "This is the domain which is a unique identifier for this record",
+                },
+                {
+                    keyName: "application_forms_count",
+                    dataType: "integer",
+                    description: "This is the number of application forms that include one or more work histories that include a referee with this domain",
+                },
+                {
+                    keyName: "created_by_id",
+                    dataType: "string",
+                    description: "The ID of the staff member that created this record",
+                },
+            ],
+        },
+        {
             entityTableName: "english_language_providers",
             description: "",
             keys: [
@@ -964,6 +990,11 @@ dfeAnalyticsDataform({
             keys: [
                 {
                     keyName: "application_form_id",
+                    dataType: "string",
+                    description: "",
+                },
+                {
+                    keyName: "eligibility_domain_id",
                     dataType: "string",
                     description: "",
                 },
@@ -1859,6 +1890,11 @@ dfeAnalyticsDataform({
                 },
                 {
                     keyName: "application_form_id",
+                    dataType: "string",
+                    description: "",
+                },
+                {
+                    keyName: "eligibility_domain_id",
                     dataType: "string",
                     description: "",
                 },
