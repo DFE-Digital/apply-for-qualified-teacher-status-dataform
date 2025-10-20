@@ -420,6 +420,39 @@ dfeAnalyticsDataform({
             ],
         },
         {
+            entityTableName: "application_holds",
+            description: "Information on an application hold against an application form",
+            keys: [
+                {
+                    keyName: "reason",
+                    dataType: "string",
+                    description: "The reason the application hold was created",
+                },
+                {
+                    keyName: "reason_comment",
+                    dataType: "string",
+                    description: "If the reason is 'other' then a comment is provided",
+                    hidden: true,
+                },
+                {
+                    keyName: "release_comment",
+                    dataType: "string",
+                    description: "Comment on why the hold was released",
+                    hidden: true,
+                },
+                {
+                    keyName: "application_form_id",
+                    dataType: "string",
+                    description: "ID of the application form the hold is for",
+                },
+                {
+                    keyName: "released_at",
+                    dataType: "timestamp",
+                    description: "When the application hold was released",
+                },
+            ],
+        },
+        {
             entityTableName: "assessment_sections",
             description: "Table documenting status per assessment section",
             keys: [
