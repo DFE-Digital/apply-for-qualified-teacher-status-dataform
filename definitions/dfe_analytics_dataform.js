@@ -1337,6 +1337,11 @@ dfeAnalyticsDataform({
                     description: "",
                 },
                 {
+                    keyName: "excludes_suitability_and_concerns_question",
+                    dataType: "boolean",
+                    description: "",
+                },
+                {
                     keyName: "expired_at",
                     dataType: "timestamp",
                     description: "",
