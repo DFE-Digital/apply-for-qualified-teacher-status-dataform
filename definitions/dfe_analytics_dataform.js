@@ -1339,7 +1339,7 @@ dfeAnalyticsDataform({
                 {
                     keyName: "excludes_suitability_and_concerns_question",
                     dataType: "boolean",
-                    description: "",
+                    description: "When true, this reference request excludes the suitability and concerns questions. Set to true for requests created after 22 October 2025, false for legacy requests",
                 },
                 {
                     keyName: "expired_at",
