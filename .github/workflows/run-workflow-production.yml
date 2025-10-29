@@ -49,7 +49,7 @@ jobs:
           create_credentials_file: true
       - name: Get a string listing all changed .sqlx files (including path) separated by commas
         id: changed-sqlx-files
-        uses: tj-actions/changed-files@v46
+        uses: tj-actions/changed-files@24d32ffd492484c1d75e0c0b894501ddb9d30d62 # v47
         with:
           files: |
             **.sqlx
@@ -60,7 +60,7 @@ jobs:
         run: echo 'CHANGED_ACTIONS=${{ steps.changed-sqlx-files.outputs.all_changed_files }}' | sed -E 's/([,=])[^,]*\//\1/g' | sed -E 's/.sqlx//g' | sed -E 's/,/ --actions /g' >> "$GITHUB_OUTPUT"
       - name: Get all changed .js and .json files
         id: changed-js-files
-        uses: tj-actions/changed-files@v46
+        uses: tj-actions/changed-files@24d32ffd492484c1d75e0c0b894501ddb9d30d62 # v47
         with:
           files: |
             **.js
