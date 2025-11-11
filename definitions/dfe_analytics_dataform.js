@@ -19,11 +19,6 @@ dfeAnalyticsDataform({
                     description: "Action that needs to be taken by an admin, assessor, or external organisation or person on an application",
                 },
                 {
-                    keyName: "test",
-                    dataType: "string",
-                    description: "",
-                },
-                {
                     keyName: "age_range_max",
                     dataType: "string",
                     description: "Pseudonymised maximum age range that can be taught",
