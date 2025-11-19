@@ -156,6 +156,11 @@ dfeAnalyticsDataform({
                     description: "Identification document status",
                 },
                 {
+                    keyName: "national_insurance_number",
+                    dataType: "string",
+                    description: "The UK National insurance number optionally provided by applicants when submitting their application. This attribute was only available from 19th November 2025.",
+                },
+                {
                     keyName: "needs_registration_number",
                     dataType: "boolean",
                     description: "Applicants from specific countries need to provide a number for their teaching status.",
