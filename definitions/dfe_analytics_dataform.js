@@ -159,6 +159,7 @@ dfeAnalyticsDataform({
                     keyName: "national_insurance_number",
                     dataType: "string",
                     description: "The UK National insurance number optionally provided by applicants when submitting their application. This attribute was only available from 19th November 2025.",
+                    hidden: true,
                 },
                 {
                     keyName: "needs_registration_number",
