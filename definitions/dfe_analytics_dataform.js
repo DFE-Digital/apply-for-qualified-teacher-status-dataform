@@ -843,6 +843,54 @@ dfeAnalyticsDataform({
             ],
         },
         {
+            entityTableName: "email_deliveries",
+            description: "A list of email deliveries for application forms. The tracking of email deliveries went live on 26th November 2025.",
+            keys: [
+                {
+                    keyName: "application_form_id",
+                    dataType: "string",
+                    description: "The ID of the application_form the email delivery belongs to.",
+                },
+                {
+                    keyName: "to",
+                    dataType: "string",
+                    description: "The email address the email was sent to.",
+                    hidden: true,
+                },
+                {
+                    keyName: "further_information_request_id",
+                    dataType: "string",
+                    description: "The ID of the further_information_request the email delivery belongs to (optional).",
+                },
+                {
+                    keyName: "mailer_action_name",
+                    dataType: "string",
+                    description: "The name of the action for the Mailer. e.g. application_received.",
+                },
+                {
+                    keyName: "mailer_class_name",
+                    dataType: "string",
+                    description: "The name of the mailer used to send the email. e.g. referee_mailer.",
+                },
+                {
+                    keyName: "prioritisation_reference_request_id",
+                    dataType: "string",
+                    description: "The ID of the prioritisation_reference_request the email delivery belongs to (optional).",
+                },
+                {
+                    keyName: "reference_request_id",
+                    dataType: "string",
+                    description: "The ID of the reference_request the email delivery belongs to (optional).",
+                },
+                {
+                    keyName: "subject",
+                    dataType: "string",
+                    description: "The subject of the email delivered.",
+                    hidden: true,
+                },
+            ],
+        },
+        {
             entityTableName: "english_language_providers",
             description: "",
             keys: [
