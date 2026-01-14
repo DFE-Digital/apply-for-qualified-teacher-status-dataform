@@ -730,6 +730,28 @@ dfeAnalyticsDataform({
             ],
         },
         {
+            entityTableName: "export_audits",
+            description: "A table representing all the data exports made by staff members",
+            keys: [
+                {
+                    keyName: "export_type",
+                    dataType: "string",
+                    description: "The type of export. e.g. application_forms.",
+                },
+                {
+                    keyName: "exported_by_id",
+                    dataType: "string",
+                    description: "The ID of the staff member who exported data.",
+                },
+                {
+                    keyName: "filter_params",
+                    dataType: "string",
+                    description: "An object holding the filter parameters that were used to export the data.",
+                    hidden: true,
+                },
+            ],
+        },
+        {
             entityTableName: "documents",
             description: "",
             keys: [
