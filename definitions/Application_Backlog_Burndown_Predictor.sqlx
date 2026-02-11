@@ -1,0 +1,96 @@
+config {
+    type: "table",
+    description: "Table used to generate the prediction for when our backlog will clear. This table will be used without Apply for QTS dashboard's Backlog Burndown.",
+    columns: {
+        date: "The date typically starting toward and into the future",
+        most_productive: "The predicted number of applications in backlog on that given date based on the most productive 3 months",
+        last_three_months: "The predicted number of applications in backlog on that given date based on the last 3 months",
+        sla_prediction_most_productive: "This will represent the value number of application in backlog required to meet our 80 day SLA based on our most productive 3 months. This column will only be populated for the row that we predict we will achieve this for",
+        sla_prediction_last_three_months: "This will represent the value number of application in backlog required to meet our 80 day SLA based on our last 3 months. This column will only be populated for the row that we predict we will achieve this for"
+    }
+}
+
+WITH dates AS (
+  SELECT
+    d AS date,
+    ROW_NUMBER() OVER (ORDER BY d) AS row_num
+  FROM UNNEST(
+    GENERATE_DATE_ARRAY(
+      CURRENT_DATE(),
+      DATE_ADD(CURRENT_DATE(), INTERVAL 852 DAY)
+    )
+  ) AS d
+),
+application_backlog_count AS (
+  SELECT
+    count(*) as baseline_count
+  FROM
+    `apply-for-qts-in-england.dataform_production.application_forms_latest_afqts`
+  WHERE
+    submitted_at IS NOT null
+    and awarded_at is null
+    and declined_at is null
+    and withdrawn_at is null
+),
+most_productive_three_months_average_clearance AS (
+  SELECT
+    last_month_of_period,
+    CAST(rolling_3_month_total_net_clearance AS NUMERIC) / 3 AS three_months_average_clearance,
+    CAST((CAST(rolling_3_month_total_net_clearance AS NUMERIC) / 3) AS NUMERIC) / 30 AS daily_average_clearance,
+    (CAST((CAST(rolling_3_month_total_net_clearance AS NUMERIC) / 3) AS NUMERIC) / 30) * 100 AS backlog_volume_for_sla
+  FROM `apply-for-qts-in-england.dataform_production.Application_Backlog_Metrics`
+  ORDER BY three_months_average_clearance DESC
+  LIMIT 1
+),
+last_three_months_average_clearance AS (
+  SELECT
+    last_month_of_period,
+    CAST(rolling_3_month_total_net_clearance AS NUMERIC) / 3 AS three_months_average_clearance,
+    CAST((CAST(rolling_3_month_total_net_clearance AS NUMERIC) / 3) AS NUMERIC) / 30 AS daily_average_clearance,
+    (CAST((CAST(rolling_3_month_total_net_clearance AS NUMERIC) / 3) AS NUMERIC) / 30) * 100 AS backlog_volume_for_sla
+  FROM `apply-for-qts-in-england.dataform_production.Application_Backlog_Metrics`
+  ORDER BY last_month_of_period DESC
+  LIMIT 1
+),
+computed_backlog_projection AS (
+  SELECT
+    date,
+    CASE
+    WHEN (application_backlog_count.baseline_count-(most_productive_three_months_average_clearance.daily_average_clearance * (row_num - 1)) < 0)
+    THEN 0
+    ELSE ROUND(application_backlog_count.baseline_count-(most_productive_three_months_average_clearance.daily_average_clearance * (row_num - 1)), 1)
+    END AS most_productive,
+    CASE
+    WHEN (application_backlog_count.baseline_count-(last_three_months_average_clearance.daily_average_clearance * (row_num - 1)) < 0)
+    THEN 0
+    ELSE ROUND(application_backlog_count.baseline_count-(last_three_months_average_clearance.daily_average_clearance * (row_num - 1)), 1)
+    END AS last_three_months,
+    most_productive_three_months_average_clearance.backlog_volume_for_sla AS sla_prediction_most_productive,
+    last_three_months_average_clearance.backlog_volume_for_sla AS sla_prediction_last_three_months,
+  FROM dates
+  CROSS JOIN application_backlog_count
+  CROSS JOIN most_productive_three_months_average_clearance
+  CROSS JOIN last_three_months_average_clearance
+),
+ranked_backlog_projection AS (
+    SELECT
+      *,
+      ROW_NUMBER() OVER (
+        ORDER BY ABS(most_productive - sla_prediction_most_productive), date
+      ) AS most_productive_achieved,
+      ROW_NUMBER() OVER (
+        ORDER BY ABS(last_three_months - sla_prediction_last_three_months), date
+      ) AS last_three_months_achieved
+    FROM computed_backlog_projection
+)
+
+SELECT
+  FORMAT_DATE('%m/%d/%y', date) AS date,
+  most_productive AS most_productive,
+  last_three_months AS last_three_months,
+  IF(most_productive_achieved = 1, ROUND(sla_prediction_most_productive, 2), NULL)
+    AS sla_prediction_most_productive,
+  IF(last_three_months_achieved = 1, ROUND(sla_prediction_last_three_months, 2), NULL)
+    AS sla_prediction_last_three_months
+FROM ranked_backlog_projection
+ORDER BY most_productive DESC
