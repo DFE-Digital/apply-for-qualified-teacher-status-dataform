@@ -1797,6 +1797,60 @@ dfeAnalyticsDataform({
             ],
         },
         {
+            entityTableName: "support_requests",
+            description: "The list of support requests submitted by users",
+            keys: [
+                {
+                    keyName: "application_enquiry_type",
+                    dataType: "string",
+                    description: "The enquiry type related to requests that are from applicants with submitted applications.",
+                },
+                {
+                    keyName: "application_reference",
+                    dataType: "string",
+                    description: "The application reference related to requests that are from applicants with submitted applications.",
+                },
+                {
+                    keyName: "user_type",
+                    dataType: "string",
+                    description: "The type user submitting the request. This can be either of application_submitted, submitting_an_application, providing_a_reference or other.",
+                },
+                {
+                    keyName: "comment",
+                    dataType: "string",
+                    description: "The comment about the enquiry.",
+                    hidden: true,
+                },
+                {
+                    keyName: "email",
+                    dataType: "string",
+                    description: "The email of the user submitting the request.",
+                    hidden: true,
+                },
+                {
+                    keyName: "name",
+                    dataType: "string",
+                    description: "The name of the user submitting the request.",
+                    hidden: true,
+                },
+                {
+                    keyName: "submitted_at",
+                    dataType: "timestamp",
+                    description: "",
+                },
+                {
+                    keyName: "zendesk_ticket_created_at",
+                    dataType: "timestamp",
+                    description: "The timestamp the request was created on Zendesk.",
+                },
+                {
+                    keyName: "zendesk_ticket_id",
+                    dataType: "string",
+                    description: "The ticket ID relating to the request on Zendesk.",
+                },
+            ],
+        },
+        {
             entityTableName: "suitability_record_emails",
             description: "",
             keys: [
