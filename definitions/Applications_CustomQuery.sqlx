@@ -4,9 +4,38 @@ config {
     columns: {
         country_eea: "Indicates if country is in EEA - true or false",
         country_eu: "Indicates if country is in EU - true or false",
-        age: "Applicant's age at the time they created the application (i.e from DOB to application.created_at date)",
-        age_range: "Applicant's age range at the time they created the application (i.e from DOB to application.created_at date)",
-        passport_country_name: "Country where applicant's passport was issued"
+        age: {
+          description: "Applicant's age at the time they created the application (i.e from DOB to application.created_at date)",
+          bigqueryPolicyTags: ["projects/apply-for-qts-in-england/locations/europe-west2/taxonomies/5456044749211275650/policyTags/2399328962407973209"]
+        },
+        age_range: {
+          description: "Applicant's age range at the time they created the application (i.e from DOB to application.created_at date)",
+          bigqueryPolicyTags: ["projects/apply-for-qts-in-england/locations/europe-west2/taxonomies/5456044749211275650/policyTags/2399328962407973209"]
+        },
+        passport_country_name: {
+          description: "Country where applicant's passport was issued",
+          bigqueryPolicyTags: ["projects/apply-for-qts-in-england/locations/europe-west2/taxonomies/5456044749211275650/policyTags/2399328962407973209"]
+        },
+        given_names: {
+          description: "The given names provided on the application",
+          bigqueryPolicyTags: ["projects/apply-for-qts-in-england/locations/europe-west2/taxonomies/5456044749211275650/policyTags/2399328962407973209"]
+        },
+        family_name: {
+          description: "The family name provided on the application",
+          bigqueryPolicyTags: ["projects/apply-for-qts-in-england/locations/europe-west2/taxonomies/5456044749211275650/policyTags/2399328962407973209"]
+        },
+        passport_expiry_date: {
+          description: "The expiry date of applicant passport provided on the application",
+          bigqueryPolicyTags: ["projects/apply-for-qts-in-england/locations/europe-west2/taxonomies/5456044749211275650/policyTags/2399328962407973209"]
+        },
+        passport_country_name: {
+          description: "The country of applicant passport issued on the application",
+          bigqueryPolicyTags: ["projects/apply-for-qts-in-england/locations/europe-west2/taxonomies/5456044749211275650/policyTags/2399328962407973209"]
+        },
+        registration_number: {
+          description: "The teaching registration number for the applicant provided on the application",
+          bigqueryPolicyTags: ["projects/apply-for-qts-in-england/locations/europe-west2/taxonomies/5456044749211275650/policyTags/2399328962407973209"]
+        },
     }
 }
 
