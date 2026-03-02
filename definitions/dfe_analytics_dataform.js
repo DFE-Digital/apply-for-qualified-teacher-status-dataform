@@ -895,6 +895,21 @@ dfeAnalyticsDataform({
                     description: "The name of the mailer used to send the email. e.g. referee_mailer.",
                 },
                 {
+                    keyName: "notify_completed_at",
+                    dataType: "string",
+                    description: "The timestamp GOV.UK Notify either delivered or considered the delivery as a failure. This column is only relevant for email deliveries from 2nd March 2026.",
+                },
+                {
+                    keyName: "notify_id",
+                    dataType: "string",
+                    description: "The ID (UUID) of the delivery on GOV.UK Notify. This column is only relevant for email deliveries from 2nd March 2026.",
+                },
+                {
+                    keyName: "notify_status",
+                    dataType: "string",
+                    description: "The status of the delivery on GOV.UK Notify. This column is only relevant for email deliveries from 2nd March 2026.",
+                },
+                {
                     keyName: "prioritisation_reference_request_id",
                     dataType: "string",
                     description: "The ID of the prioritisation_reference_request the email delivery belongs to (optional).",
