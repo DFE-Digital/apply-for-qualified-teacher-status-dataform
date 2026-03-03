@@ -896,7 +896,7 @@ dfeAnalyticsDataform({
                 },
                 {
                     keyName: "notify_completed_at",
-                    dataType: "string",
+                    dataType: "timestamp",
                     description: "The timestamp GOV.UK Notify either delivered or considered the delivery as a failure. This column is only relevant for email deliveries from 2nd March 2026.",
                 },
                 {
