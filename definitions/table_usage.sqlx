@@ -1,0 +1,86 @@
+config {
+    type: "incremental",
+    description: "Monitors analytical table usage on each day of each table in the Apply for QTS in England project.",
+    uniqueKey: ["project", "table_name", "dataset", "date", "query_source"],
+    columns: {
+        table_name: "Name of the table",
+        dataset: "Name of the dataset the table is in",
+        project: "Name of the project the dataset is in",
+        date: "Date which these metrics refer to",
+        query_source: "Category indicating the tool responsible for this query. Could be 'Dataform', 'Looker Studio', or 'Direct query'",
+        number_of_queries: "The number of queries run from query_source which used data from the table_name table on date.",
+        total_mb_processed: "The total number of MB processed by queries run from query_source which used data from the table_name table on date.",
+        total_slot_seconds_used: "The total number of slot seconds used by queries run from query_source which used data from the table_name table on date.",
+        avg_mb_processed: "The per-query average number of MB processed by queries run from query_source which used data from the table_name table on date.",
+        avg_slot_seconds_used: "The per-query average number of slot seconds used by queries run from query_source which used data from the table_name table on date."
+    },
+    bigquery: {
+        partitionBy: "date",
+        updatePartitionFilter: "date > CURRENT_DATE - 28"
+    }
+}
+
+WITH
+  job AS (
+  SELECT
+    job_id,
+    DATE(creation_time) AS date,
+    user_email,
+    referenced_tables,
+    total_bytes_processed,
+    total_slot_ms,
+    IFNULL(user_email LIKE "%dataform%", FALSE) AS dataform,
+    IFNULL( EXISTS (
+      SELECT
+        KEY,
+        value
+      FROM
+        UNNEST(labels)
+      WHERE
+        KEY = "requestor"
+        AND value = "looker_studio" ), FALSE ) AS looker_studio
+  FROM
+    `region-europe-west2`.INFORMATION_SCHEMA.JOBS_BY_PROJECT ),
+  job_table AS (
+  SELECT
+    *
+  FROM
+    job,
+    UNNEST(referenced_tables) ),
+  information_tables AS (
+  SELECT
+    table_catalog,
+    table_schema,
+    table_name
+  FROM
+    `dataform_production.INFORMATION_SCHEMA.TABLES` )
+SELECT
+  table_catalog AS `project`,
+  table_name,
+  table_schema AS dataset,
+  date,
+  CASE
+    WHEN dataform THEN "Dataform"
+    WHEN looker_studio THEN "Looker Studio"
+    ELSE "Direct query"
+END
+  AS query_source,
+  COUNT(DISTINCT job_id) AS number_of_queries,
+  SUM(total_bytes_processed) / 1e6 AS total_mb_processed,
+  SUM(total_slot_ms) / 1000 AS total_slot_seconds_used,
+  AVG(total_bytes_processed) / 1e6 AS avg_mb_processed,
+  AVG(total_slot_ms) / 1000 AS avg_slot_seconds_used
+FROM
+  information_tables
+LEFT JOIN
+  job_table
+ON
+  information_tables.table_catalog = job_table.project_id
+  AND information_tables.table_schema = job_table.dataset_id
+  AND information_tables.table_name = job_table.table_id
+GROUP BY
+  table_catalog,
+  table_name,
+  table_schema,
+  date,
+  query_source
