@@ -11,8 +11,10 @@ config {
         number_of_queries: "The number of queries run from query_source which used data from the table_name table on date.",
         total_mb_processed: "The total number of MB processed by queries run from query_source which used data from the table_name table on date.",
         total_slot_seconds_used: "The total number of slot seconds used by queries run from query_source which used data from the table_name table on date.",
+        total_bytes_billed: "The total number of MB billed by queries run from query_source which used data from the table_name table on date.",
         avg_mb_processed: "The per-query average number of MB processed by queries run from query_source which used data from the table_name table on date.",
-        avg_slot_seconds_used: "The per-query average number of slot seconds used by queries run from query_source which used data from the table_name table on date."
+        avg_slot_seconds_used: "The per-query average number of slot seconds used by queries run from query_source which used data from the table_name table on date.",
+        avg_mb_billed: "The per-query average number of MB billed by queries run from query_source which used data from the table_name table on date."
     },
     bigquery: {
         partitionBy: "date",
@@ -28,6 +30,7 @@ WITH
     user_email,
     referenced_tables,
     total_bytes_processed,
+    total_bytes_billed,
     total_slot_ms,
     IFNULL(user_email LIKE "%dataform%", FALSE) AS dataform,
     IFNULL( EXISTS (
@@ -40,7 +43,7 @@ WITH
         KEY = "requestor"
         AND value = "looker_studio" ), FALSE ) AS looker_studio,
   FROM
-    `region-europe-west2`.INFORMATION_SCHEMA.JOBS_BY_PROJECT ),
+    `region-europe-west2`.INFORMATION_SCHEMA.JOBS_BY_PROJECT ${when(incremental(), 'WHERE DATE(creation_time) > CURRENT_DATE - 28', '')}),
   job_table AS (
   SELECT
     *
@@ -61,8 +64,10 @@ END
   COUNT(DISTINCT job_id) AS number_of_queries,
   SUM(total_bytes_processed) / 1000000 AS total_mb_processed,
   SUM(total_slot_ms) / 1000 AS total_slot_seconds_used,
+  SUM(total_bytes_billed) / 1000000 AS total_mb_billed,
   AVG(total_bytes_processed) / 1000000 AS avg_mb_processed,
-  AVG(total_slot_ms) / 1000 AS avg_slot_seconds_used
+  AVG(total_slot_ms) / 1000 AS avg_slot_seconds_used,
+  AVG(total_bytes_billed) / 1000000 AS avg_mb_billed,
 FROM
   `region-europe-west2.INFORMATION_SCHEMA.TABLES` AS tables
 LEFT JOIN
