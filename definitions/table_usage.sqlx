@@ -38,7 +38,7 @@ WITH
         UNNEST(labels)
       WHERE
         KEY = "requestor"
-        AND value = "looker_studio" ), FALSE ) AS looker_studio
+        AND value = "looker_studio" ), FALSE ) AS looker_studio,
   FROM
     `region-europe-west2`.INFORMATION_SCHEMA.JOBS_BY_PROJECT ),
   job_table AS (
@@ -46,14 +46,7 @@ WITH
     *
   FROM
     job,
-    UNNEST(referenced_tables) ),
-  information_tables AS (
-  SELECT
-    table_catalog,
-    table_schema,
-    table_name
-  FROM
-    `dataform_production.INFORMATION_SCHEMA.TABLES` )
+    UNNEST(referenced_tables) )
 SELECT
   table_catalog AS `project`,
   table_name,
@@ -66,18 +59,18 @@ SELECT
 END
   AS query_source,
   COUNT(DISTINCT job_id) AS number_of_queries,
-  SUM(total_bytes_processed) / 1e6 AS total_mb_processed,
+  SUM(total_bytes_processed) / 1000000 AS total_mb_processed,
   SUM(total_slot_ms) / 1000 AS total_slot_seconds_used,
-  AVG(total_bytes_processed) / 1e6 AS avg_mb_processed,
+  AVG(total_bytes_processed) / 1000000 AS avg_mb_processed,
   AVG(total_slot_ms) / 1000 AS avg_slot_seconds_used
 FROM
-  information_tables
+  `region-europe-west2.INFORMATION_SCHEMA.TABLES` AS tables
 LEFT JOIN
   job_table
 ON
-  information_tables.table_catalog = job_table.project_id
-  AND information_tables.table_schema = job_table.dataset_id
-  AND information_tables.table_name = job_table.table_id
+  table_catalog = job_table.project_id
+  AND job_table.dataset_id = table_schema
+  AND job_table.table_id = table_name
 GROUP BY
   table_catalog,
   table_name,
