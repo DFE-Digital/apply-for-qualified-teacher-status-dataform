@@ -4,7 +4,7 @@ config {
     columns: {
         country_id: "UID for this country",
         name: "region name",
-        code: "country_code",
+        code: "country code",
         region_id: "region UID",
         country_eea: "Indicates if country is in EEA - true or false",
         country_eu: "Indicates if country is in EU - true or false"
