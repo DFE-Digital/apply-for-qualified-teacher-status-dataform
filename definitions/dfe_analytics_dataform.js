@@ -730,6 +730,49 @@ dfeAnalyticsDataform({
             ],
         },
         {
+            entityTableName: "decision_review_requests",
+            description: "A table representing all decision review requests received by declined applicants",
+            keys: [
+                {
+                    keyName: "comment",
+                    dataType: "string",
+                    description: "The comment left by the applicant when creating the decision review request.",
+                    hidden: true,
+                },
+                {
+                    keyName: "has_supporting_documents",
+                    dataType: "boolean",
+                    description: "Whether the applicant has indicated they're uploading any supporting documents or not.",
+                },
+                {
+                    keyName: "received_at",
+                    dataType: "timestamp",
+                    description: "The timestamp the decision review request was submitted and received by the applicant.",
+                },
+                {
+                    keyName: "review_note",
+                    dataType: "string",
+                    description: "The review note left by senior assessor.",
+                    hidden: true,
+                },
+                {
+                    keyName: "review_passed",
+                    dataType: "boolean",
+                    description: "Whether the review of the decision review request passed or not.",
+                },
+                {
+                    keyName: "reviewed_at",
+                    dataType: "timestamp",
+                    description: "When the senior assessor reviewed the request.",
+                },
+                {
+                    keyName: "assessment_id",
+                    dataType: "string",
+                    description: "ID of the assessment that the decision review request belongs to.",
+                },
+            ],
+        },
+        {
             entityTableName: "export_audits",
             description: "A table representing all the data exports made by staff members",
             keys: [
