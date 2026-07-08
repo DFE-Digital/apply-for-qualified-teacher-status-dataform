@@ -533,7 +533,7 @@ dfeAnalyticsDataform({
                     dataType: "timestamp",
                     description: "When a decision is made to award or decline. Note that awarded_at and declined_at represent when the award/decline recxommendation is applied.",
                 },
-                                {
+                {
                     keyName: "recommendation_assessor_note",
                     dataType: "string",
                     description: "",
@@ -1126,28 +1126,6 @@ dfeAnalyticsDataform({
                     keyName: "working_days_between_assessment_started_to_requested",
                     dataType: "integer",
                     description: "Working days between assessment started and further information request being requested",
-                },
-            ],
-        },
-        {
-            entityTableName: "mail_delivery_failures",
-            description: "Table documenting email delivery failure",
-            keys: [
-                {
-                    keyName: "email_address",
-                    dataType: "string",
-                    description: "Email address to which the email was sent",
-                    hidden: true,
-                },
-                {
-                    keyName: "mailer_action_method",
-                    dataType: "string",
-                    description: "The method in the mailer class that was used to send the email",
-                },
-                {
-                    keyName: "mailer_class",
-                    dataType: "string",
-                    description: "The class responsible for sending the email",
                 },
             ],
         },
@@ -2221,11 +2199,11 @@ dfeAnalyticsDataform({
 
         },
     ],
-     customEventSchema: [{
-            eventType: "form_validation_failure",
-            description: "Occasions when the applicant receives a form validation failure",
-            keys: []
-        }
+    customEventSchema: [{
+        eventType: "form_validation_failure",
+        description: "Occasions when the applicant receives a form validation failure",
+        keys: []
+    }
 
     ]
 });
