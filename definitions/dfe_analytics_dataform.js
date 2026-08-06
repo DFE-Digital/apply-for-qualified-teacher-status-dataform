@@ -308,6 +308,11 @@ dfeAnalyticsDataform({
                     description: "ID of the staff user who is assigned as the reviewer",
                 },
                 {
+                    keyName: "verifier_id",
+                    dataType: "string",
+                    description: "ID of the staff user who is assigned as the verifier",
+                },
+                {
                     keyName: "stage",
                     dataType: "string",
                     description: "Lifecycle of the application journey - draft, pre_assessment, not_started, assessment, verification, review or completed",
