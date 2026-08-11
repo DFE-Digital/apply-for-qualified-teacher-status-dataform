@@ -9,8 +9,8 @@ SELECT
     country_id),
   afqts_regions.region_name AS region,
   CASE
-    WHEN tableA.eligible_work_experience_in_england = TRUE THEN 'Selected Yes'
-    WHEN tableA.eligible_work_experience_in_england = FALSE THEN 'Selected No'
+    WHEN eligibility_checks.eligible_work_experience_in_england = TRUE THEN 'Selected Yes'
+    WHEN eligibility_checks.eligible_work_experience_in_england = FALSE THEN 'Selected No'
     ELSE 'No Eligible work experience in England data present'
     END
     AS eligible_work_experience_in_england_reporting,
@@ -32,8 +32,8 @@ SELECT
     END
     AS country_eu_reporting,
 FROM
-  ${ref("eligibility_checks_latest_afqts")} AS tableA
+  ${ref("eligibility_checks_latest_afqts")} AS eligibility_checks
 LEFT JOIN
   ${ref("afqts_regions")} AS afqts_regions
 ON
-  tableA.region_id = afqts_regions.region_id
+  eligibility_checks.region_id = afqts_regions.region_id
