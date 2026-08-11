@@ -27,22 +27,22 @@ SELECT
   further_information_requests.created_at AS further_information_requests_created_at,
   further_information_request_items.id AS further_information_request_items_id,
   information_type,
-  replace(further_information_request_items.failure_reason_key, '_', ' ') as failure_reason_key,
+  REPLACE(further_information_request_items.failure_reason_key, '_', ' ') AS failure_reason_key,
   further_information_requests.expired_at AS FI_expired_at,
   further_information_requests.received_at AS FI_received_at,
   further_information_requests.requested_at AS FI_requested_at,
   further_information_requests.reviewed_at AS FI_reviewed_at,
   application_forms.region_id,
-  joinGeoData.country_name,
-  joinGeoData.country_route,
-  joinGeoData.name AS region_name,
+  afqts_regions.country_name,
+  afqts_regions.country_route,
+  afqts_regions.region_name,
   country_eea,
   country_eu,
   application_forms.reference,
   application_forms.submitted_at,
   assessments.started_at,
-  application_forms.stage As stage,
-  application_forms.statuses as statuses,
+  application_forms.stage AS stage,
+  application_forms.statuses AS statuses,
   selected_failure_reasons.key,
   application_forms.assessor_id,
   application_forms.teacher_id,
@@ -51,16 +51,33 @@ SELECT
   qualifications.title AS qualifications_title,
   qualifications.part_of_university_degree,
   qualifications.institution_country_code,
-
-
 FROM
   ${ref("assessments_latest_afqts")} AS assessments
-  LEFT JOIN ${ref("assessment_sections_latest_afqts")} AS assessment_sections ON assessments.id = assessment_sections.assessment_id
-  LEFT JOIN ${ref("further_information_requests_latest_afqts")} AS further_information_requests ON assessments.id = further_information_requests.assessment_id
-  LEFT JOIN ${ref("further_information_request_items_latest_afqts")} AS further_information_request_items ON further_information_requests.id = further_information_request_items.further_information_request_id
-  LEFT JOIN ${ref("application_forms_latest_afqts")} AS application_forms ON assessments.application_form_id = application_forms.id
-  LEFT JOIN ${ref("joinGeoData")} AS joinGeoData ON application_forms.region_id = joinGeoData.region_id
-  LEFT JOIN ${ref("selected_failure_reasons_latest_afqts")} AS selected_failure_reasons ON assessment_sections.id = selected_failure_reasons.assessment_section_id
-  LEFT JOIN ${ref("qualifications_latest_afqts")} AS qualifications ON application_forms.id = qualifications.application_form_id
-
-
+LEFT JOIN
+  ${ref("assessment_sections_latest_afqts")} AS assessment_sections
+ON
+  assessments.id = assessment_sections.assessment_id
+LEFT JOIN
+  ${ref("further_information_requests_latest_afqts")} AS further_information_requests
+ON
+  assessments.id = further_information_requests.assessment_id
+LEFT JOIN
+  ${ref("further_information_request_items_latest_afqts")} AS further_information_request_items
+ON
+  further_information_requests.id = further_information_request_items.further_information_request_id
+LEFT JOIN
+  ${ref("application_forms_latest_afqts")} AS application_forms
+ON
+  assessments.application_form_id = application_forms.id
+LEFT JOIN
+  ${ref("afqts_regions")} AS afqts_regions
+ON
+  application_forms.region_id = afqts_regions.region_id
+LEFT JOIN
+  ${ref("selected_failure_reasons_latest_afqts")} AS selected_failure_reasons
+ON
+  assessment_sections.id = selected_failure_reasons.assessment_section_id
+LEFT JOIN
+  ${ref("qualifications_latest_afqts")} AS qualifications
+ON
+  application_forms.id = qualifications.application_form_id

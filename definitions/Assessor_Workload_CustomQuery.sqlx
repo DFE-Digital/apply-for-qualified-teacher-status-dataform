@@ -16,9 +16,9 @@ SELECT
 FROM
   ${ref("application_forms_version_afqts")} AS application_forms
 LEFT JOIN
-  ${ref("joinGeoData")} AS joinGeoData
+  ${ref("afqts_regions")} AS afqts_regions
 ON
-  application_forms.region_id = joinGeoData.region_id
+  application_forms.region_id = afqts_regions.region_id
 WHERE
   state != "draft"
   OR stage != 'draft'

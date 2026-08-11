@@ -1,0 +1,250 @@
+config {
+    type: "table",
+    tags: ["afqts"],
+    schema: dataform.projectConfig.schemaSuffix ? "dataform" : "1_key_tables",
+    assertions: {
+        uniqueKey: ["application_form_id"],
+        nonNull: ["created_at", "updated_at", "application_form_id"],
+    },
+    bigquery: {
+        labels: {
+            eventsource: "afqts"
+        }
+    },
+    description: "Table combining the details of applications for QTS and assessments of these applications. Each row is a unique application form ID.",
+    columns: {
+        country_eea: "Indicates if country is in EEA - true or false",
+        country_eu: "Indicates if country is in EU - true or false",
+        age: {
+            description: "Applicant's age at the time they created the application (i.e from DOB to application.created_at date)",
+            bigqueryPolicyTags: ["projects/apply-for-qts-in-england/locations/europe-west2/taxonomies/5456044749211275650/policyTags/2399328962407973209"]
+        },
+        age_range: {
+            description: "Applicant's age range at the time they created the application (i.e from DOB to application.created_at date)",
+            bigqueryPolicyTags: ["projects/apply-for-qts-in-england/locations/europe-west2/taxonomies/5456044749211275650/policyTags/2399328962407973209"]
+        },
+        passport_country_name: {
+            description: "Country where applicant's passport was issued",
+            bigqueryPolicyTags: ["projects/apply-for-qts-in-england/locations/europe-west2/taxonomies/5456044749211275650/policyTags/2399328962407973209"]
+        },
+        given_names: {
+            description: "The given names provided on the application",
+            bigqueryPolicyTags: ["projects/apply-for-qts-in-england/locations/europe-west2/taxonomies/5456044749211275650/policyTags/2399328962407973209"]
+        },
+        family_name: {
+            description: "The family name provided on the application",
+            bigqueryPolicyTags: ["projects/apply-for-qts-in-england/locations/europe-west2/taxonomies/5456044749211275650/policyTags/2399328962407973209"]
+        },
+        passport_expiry_date: {
+            description: "The expiry date of applicant passport provided on the application",
+            bigqueryPolicyTags: ["projects/apply-for-qts-in-england/locations/europe-west2/taxonomies/5456044749211275650/policyTags/2399328962407973209"]
+        },
+        passport_country_name: {
+            description: "The country of applicant passport issued on the application",
+            bigqueryPolicyTags: ["projects/apply-for-qts-in-england/locations/europe-west2/taxonomies/5456044749211275650/policyTags/2399328962407973209"]
+        },
+        registration_number: {
+            description: "The teaching registration number for the applicant provided on the application",
+            bigqueryPolicyTags: ["projects/apply-for-qts-in-england/locations/europe-west2/taxonomies/5456044749211275650/policyTags/2399328962407973209"]
+        },
+    }
+}
+
+WITH
+  assessment_sections AS (
+  SELECT
+    assessment_id,
+    ARRAY_AGG(STRUCT ( failure_reasons AS reasons,
+        KEY )) AS failure
+  FROM
+    ${ref("assessment_sections_latest_afqts")}
+  WHERE
+    NOT passed
+  GROUP BY
+    ALL ),
+  further_information_requests AS (
+  SELECT
+    assessment_id,
+    ARRAY_AGG(STRUCT(state,
+        assessment_id,
+        further_information_request.created_at,
+        further_information_request.expired_at,
+        further_information_request.received_at,
+        further_information_request.requested_at,
+        further_information_request.reviewed_at,
+        further_information_request.review_passed,
+        ABS(TIME_DIFF(EXTRACT(TIME
+            FROM
+              further_information_request.received_at), EXTRACT(TIME
+            FROM
+              recommended_at), MINUTE)) AS minutes_received_to_recommended,
+        ABS(TIME_DIFF(EXTRACT(TIME
+            FROM
+              further_information_request.received_at), CURRENT_TIME(), MINUTE)) AS minutes_since_received,
+        ABS(TIME_DIFF(EXTRACT(TIME
+            FROM
+              further_information_request.created_at), EXTRACT(TIME
+            FROM
+              started_at), MINUTE)) AS minutes_since_started_to_further_information )) AS further_information
+  FROM
+    ${ref("further_information_requests_latest_afqts")} AS further_information_request
+  LEFT JOIN
+    ${ref("assessments_latest_afqts")} AS assessment
+  ON
+    assessment.id = further_information_request.assessment_id
+  GROUP BY
+    ALL )
+SELECT
+  application_forms.id AS application_form_id,
+  application_forms.created_at,
+  application_forms.updated_at,
+  application_forms.action_required_by,
+  STRUCT( application_forms.age_range_max AS max,
+    application_forms.age_range_min AS min,
+    application_forms.age_range_status AS status) AS application_form_age_range,
+  application_forms.assessor_id,
+  application_forms.confirmed_no_sanctions,
+  application_forms.awarded_at,
+  application_forms.declined_at,
+  application_forms.date_of_birth,
+  application_forms.trs_match,
+  application_forms.eligibility_check_id,
+  STRUCT( application_forms.english_language_citizenship_exempt AS citizenship_exempt,
+    application_forms.english_language_proof_method AS proof_method,
+    application_forms.english_language_provider_id AS provider_id,
+    application_forms.english_language_provider_other AS provider_other,
+    application_forms.english_language_provider_reference AS provider_reference,
+    application_forms.english_language_qualification_exempt AS qualification_exempt,
+    application_forms.english_language_status AS status ) AS english_language,
+  -- first_name, last_name cleansed
+  application_forms.family_name,
+  application_forms.given_names,
+  application_forms.has_alternative_name,
+  application_forms.has_other_england_work_history,
+  application_forms.has_work_history,
+  application_forms.includes_prioritisation_features,
+  application_forms.identification_document_status,
+  application_forms.needs_registration_number,
+  application_forms.needs_work_history,
+  application_forms.needs_written_statement,
+  application_forms.other_england_work_history_status,
+  STRUCT( application_forms.overdue_further_information AS further_information,
+    application_forms.overdue_professional_standing AS professional_standing,
+    application_forms.overdue_qualification AS qualification,
+    application_forms.overdue_reference AS reference) AS overdue,
+  application_forms.qualification_changed_work_history_duration,
+  application_forms.qualifications_status,
+  STRUCT( application_forms.received_further_information AS further_information,
+    application_forms.received_professional_standing AS professional_standing,
+    application_forms.received_qualification AS qualification,
+    application_forms.received_reference AS reference ) AS received,
+  application_forms.reduced_evidence_accepted,
+  application_forms.reference,
+  application_forms.registration_number,
+  application_forms.registration_number_status,
+  STRUCT( requires_passport_as_identity_proof AS passport_as_identify_proof,
+    requires_private_email_for_referee AS private_email_for_referee,
+    requires_preliminary_check AS preliminary_check ) AS requires,
+  application_forms.reviewer_id,
+  application_forms.verifier_id,
+  application_forms.stage,
+  application_forms.started_with_private_email_for_referee,
+  application_forms.statuses,
+  application_forms.subjects_status,
+  application_forms.submitted_at,
+  application_forms.teacher_id,
+  teaching_authority_provides_written_statement,
+  teaching_qualification_part_of_degree,
+  STRUCT( waiting_on_further_information AS further_information,
+    waiting_on_professional_standing AS professional_standing,
+    waiting_on_qualification AS qualification,
+    waiting_on_reference AS reference ) AS waiting_on,
+  application_forms.withdrawn_at,
+  application_forms.work_history_status,
+  application_forms.working_days_between_submitted_and_today,
+  application_forms.working_days_between_submitted_and_completed,
+  STRUCT(application_forms.written_statement_confirmation AS confirmation,
+    application_forms.written_statement_optional AS optional,
+    application_forms.written_statement_status AS status ) AS written_statement,
+  application_forms.state,
+  application_forms.region_id,
+  CASE
+    WHEN DATE_DIFF(DATE(application_forms.created_at), date_of_birth, YEAR) < 21 THEN '<21'
+    WHEN DATE_DIFF(DATE(application_forms.created_at), date_of_birth, YEAR) BETWEEN 21
+  AND 30 THEN '21-30'
+    WHEN DATE_DIFF(DATE(application_forms.created_at), date_of_birth, YEAR) BETWEEN 31 AND 40 THEN '31-40'
+    WHEN DATE_DIFF(DATE(application_forms.created_at), date_of_birth, YEAR) BETWEEN 41
+  AND 50 THEN '41-50'
+    WHEN DATE_DIFF(DATE(application_forms.created_at), date_of_birth, YEAR) BETWEEN 51 AND 60 THEN '51-60'
+    ELSE '61+'
+END
+  AS age_range,
+  STRUCT( passport_country_of_issue_code AS country_of_issue,
+    COALESCE(passport_country.country_name, '') AS country_name,
+    passport_document_status AS document_status,
+    passport_expiry_date AS expiry_date
+    -- check that country matches passport country
+    ) AS passport,
+  COALESCE(afqts_regions.country_name, '') AS country_name,
+  LOWER( REGEXP_REPLACE(TRIM(application_forms.subjects), r'[^a-zA-Z0-9 ]', '') ) AS application_subjects,
+  assessments.id AS assessment_id,
+  professional_standing.expired_at AS ps_expired_at,
+  DATE_DIFF(DATE(application_forms.created_at), DATE (date_of_birth), YEAR) AS age,
+  assessments.age_range_min AS assessment_age_range_min,
+  assessments.age_range_max AS assessment_age_range_max,
+  CASE
+    WHEN assessments.age_range_min IS NOT NULL AND assessments.age_range_max IS NOT NULL THEN assessments.age_range_min || ' - ' || assessments.age_range_max
+    ELSE CAST(COALESCE(assessments.age_range_min, assessments.age_range_max) AS STRING)
+END
+  AS assessment_age_range,
+  assessments.created_at AS assessment_created_at,
+  REPLACE(LOWER(COALESCE(assessments.subjects, ' ')), '_', ' ') AS assessment_subjects,
+  CASE
+    WHEN application_forms.withdrawn_at IS NOT NULL THEN 'withdrawn'
+    WHEN application_forms.declined_at IS NOT NULL THEN 'declined'
+    WHEN application_forms.awarded_at IS NOT NULL THEN 'awarded'
+END
+  AS assessment_status,
+  CASE
+    WHEN application_forms.age_range_min IS NOT NULL AND application_forms.age_range_max IS NOT NULL THEN CAST(application_forms.age_range_min AS STRING) || ' - ' || CAST(application_forms.age_range_max AS STRING)
+    ELSE CAST(COALESCE(application_forms.age_range_min, application_forms.age_range_max) AS STRING)
+END
+  AS application_age_range,
+  assessments.updated_at AS assessment_updated_at,
+  assessments.subjects,
+  ABS(TIME_DIFF(EXTRACT(TIME
+      FROM
+        assessments.started_at), EXTRACT(TIME
+      FROM
+        assessments.recommended_at), MINUTE)) AS minutes_started_to_recommended,
+  ABS(TIME_DIFF(EXTRACT(TIME
+      FROM
+        assessments.started_at), CURRENT_TIME(), MINUTE)) AS minutes_since_started,
+  further_information_requests.further_information,
+  assessment_sections.failure
+FROM
+  ${ref("application_forms_latest_afqts")} AS application_forms
+LEFT JOIN
+  ${ref("afqts_regions")} AS afqts_regions
+ON
+  application_forms.region_id = afqts_regions.region_id
+LEFT JOIN
+  ${ref("assessments_latest_afqts")} AS assessments
+ON
+  application_forms.id = assessments.application_form_id
+LEFT JOIN
+  further_information_requests
+ON
+  assessments.id = further_information_requests.assessment_id
+LEFT JOIN
+  ${ref("professional_standing_requests_latest_afqts")} AS professional_standing
+ON
+  professional_standing.assessment_id = assessments.id
+LEFT JOIN
+  ${ref("passport_issue_country")} AS passport_country
+ON
+  passport_country_of_issue_code = passport_country.country_code
+LEFT JOIN
+  assessment_sections
+ON
+  assessment_sections.assessment_id = application_forms.id

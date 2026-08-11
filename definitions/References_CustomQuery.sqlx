@@ -29,9 +29,9 @@ SELECT
   application_forms.stage,
   application_forms.statuses,
   application_forms.reference,
-  joinGeoData.country_name AS Country,
-  joinGeoData.country_route,
-  joinGeoData.name AS Region,
+  afqts_regions.country_name AS Country,
+  afqts_regions.country_route,
+  afqts_regions.region_name AS Region,
   country_eea,
   country_eu
 FROM
@@ -45,6 +45,6 @@ LEFT JOIN
 ON
   assessments.application_form_id = application_forms.id
 LEFT JOIN
-  ${ref("joinGeoData")} AS joinGeoData
+  ${ref("afqts_regions")} AS afqts_regions
 ON
-  application_forms.region_id = joinGeoData.region_id
+  application_forms.region_id = afqts_regions.region_id
