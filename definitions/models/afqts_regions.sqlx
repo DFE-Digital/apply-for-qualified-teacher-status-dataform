@@ -29,7 +29,7 @@ SELECT
   regions.id AS region_id,
   regions.name AS region_name,
   countries.id AS country_id,
-  country_codes.code as country_code,
+  country_codes.code AS country_code,
   country_codes.country_name,
   regions_requires_preliminary_check,
   regions_reduced_evidence_accepted,
@@ -42,7 +42,8 @@ SELECT
   subject_limited,
   ${countries.mapping("country_codes.country_name")} AS country_route,
   ${countries.mapping("country_codes.country_name")} = 'eea' AS country_eea,
-  ${countries.mapping("country_codes.country_name")} IN ('eea', 'eu') AS country_eu,
+  ${countries.mapping("country_codes.country_name")} IN ('eea',
+    'eu') AS country_eu,
 FROM
   ${ref("regions_latest_afqts")} AS regions
 INNER JOIN

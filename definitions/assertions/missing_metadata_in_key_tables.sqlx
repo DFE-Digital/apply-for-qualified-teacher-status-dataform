@@ -1,0 +1,11 @@
+config {
+    type: "assertion",
+    description: "This assertion checks if our main tables in the Apply for QTS in England project are missing metadata information. If this alert fires, either add in the meta description or contact the relevant team to add in the description."
+}
+
+SELECT
+  *
+FROM
+  `1_key_tables.INFORMATION_SCHEMA.COLUMN_FIELD_PATHS`
+WHERE
+  description IS NULL

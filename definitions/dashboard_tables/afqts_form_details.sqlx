@@ -11,41 +11,200 @@ config {
             eventsource: "afqts"
         }
     },
-    description: "Table combining the details of applications for QTS and assessments of these applications. Each row is a unique application form ID.",
+    description: "Table containing Apply for Qualified Teacher Status (AfQTS) application details and the corresponding assessment outcomes. Each row represents a unique application form ID.",
     columns: {
-        country_eea: "Indicates if country is in EEA - true or false",
-        country_eu: "Indicates if country is in EU - true or false",
-        age: {
-            description: "Applicant's age at the time they created the application (i.e from DOB to application.created_at date)",
+        application_form_id: "UID of the application form in AfQTS",
+        created_at: "Timestamp that the application form was created",
+        updated_at: "Timestamp the the application form was last updated",
+        action_required_by: "Action that needs to be taken by an admin, assessor, or external organisation or person on an application",
+        application_form_age_range: {
+            description: "STRUCT of fields related to the application form age range",
+            columns: {
+                min: "Minimum age that can be taught",
+                max: "Maximum age that can be taught",
+                age_range: "Min and max age range that can be taught e.g. 11-18",
+                status: "Status of application having age range information"
+            }
+        },
+        assessor_id: "ID of the staff user who is assigned to the application",
+        confirmed_no_sanctions: "TRUE if applicant has confirmed they have no sanctions",
+        awarded_at: "Timestamp that application was awarded",
+        declined_at: "Timestamp that a recommendation to decline has been applied",
+        date_of_birth: {
+            description: "Date of birth of the applicant",
             bigqueryPolicyTags: ["projects/apply-for-qts-in-england/locations/europe-west2/taxonomies/5456044749211275650/policyTags/2399328962407973209"]
         },
-        age_range: {
-            description: "Applicant's age range at the time they created the application (i.e from DOB to application.created_at date)",
+        trs_match: "Any matches with an existing teacher recorded in TRS are stored here",
+        eligibility_check_id: "Eligibility check ID - This will be the link to the eligibility check record that the applicant used to generate the application form",
+        english_language: {
+            description: "STRUCT of fields related to english language",
+            columns: {
+                citizenship_exempt: "Applicant is from one of the exempt countries. Therefore only needs to prove citizenship",
+                proof_method: "Applicant was taught in English in a non exempt country. Therefore, they provide a MOI (Medium of Instruction)",
+                provider_id: "English test provider ID. e.g SELT",
+                provider_other: "Applicant uses an English test provider not from the standard list. This is typically seen and accepted for Ukraine citizenship holders",
+                provider_reference: "Pseudonymised data",
+                qualification_exempt: "Applicant is able to prove they have been taught in one of the selected exempt countries",
+                status: "Status of applicant having English language"
+            }
+        },
+        first_name: {
+            description: "First name provided on the application",
             bigqueryPolicyTags: ["projects/apply-for-qts-in-england/locations/europe-west2/taxonomies/5456044749211275650/policyTags/2399328962407973209"]
         },
-        passport_country_name: {
-            description: "Country where applicant's passport was issued",
-            bigqueryPolicyTags: ["projects/apply-for-qts-in-england/locations/europe-west2/taxonomies/5456044749211275650/policyTags/2399328962407973209"]
-        },
-        given_names: {
-            description: "The given names provided on the application",
+        last_name: {
+            description: "Last name provided on the application",
             bigqueryPolicyTags: ["projects/apply-for-qts-in-england/locations/europe-west2/taxonomies/5456044749211275650/policyTags/2399328962407973209"]
         },
         family_name: {
-            description: "The family name provided on the application",
+            description: "Family name provided on the application",
             bigqueryPolicyTags: ["projects/apply-for-qts-in-england/locations/europe-west2/taxonomies/5456044749211275650/policyTags/2399328962407973209"]
         },
-        passport_expiry_date: {
-            description: "The expiry date of applicant passport provided on the application",
+        given_names: {
+            description: "Given names provided on the application",
             bigqueryPolicyTags: ["projects/apply-for-qts-in-england/locations/europe-west2/taxonomies/5456044749211275650/policyTags/2399328962407973209"]
         },
-        passport_country_name: {
-            description: "The country of applicant passport issued on the application",
+        email: {
+            description: "Email address of the applicant",
             bigqueryPolicyTags: ["projects/apply-for-qts-in-england/locations/europe-west2/taxonomies/5456044749211275650/policyTags/2399328962407973209"]
         },
+        has_alternative_name: "TRUE if the applicant has an alternative name",
+        has_other_england_work_history: "TRUE if the applicant has other work history in England",
+        has_work_history: "TRUE if the applicant has work history",
+        includes_prioritisation_features: "TRUE if prioritisation features on this application form",
+        identification_document_status: "Status of identification documents e.g. completed, not_started, error",
+        needs_registration_number: "Applicants from specific countries need to provide a number for their teaching status.",
+        needs_work_history: "Applicants from specific countries do not need to provide work history. i.e. NI, Scotland, Ukraine",
+        needs_written_statement: "If there isn't an online checker for competent authority, then written statment checks need to be uploaded",
+        other_england_work_history_status: "Status of other work history in England on application form e.g. completed, in_progress, not_started, update_needed",
+        overdue: {
+            description: "STRUCT containing information about overdue application components and verification checks.",
+            columns: {
+                further_information: "Further information requested from the applicant has not been provided within the required timeframe. Overdue further information (FI) requests are likely to result in the application being declined.",
+                professional_standing: "The verification of professional standing with the relevant competent authority has exceeded the expected six-week timeframe.",
+                qualification: "The verification of qualifications with Ecctis has exceeded the expected six-week timeframe.",
+                reference: "The verification of the applicant's work history through provided references has exceeded the expected six-week timeframe."
+            }
+        },
+        qualification_changed_work_history_duration: "TRUE if applicant changed their qualification certificate date which meant the number of months of work history they added has changed",
+        qualifications_status: "Status of qualifications provided e.g. completed, not_started, in_progress, error",
+        received: {
+            description: "STRUCT of fields related to whether items have been received",
+            columns: {
+                further_information: "Requested further information has been received. If this goes overdue, applicant will likely be marked as decline",
+                professional_standing: "In verification status, we contact professional standing body Received professional standing checker",
+                qualification: "Received relevant qualification",
+                reference: "Received references"
+            }
+        },
+        reduced_evidence_accepted: "TRUE if reduced evidence accepted",
+        reference: "Application reference ID",
         registration_number: {
-            description: "The teaching registration number for the applicant provided on the application",
+            description: "Teaching registration number for the applicant provided on the application",
             bigqueryPolicyTags: ["projects/apply-for-qts-in-england/locations/europe-west2/taxonomies/5456044749211275650/policyTags/2399328962407973209"]
+        },
+        registration_number_status: "Status of teacher registration number e.g. not_started, completed, in_progress",
+        requires: {
+            description: "STRUCT of fields that relate to requirements",
+            columns: {
+                passport_as_identity_proof: "TRUE if passport is required as identity proof",
+                private_email_for_referee: "TRUE if private email domain for referees is required when submitting application form",
+                preliminary_check: "TRUE if preliminary check required",
+            }
+        },
+        reviewer_id: "ID of the staff user who is assigned as the reviewer",
+        verifier_id: "ID of the staff user who is assigned as the verifier",
+        stage: "Lifecycle of the application journey - draft, pre_assessment, not_started, assessment, verification, review or completed",
+        started_with_private_email_for_referee: "TRUE if applicant started the application form after the private email domain for referee requirement was released. Note that this is a temporary column to handle some features for existing applications and will be removed within the next year.",
+        status: "ARRAY of application statuses",
+        subjects_status: "Subjects submitted status",
+        submitted_at: "Timestamp the application was submitted",
+        teacher_id: "ID of a teacher - specific to AQTS. It is not the same as the cross-service teacher_id and cannot be used for linking teachers across services.",
+        teaching_authority_provides_written_statement: "TRUE if the teaching authority providers a written statement. Note that if there isn't an online checker for competent authority, then written statment checks need to be uploaded",
+        teaching_qualification_part_of_degree: "TRUE if the teaching qualification is part of the bachelor's degree. If true, applicant needs to provide only one combined degree or qualification. If false, the applicant needs to tell us about two qualifications: their teaching and their degree",
+        waiting_on: {
+            description: "STRUCT related to which items are still being waited on",
+            columns: {
+                further_information: "Requested further information is pending. If this goes overdue, applicant will likely be marked as decline",
+                professional_standing: "We are waiting on confirmation from professional standing body regarding professional standing checker",
+                qualification: "Waiting on qualification checker",
+                reference: "Waiting on reference checker"
+            }
+        },
+        withdrawn_at: "Timestamp that the application was withdrawn",
+        work_history_status: "Work history status of the application form e.g. completed, in_progress, not_started, updated_needed",
+        working_days_between_submitted_and_today: "Working days between application form being been submitted until today",
+        working_days_between_submitted_and_completed: "Working days between application form being submitted until awarded, declined or withdrawn",
+        written_statement: {
+            description: "STRUCT of fields related to the written statement",
+            columns: {
+                confirmation: "Written statement confirmation checker",
+                optional: "Written statement optional checker",
+                status: "Written statement status"
+            }
+        },
+        region_id: "Region ID",
+        age: {
+            description: "Applicant's age at the time of submission. This is calculated from time between date of birth and application submitted_at",
+            bigqueryPolicyTags: ["projects/apply-for-qts-in-england/locations/europe-west2/taxonomies/5456044749211275650/policyTags/2399328962407973209"]
+        },
+        age_range: {
+            description: "Applicant's age range at the time of submission grouped into age categories e.g. 31-40",
+            bigqueryPolicyTags: ["projects/apply-for-qts-in-england/locations/europe-west2/taxonomies/5456044749211275650/policyTags/2399328962407973209"]
+        },
+        passport: {
+            description: "STRUCT of fields related to passport information",
+            columns: {
+                country_name: {
+                    description: "Name of the country who issued the passport of the applicant",
+                    bigqueryPolicyTags: ["projects/apply-for-qts-in-england/locations/europe-west2/taxonomies/5456044749211275650/policyTags/2399328962407973209"]
+                },
+                country_code: "Country code of the country who issued the passport of the applicant",
+                document_status: "Passport document provided status",
+                expiry_date: "Passport expiry date provided",
+            }
+        },
+        country_name: "Name of the country that the applicant resides in. Note this can differ from the country that their passport is issued from.",
+        country_eea: "TRUE if the candidate's country is within the European Economic Area (EEA).",
+        country_eu: "TRUE if the candidate's country is within the European Union (EU).",
+        application_subjects: "ARRAY of subjects entered on the application form",
+        assessment_id: "UID of the assessment of this application form",
+        ps_expired_at: "Timestampe that the professional standing expired",
+        assessment: {
+            description: "STRUCT of fields related to the assessment details",
+            columns: {
+                assessment_age_range_min: "Min age range in the assessment",
+                assessment_age_range_max: "Max age range in the assessement",
+                age_range: "Age range in the assessment",
+                created_at: "Timestamp the assessment was created",
+                subjects: "ARRAY of the subjects reviewed in the assessment",
+                status: "Status of the assessment of this application form e.g. awarded, declined, withdrawn",
+                updated_at: "Timestamp the assessment was updated",
+                minutes_started_to_recommended: "Minutes between an assessment starting and a recommendation being made",
+                minutes_since_started: "Minutes from the assessment starting to the time the pipeline was last run",
+            }
+        },
+        further_information: {
+            description: "STRUCT of fields related to further information requests on this application form to the applicant",
+            columns: {
+                assessment_id: "UID of the assessment ID that the further information request relates to",
+                created_at: "Timestamp the further information requests was made",
+                expired_at: "Timestamp the further information requests expires",
+                received_at: "Timestamp that the further information request was received",
+                requested_at: "Timestamp that the further information request was requested",
+                reviewed_at: "Timestamp that the further information request was reviewed",
+                review_passed: "TRUE if review of the further information request passed",
+                minutes_received_to_recommended: "Minues between the further information request being received to a recommendation being made",
+                minutes_since_received: "Minutes since the further information request was received",
+                minutes_since_started_to_further_information: "Minutes between the assessment being started to the request of further information being received by the applicant"
+            }
+        },
+        failure: {
+            description: "STRUCT of fields showing the reasons that the applicant was unsuccessful",
+            columns: {
+                reasons: "List of reasons associated with the failure key",
+                key: "Failure key selected for this application form e.g. work_history, qualifications"
+            }
         },
     }
 }
@@ -54,8 +213,8 @@ WITH
   assessment_sections AS (
   SELECT
     assessment_id,
-    ARRAY_AGG(STRUCT ( failure_reasons AS reasons,
-        KEY )) AS failure
+    ARRAY_AGG(STRUCT ( SPLIT(failure_reasons,',') AS reasons,
+        `key` )) AS failure
   FROM
     ${ref("assessment_sections_latest_afqts")}
   WHERE
@@ -65,8 +224,7 @@ WITH
   further_information_requests AS (
   SELECT
     assessment_id,
-    ARRAY_AGG(STRUCT(state,
-        assessment_id,
+    ARRAY_AGG(STRUCT( assessment_id,
         further_information_request.created_at,
         further_information_request.expired_at,
         further_information_request.received_at,
@@ -85,7 +243,7 @@ WITH
             FROM
               further_information_request.created_at), EXTRACT(TIME
             FROM
-              started_at), MINUTE)) AS minutes_since_started_to_further_information )) AS further_information
+              assessment.started_at), MINUTE)) AS minutes_since_started_to_further_information )) AS further_information
   FROM
     ${ref("further_information_requests_latest_afqts")} AS further_information_request
   LEFT JOIN
@@ -93,14 +251,35 @@ WITH
   ON
     assessment.id = further_information_request.assessment_id
   GROUP BY
-    ALL )
+    ALL ),
+  subjects_nested AS (
+  SELECT
+    id AS application_form_id,
+    SPLIT(LOWER(subjects),',') AS application_subjects,
+  FROM
+    ${ref("application_forms_latest_afqts")} ),
+  subjects_as_array AS (
+  SELECT
+    application_form_id,
+    ARRAY_AGG(TRIM(unnested_subjects) IGNORE NULLS) AS application_subjects
+  FROM
+    subjects_nested
+  LEFT JOIN
+    UNNEST (application_subjects) AS unnested_subjects
+  GROUP BY
+    application_form_id )
 SELECT
   application_forms.id AS application_form_id,
   application_forms.created_at,
   application_forms.updated_at,
   application_forms.action_required_by,
-  STRUCT( application_forms.age_range_max AS max,
-    application_forms.age_range_min AS min,
+  STRUCT( application_forms.age_range_min AS min,
+    application_forms.age_range_max AS max,
+    CASE
+      WHEN application_forms.age_range_min IS NOT NULL AND application_forms.age_range_max IS NOT NULL THEN CAST(application_forms.age_range_min AS STRING) || ' - ' || CAST(application_forms.age_range_max AS STRING)
+      ELSE CAST(COALESCE(application_forms.age_range_min, application_forms.age_range_max) AS STRING)
+  END
+    AS age_range,
     application_forms.age_range_status AS status) AS application_form_age_range,
   application_forms.assessor_id,
   application_forms.confirmed_no_sanctions,
@@ -116,12 +295,16 @@ SELECT
     application_forms.english_language_provider_reference AS provider_reference,
     application_forms.english_language_qualification_exempt AS qualification_exempt,
     application_forms.english_language_status AS status ) AS english_language,
-  -- first_name, last_name cleansed
+  SPLIT(LOWER(application_forms.given_names), ' ')[
+OFFSET
+  (0)] AS first_name,
+  LOWER(application_forms.family_name) AS last_name,
   application_forms.family_name,
   application_forms.given_names,
-  application_forms.has_alternative_name,
+  teacher.email,
+  CAST(application_forms.has_alternative_name AS BOOL) AS has_alternative_name,
   application_forms.has_other_england_work_history,
-  application_forms.has_work_history,
+  CAST(application_forms.has_work_history AS BOOL) AS has_work_history,
   application_forms.includes_prioritisation_features,
   application_forms.identification_document_status,
   application_forms.needs_registration_number,
@@ -142,14 +325,14 @@ SELECT
   application_forms.reference,
   application_forms.registration_number,
   application_forms.registration_number_status,
-  STRUCT( requires_passport_as_identity_proof AS passport_as_identify_proof,
+  STRUCT( requires_passport_as_identity_proof AS passport_as_identity_proof,
     requires_private_email_for_referee AS private_email_for_referee,
     requires_preliminary_check AS preliminary_check ) AS requires,
   application_forms.reviewer_id,
   application_forms.verifier_id,
   application_forms.stage,
   application_forms.started_with_private_email_for_referee,
-  application_forms.statuses,
+  SPLIT(application_forms.statuses,',') AS `status`,
   application_forms.subjects_status,
   application_forms.submitted_at,
   application_forms.teacher_id,
@@ -164,62 +347,61 @@ SELECT
   application_forms.working_days_between_submitted_and_today,
   application_forms.working_days_between_submitted_and_completed,
   STRUCT(application_forms.written_statement_confirmation AS confirmation,
-    application_forms.written_statement_optional AS optional,
+    application_forms.written_statement_optional AS `optional`,
     application_forms.written_statement_status AS status ) AS written_statement,
-  application_forms.state,
   application_forms.region_id,
+  DATE_DIFF(DATE(application_forms.submitted_at), DATE (date_of_birth), YEAR) AS age,
   CASE
-    WHEN DATE_DIFF(DATE(application_forms.created_at), date_of_birth, YEAR) < 21 THEN '<21'
-    WHEN DATE_DIFF(DATE(application_forms.created_at), date_of_birth, YEAR) BETWEEN 21
+    WHEN DATE_DIFF(DATE(application_forms.submitted_at), date_of_birth, YEAR) < 21 THEN '<21'
+    WHEN DATE_DIFF(DATE(application_forms.submitted_at), date_of_birth, YEAR) BETWEEN 21
   AND 30 THEN '21-30'
-    WHEN DATE_DIFF(DATE(application_forms.created_at), date_of_birth, YEAR) BETWEEN 31 AND 40 THEN '31-40'
-    WHEN DATE_DIFF(DATE(application_forms.created_at), date_of_birth, YEAR) BETWEEN 41
+    WHEN DATE_DIFF(DATE(application_forms.submitted_at), date_of_birth, YEAR) BETWEEN 31 AND 40 THEN '31-40'
+    WHEN DATE_DIFF(DATE(application_forms.submitted_at), date_of_birth, YEAR) BETWEEN 41
   AND 50 THEN '41-50'
-    WHEN DATE_DIFF(DATE(application_forms.created_at), date_of_birth, YEAR) BETWEEN 51 AND 60 THEN '51-60'
+    WHEN DATE_DIFF(DATE(application_forms.submitted_at), date_of_birth, YEAR) BETWEEN 51 AND 60 THEN '51-60'
     ELSE '61+'
 END
   AS age_range,
-  STRUCT( passport_country_of_issue_code AS country_of_issue,
+  STRUCT( passport_country_of_issue_code AS country_code,
     COALESCE(passport_country.country_name, '') AS country_name,
     passport_document_status AS document_status,
     passport_expiry_date AS expiry_date
     -- check that country matches passport country
     ) AS passport,
   COALESCE(afqts_regions.country_name, '') AS country_name,
-  LOWER( REGEXP_REPLACE(TRIM(application_forms.subjects), r'[^a-zA-Z0-9 ]', '') ) AS application_subjects,
+  afqts_regions.country_eea,
+  afqts_regions.country_eu,
+  subjects_as_array.application_subjects,
   assessments.id AS assessment_id,
   professional_standing.expired_at AS ps_expired_at,
-  DATE_DIFF(DATE(application_forms.created_at), DATE (date_of_birth), YEAR) AS age,
-  assessments.age_range_min AS assessment_age_range_min,
-  assessments.age_range_max AS assessment_age_range_max,
-  CASE
-    WHEN assessments.age_range_min IS NOT NULL AND assessments.age_range_max IS NOT NULL THEN assessments.age_range_min || ' - ' || assessments.age_range_max
-    ELSE CAST(COALESCE(assessments.age_range_min, assessments.age_range_max) AS STRING)
-END
-  AS assessment_age_range,
-  assessments.created_at AS assessment_created_at,
-  REPLACE(LOWER(COALESCE(assessments.subjects, ' ')), '_', ' ') AS assessment_subjects,
-  CASE
-    WHEN application_forms.withdrawn_at IS NOT NULL THEN 'withdrawn'
-    WHEN application_forms.declined_at IS NOT NULL THEN 'declined'
-    WHEN application_forms.awarded_at IS NOT NULL THEN 'awarded'
-END
-  AS assessment_status,
-  CASE
-    WHEN application_forms.age_range_min IS NOT NULL AND application_forms.age_range_max IS NOT NULL THEN CAST(application_forms.age_range_min AS STRING) || ' - ' || CAST(application_forms.age_range_max AS STRING)
-    ELSE CAST(COALESCE(application_forms.age_range_min, application_forms.age_range_max) AS STRING)
-END
-  AS application_age_range,
-  assessments.updated_at AS assessment_updated_at,
-  assessments.subjects,
-  ABS(TIME_DIFF(EXTRACT(TIME
-      FROM
-        assessments.started_at), EXTRACT(TIME
-      FROM
-        assessments.recommended_at), MINUTE)) AS minutes_started_to_recommended,
-  ABS(TIME_DIFF(EXTRACT(TIME
-      FROM
-        assessments.started_at), CURRENT_TIME(), MINUTE)) AS minutes_since_started,
+  STRUCT( assessments.age_range_min AS assessment_age_range_min,
+    assessments.age_range_max AS assessment_age_range_max,
+    CASE
+      WHEN assessments.age_range_min IS NOT NULL AND assessments.age_range_max IS NOT NULL THEN assessments.age_range_min || ' - ' || assessments.age_range_max
+      ELSE CAST(COALESCE(assessments.age_range_min, assessments.age_range_max) AS STRING)
+  END
+    AS age_range,
+    assessments.created_at AS created_at,
+    CASE
+      WHEN assessments.subjects IS NULL THEN NULL
+      ELSE SPLIT( REPLACE(LOWER(assessments.subjects), '_', ' '), ',' )
+  END
+    AS subjects,
+    CASE
+      WHEN application_forms.withdrawn_at IS NOT NULL THEN 'withdrawn'
+      WHEN application_forms.declined_at IS NOT NULL THEN 'declined'
+      WHEN application_forms.awarded_at IS NOT NULL THEN 'awarded'
+  END
+    AS status,
+    assessments.updated_at,
+    ABS(TIME_DIFF(EXTRACT(TIME
+        FROM
+          assessments.started_at), EXTRACT(TIME
+        FROM
+          assessments.recommended_at), MINUTE)) AS minutes_started_to_recommended,
+    ABS(TIME_DIFF(EXTRACT(TIME
+        FROM
+          assessments.started_at), CURRENT_TIME(), MINUTE)) AS minutes_since_started) AS assessment,
   further_information_requests.further_information,
   assessment_sections.failure
 FROM
@@ -248,3 +430,11 @@ LEFT JOIN
   assessment_sections
 ON
   assessment_sections.assessment_id = application_forms.id
+LEFT JOIN
+  ${ref("teachers_latest_afqts")} AS teacher
+ON
+  teacher.id = application_forms.teacher_id
+LEFT JOIN
+  subjects_as_array
+ON
+  subjects_as_array.application_form_id = application_forms.id
