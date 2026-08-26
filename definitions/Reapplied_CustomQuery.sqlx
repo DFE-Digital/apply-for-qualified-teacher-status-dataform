@@ -15,8 +15,8 @@ SELECT
   teacher_id,
   dup_count,
   submitted_at,
-  joinGeoData.country_name,
-  joinGeoData.name AS region_name,
+  afqts_regions.country_name,
+  afqts_regions.region_name,
   country_eea,
   country_eu
 FROM (
@@ -28,6 +28,6 @@ FROM (
   WHERE
     stage != "draft" ) AS submitted_application_forms
 LEFT JOIN
-  ${ref("joinGeoData")} AS joinGeoData
+  ${ref("afqts_regions")} AS afqts_regions
 ON
-  submitted_application_forms.region_id = joinGeoData.region_id
+  submitted_application_forms.region_id = afqts_regions.region_id

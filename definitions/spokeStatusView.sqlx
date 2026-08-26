@@ -33,8 +33,8 @@ SELECT
   spokes,
   spoke_status,
   country_id,
-  name AS region_name,
-  code,
+  region_name,
+  country_code as code,
   country_name,
   country_eea,
   country_eu
@@ -51,6 +51,6 @@ UNPIVOT
       written_statement_status,
       english_language_status ) ) AS application_forms
 LEFT JOIN
-  ${ref("joinGeoData")} AS joinGeoData
+  ${ref("afqts_regions")} AS afqts_regions
 ON
-  application_forms.region_id = joinGeoData.region_id
+  application_forms.region_id = afqts_regions.region_id

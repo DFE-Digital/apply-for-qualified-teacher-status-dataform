@@ -107,12 +107,12 @@ SELECT
     ELSE 'No'
 END
   AS was_application_started_after_prioritisation_release,
-  joinGeoData.country_name AS applicant_country,
+  afqts_regions.country_name AS applicant_country,
   CASE
-    WHEN joinGeoData.country_eea = TRUE THEN 'EEA Country'
+    WHEN afqts_regions.country_eea = TRUE THEN 'EEA Country'
     ELSE 'Non EEA Country'END AS EEA,
   CASE
-    WHEN joinGeoData.country_eu = TRUE THEN 'EU Country'
+    WHEN afqts_regions.country_eu = TRUE THEN 'EU Country'
     ELSE 'Non EU Country'END AS EU,
   CASE
     WHEN latest_work_history_country.work_history_country_code = 'GB-ENG' THEN 'Yes'
@@ -182,9 +182,9 @@ LEFT JOIN
 ON
   application_forms.id = other_work_experience_entered.application_form_id
 LEFT JOIN
-  ${ref("joinGeoData")} AS joinGeoData
+  ${ref("afqts_regions")} AS afqts_regions
 ON
-  application_forms.region_id = joinGeoData.region_id
+  application_forms.region_id = afqts_regions.region_id
 LEFT JOIN
   assessments
 ON

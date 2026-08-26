@@ -154,6 +154,6 @@ LEFT JOIN
 ON
   assessments.application_form_id = application_forms.id
 LEFT JOIN
-  ${ref("joinGeoData")} AS joinGeoData
+  ${ref("afqts_regions")} AS afqts_regions
 ON
-  application_forms.region_id = joinGeoData.region_id
+  application_forms.region_id = afqts_regions.region_id

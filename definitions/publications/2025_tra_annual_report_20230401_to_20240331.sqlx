@@ -17,9 +17,9 @@ WITH
   FROM
     ${ref("application_forms_latest_afqts")} AS application_forms
   JOIN
-    ${ref("joinGeoData")} AS joingeodata
+    ${ref("afqts_regions")} AS afqts_regions
   ON
-    application_forms.region_id = joingeoData.region_id
+    application_forms.region_id = afqts_regions.region_id
   WHERE
     DATE(submitted_at) BETWEEN '2023-04-01'AND '2024-03-31'
     and country_name != 'Zimbabwe'),
