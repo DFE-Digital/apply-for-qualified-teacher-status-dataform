@@ -231,19 +231,9 @@ WITH
         further_information_request.requested_at,
         further_information_request.reviewed_at,
         further_information_request.review_passed,
-        ABS(TIME_DIFF(EXTRACT(TIME
-            FROM
-              further_information_request.received_at), EXTRACT(TIME
-            FROM
-              recommended_at), MINUTE)) AS minutes_received_to_recommended,
-        ABS(TIME_DIFF(EXTRACT(TIME
-            FROM
-              further_information_request.received_at), CURRENT_TIME(), MINUTE)) AS minutes_since_received,
-        ABS(TIME_DIFF(EXTRACT(TIME
-            FROM
-              further_information_request.created_at), EXTRACT(TIME
-            FROM
-              assessment.started_at), MINUTE)) AS minutes_since_started_to_further_information )) AS further_information
+        TIMESTAMP_DIFF(further_information_request.received_at, recommended_at, MINUTE) AS minutes_received_to_recommended,
+        TIMESTAMP_DIFF(further_information_request.received_at, CURRENT_TIMESTAMP(), MINUTE) AS minutes_since_received,
+        TIMESTAMP_DIFF( further_information_request.created_at, assessment.started_at, MINUTE) AS minutes_since_started_to_further_information )) AS further_information
   FROM
     ${ref("further_information_requests_latest_afqts")} AS further_information_request
   LEFT JOIN
@@ -394,14 +384,8 @@ END
   END
     AS status,
     assessments.updated_at,
-    ABS(TIME_DIFF(EXTRACT(TIME
-        FROM
-          assessments.started_at), EXTRACT(TIME
-        FROM
-          assessments.recommended_at), MINUTE)) AS minutes_started_to_recommended,
-    ABS(TIME_DIFF(EXTRACT(TIME
-        FROM
-          assessments.started_at), CURRENT_TIME(), MINUTE)) AS minutes_since_started) AS assessment,
+    TIMESTAMP_DIFF(assessments.started_at, assessments.recommended_at, MINUTE) AS minutes_started_to_recommended,
+    TIMESTAMP_DIFF(assessments.started_at, CURRENT_TIMESTAMP(), MINUTE) AS minutes_since_started) AS assessment,
   further_information_requests.further_information,
   assessment_sections.failure
 FROM

@@ -9,6 +9,7 @@ CASE
     'spain','sweden') THEN 'eu'
   WHEN LOWER(${countryField}) IN ('iceland','liechtenstein','norway') THEN 'eea'
   WHEN LOWER(${countryField}) IN ('united states','australia','new zealand','gibraltar','scotland','canada') THEN 'ott'
+ELSE 'other'
 END
 `;
 }
