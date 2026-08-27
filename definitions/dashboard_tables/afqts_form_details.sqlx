@@ -119,6 +119,7 @@ config {
         status: "ARRAY of application statuses",
         subjects_status: "Subjects submitted status",
         submitted_at: "Timestamp the application was submitted",
+        start_academic_year: "Academic start year for the application based on the date the application form is submitted at. AfQTS is a continuous service. This field has been added to better group application together for reporting and cross-service purposes.",
         teacher_id: "ID of a teacher - specific to AQTS. It is not the same as the cross-service teacher_id and cannot be used for linking teachers across services.",
         teaching_authority_provides_written_statement: "TRUE if the teaching authority providers a written statement. Note that if there isn't an online checker for competent authority, then written statment checks need to be uploaded",
         teaching_qualification_part_of_degree: "TRUE if the teaching qualification is part of the bachelor's degree. If true, applicant needs to provide only one combined degree or qualification. If false, the applicant needs to tell us about two qualifications: their teaching and their degree",
@@ -209,7 +210,28 @@ config {
     }
 }
 
+  --
 WITH
+  academic_days_date AS (
+  SELECT
+    EXTRACT(YEAR
+    FROM
+      start_date) AS start_academic_year,
+    day AS date
+  FROM
+    ${ref("academic_cycles_latest_register")}
+  LEFT JOIN
+    UNNEST( GENERATE_DATE_ARRAY(start_date, DATE_ADD(end_date, INTERVAL 1 YEAR)) ) AS day
+  WHERE
+    EXTRACT(YEAR
+    FROM
+      start_date) BETWEEN 2021
+    -- Each of the services started collecting data in different years. Modified this to show from 2021, this was the first year Apply launched.
+    AND EXTRACT(YEAR
+    FROM
+      -- Extending current date by 3 months so that the incomplete quarter will show values for AfQTS and Register data
+      DATE_ADD(CURRENT_DATE, INTERVAL 3 MONTH))
+    AND day <= DATE_ADD(CURRENT_DATE, INTERVAL 3 MONTH) ),
   assessment_sections AS (
   SELECT
     assessment_id,
@@ -325,6 +347,7 @@ OFFSET
   SPLIT(application_forms.statuses,',') AS `status`,
   application_forms.subjects_status,
   application_forms.submitted_at,
+  academic_days_date.start_academic_year,
   application_forms.teacher_id,
   teaching_authority_provides_written_statement,
   teaching_qualification_part_of_degree,
@@ -422,3 +445,7 @@ LEFT JOIN
   subjects_as_array
 ON
   subjects_as_array.application_form_id = application_forms.id
+LEFT JOIN
+  academic_days_date
+ON
+  academic_days_date.date = DATE(application_forms.submitted_at)
