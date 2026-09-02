@@ -218,7 +218,7 @@ WITH
       end_date) AS end_academic_year,
     day AS date
   FROM
-    `rugged-abacus-218110.dataform.academic_cycles_latest_register`
+    ${ref("academic_cycles_latest_register")}
   LEFT JOIN
     UNNEST( GENERATE_DATE_ARRAY(start_date, end_date) ) AS day
   WHERE
