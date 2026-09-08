@@ -34,7 +34,10 @@ config {
             description: "Date of birth of the applicant",
             bigqueryPolicyTags: ["projects/apply-for-qts-in-england/locations/europe-west2/taxonomies/5456044749211275650/policyTags/2399328962407973209"]
         },
-        trs_match: "Any matches with an existing teacher recorded in TRS are stored here",
+        trs_match: {
+            description: "Any matches with an existing teacher recorded in TRS are stored here",
+            bigqueryPolicyTags: ["projects/apply-for-qts-in-england/locations/europe-west2/taxonomies/5456044749211275650/policyTags/2399328962407973209"]
+        },
         eligibility_check_id: "Eligibility check ID - This will be the link to the eligibility check record that the applicant used to generate the application form",
         english_language: {
             description: "STRUCT of fields related to english language",
@@ -156,10 +159,7 @@ config {
         passport: {
             description: "STRUCT of fields related to passport information",
             columns: {
-                country_name: {
-                    description: "Name of the country who issued the passport of the applicant",
-                    bigqueryPolicyTags: ["projects/apply-for-qts-in-england/locations/europe-west2/taxonomies/5456044749211275650/policyTags/2399328962407973209"]
-                },
+                country_name: "Name of the country who issued the passport of the applicant",
                 country_code: "Country code of the country who issued the passport of the applicant",
                 document_status: "Passport document provided status",
                 expiry_date: "Passport expiry date provided",
