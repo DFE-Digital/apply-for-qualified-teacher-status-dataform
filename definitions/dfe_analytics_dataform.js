@@ -800,6 +800,33 @@ dfeAnalyticsDataform({
             ],
         },
         {
+            entityTableName: "feedback_submissions",
+            description: "A table representing all the feedback submitted by users",
+            keys: [
+                {
+                    keyName: "application_status",
+                    dataType: "string",
+                    description: "The application status of the user who is submitting feedback which is either not_started, submitting_an_application, application_submitted, confirmed_qts, unsuccessful and not_an_applicant.",
+                },
+                {
+                    keyName: "comment",
+                    dataType: "string",
+                    description: "The comment left by the user submitting the feedback.",
+                    hidden: true,
+                },
+                {
+                    keyName: "overall_experience",
+                    dataType: "string",
+                    description: "The feedback rating left by the user which is either highly_satisfied, somewhat_satisfied, neither_satisfied_nor_dissatisfied, dissatisfied or very_dissatisfied.",
+                },
+                {
+                    keyName: "submitted_at",
+                    dataType: "timestamp",
+                    description: "The timestamp the feedback was submitted.",
+                },
+            ],
+        },
+        {
             entityTableName: "documents",
             description: "",
             keys: [
