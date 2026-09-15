@@ -29,8 +29,13 @@ SELECT
   regions.id AS region_id,
   regions.name AS region_name,
   countries.id AS country_id,
-  country_codes.code AS country_code,
-  country_codes.country_name,
+  COALESCE(country_codes.code,countries.code) AS country_code,
+  CASE
+    WHEN countries.code = 'GB-SCT' THEN 'Scotland'
+    WHEN countries.code = 'GB-NIR' THEN 'Northern Ireland'
+    ELSE country_codes.country_name
+END
+  AS country_name,
   regions_requires_preliminary_check,
   regions_reduced_evidence_accepted,
   teaching_authority_online_checker_url,
@@ -46,11 +51,11 @@ SELECT
     'eu') AS country_eu,
 FROM
   ${ref("regions_latest_afqts")} AS regions
-INNER JOIN
+LEFT JOIN
   ${ref("countries_latest_afqts")} AS countries
 ON
   regions.country_id = countries.id
-INNER JOIN
+LEFT JOIN
   ${ref("country_codes")} AS country_codes
 ON
   countries.code = country_codes.code
