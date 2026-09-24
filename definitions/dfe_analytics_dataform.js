@@ -1699,6 +1699,28 @@ dfeAnalyticsDataform({
             ],
         },
         {
+            entityTableName: "selected_failure_reasons_work_histories",
+            description: "The selected failure reasons and work histories join table for when unrecognised_references is selected as a failure reason key",
+            keys: [
+                {
+                    keyName: "selected_failure_reason_id",
+                    dataType: "string",
+                    description: "",
+                },
+                {
+                    keyName: "work_history_id",
+                    dataType: "string",
+                    description: "",
+                },
+                {
+                    keyName: "assessor_feedback",
+                    dataType: "string",
+                    description: "The feedback from the assessor about why this failure reason was selected for the work history.",
+                    hidden: true,
+                },
+            ],
+        },
+        {
             entityTableName: "staff",
             description: "",
             keys: [
