@@ -1,6 +1,9 @@
 config {
     type: "incremental",
     description: "Monitors analytical table usage on each day of each table in the Apply for QTS in England project.",
+    dependencies: [
+        "afqts_form_details"
+    ],
     uniqueKey: ["project", "table_name", "dataset", "date", "query_source"],
     columns: {
         table_name: "Name of the table",

@@ -1,11 +1,30 @@
 config {
     type: "assertion",
-    description: "This assertion checks if our main tables in the Apply for QTS in England project are missing metadata information. If this alert fires, either add in the meta description or contact the relevant team to add in the description."
+    description: "This assertion checks if our main tables in the Apply for QTS in England project are missing metadata information. If this alert fires, either add in the meta description or contact the relevant team to add in the description.",
+    dependencies: [
+        "afqts_form_details"  
+    ]
 }
 
+  -- Dependencies above are to make sure the above tables run before the assertion checks if metadata is missing
+WITH
+  key_tables AS (
+  SELECT
+    DISTINCT table_name
+  FROM
+    `${dataform.projectConfig.defaultDatabase}.1_key_tables.INFORMATION_SCHEMA.TABLES` )
 SELECT
-  *
+  dev_branch.*
 FROM
-  `1_key_tables.INFORMATION_SCHEMA.COLUMN_FIELD_PATHS`
+  ${
+      dataform.projectConfig.schemaSuffix ?
+          `\`${dataform.projectConfig.defaultDatabase}.dataform_${dataform.projectConfig.schemaSuffix}.INFORMATION_SCHEMA.COLUMN_FIELD_PATHS\`` :
+          `\`${dataform.projectConfig.defaultDatabase}.1_key_tables.INFORMATION_SCHEMA.COLUMN_FIELD_PATHS\``
+  }
+  AS dev_branch
+RIGHT JOIN
+  key_tables
+ON
+  key_tables.table_name = dev_branch.table_name
 WHERE
   description IS NULL
