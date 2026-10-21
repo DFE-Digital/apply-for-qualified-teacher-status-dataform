@@ -2196,7 +2196,7 @@ dfeAnalyticsDataform({
                 },
                 {
                     keyName: "end_date",
-                    dataType: "timestamp",
+                    dataType: "date",
                     description: "",
                 },
                 {
@@ -2236,7 +2236,7 @@ dfeAnalyticsDataform({
                 },
                 {
                     keyName: "start_date",
-                    dataType: "string",
+                    dataType: "date",
                     description: "",
                 },
                 {
