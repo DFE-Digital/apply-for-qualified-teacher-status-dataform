@@ -200,13 +200,8 @@ config {
                 minutes_since_started_to_further_information: "Minutes between the assessment being started to the request of further information being received by the applicant"
             }
         },
-        failure: {
-            description: "STRUCT of fields showing the reasons that the applicant was unsuccessful",
-            columns: {
-                reasons: "List of reasons associated with the failure key",
-                key: "Failure key selected for this application form e.g. work_history, qualifications"
-            }
-        },
+        selected_failure_reasons: "ARRAY of failure reasons selected by the assessor to indicate the applicant was unsuccessful",
+        declined_for_suitability: "TRUE if the application was declined for suitability reasons"
     }
 }
 
@@ -232,11 +227,14 @@ WITH
     AND day <= DATE_ADD(CURRENT_DATE, INTERVAL 3 MONTH)),
   assessment_sections AS (
   SELECT
-    assessment_id,
-    ARRAY_AGG(STRUCT ( SPLIT(failure_reasons,',') AS reasons,
-        `key` )) AS failure
+    assessment_section.assessment_id,
+    ARRAY_AGG(selected_failure_reasons.key IGNORE NULLS) AS selected_failure_reasons
   FROM
-    ${ref("assessment_sections_latest_afqts")}
+    ${ref("assessment_sections_latest_afqts")} AS assessment_section
+  LEFT JOIN
+    ${ref("selected_failure_reasons_latest_afqts")} AS selected_failure_reasons
+  ON
+    assessment_section.id = selected_failure_reasons.assessment_section_id
   WHERE
     NOT passed
   GROUP BY
@@ -408,7 +406,15 @@ END
     TIMESTAMP_DIFF(assessments.started_at, assessments.recommended_at, MINUTE) AS minutes_started_to_recommended,
     TIMESTAMP_DIFF(assessments.started_at, CURRENT_TIMESTAMP(), MINUTE) AS minutes_since_started) AS assessment,
   further_information_requests.further_information,
-  assessment_sections.failure
+  assessment_sections.selected_failure_reasons,
+  EXISTS (
+  SELECT
+    1
+  FROM
+    UNNEST(assessment_sections.selected_failure_reasons) AS failure
+  WHERE
+    failure IN ('suitability',
+      'suitability_previously_declined' )) AS declined_for_suitability
 FROM
   ${ref("application_forms_latest_afqts")} AS application_forms
 LEFT JOIN
