@@ -207,6 +207,7 @@ config {
                 key: "Failure key selected for this application form e.g. work_history, qualifications"
             }
         },
+        declined_for_suitability: "TRUE if the application was declined for suitability reasons"
     }
 }
 
@@ -234,8 +235,7 @@ WITH
   SELECT
     assessment_id,
     ARRAY_AGG(STRUCT (`key`,
-        SPLIT(failure_reasons,',') AS reasons,
-        )) AS failure
+        SPLIT(failure_reasons,',') AS reasons )) AS failure
   FROM
     ${ref("assessment_sections_latest_afqts")}
   WHERE
@@ -409,7 +409,17 @@ END
     TIMESTAMP_DIFF(assessments.started_at, assessments.recommended_at, MINUTE) AS minutes_started_to_recommended,
     TIMESTAMP_DIFF(assessments.started_at, CURRENT_TIMESTAMP(), MINUTE) AS minutes_since_started) AS assessment,
   further_information_requests.further_information,
-  assessment_sections.failure
+  assessment_sections.failure,
+  EXISTS (
+  SELECT
+    1
+  FROM
+    UNNEST(assessment_sections.failure) AS failure
+  LEFT JOIN
+    UNNEST(failure.reasons) AS failure_reason
+  WHERE
+    failure_reason IN ('suitability',
+      'suitability_previously_declined' )) AS declined_for_suitability
 FROM
   ${ref("application_forms_latest_afqts")} AS application_forms
 LEFT JOIN
