@@ -233,8 +233,9 @@ WITH
   assessment_sections AS (
   SELECT
     assessment_id,
-    ARRAY_AGG(STRUCT ( SPLIT(failure_reasons,',') AS reasons,
-        `key` )) AS failure
+    ARRAY_AGG(STRUCT (`key`,
+        SPLIT(failure_reasons,',') AS reasons,
+        )) AS failure
   FROM
     ${ref("assessment_sections_latest_afqts")}
   WHERE
