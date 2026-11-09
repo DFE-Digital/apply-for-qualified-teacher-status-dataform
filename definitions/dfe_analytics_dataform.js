@@ -1,6 +1,7 @@
 const dfeAnalyticsDataform = require("dfe-analytics-dataform");
 
 dfeAnalyticsDataform({
+    disabled: false,
     eventSourceName: "afqts",
     bqProjectName: "apply-for-qts-in-england",
     bqDatasetName: "events_production",
@@ -8,6 +9,31 @@ dfeAnalyticsDataform({
     expirationDays: false,
     urlRegex: "apply-for-qts-in-england.education.gov.uk",
     hiddenPolicyTagLocation: "projects/apply-for-qts-in-england/locations/europe-west2/taxonomies/5456044749211275650/policyTags/2399328962407973209",
+    compareChecksums: false,
+    enableMonitoring: false,
+    enableAirbyteSource: true,
+    hasTimestamps: true,
+    airbyteConfig: {
+        datasetName: "afqts_airbyte_production",
+        tablePrefix: "",
+        tableSuffix: "_airbyte",
+        defaultPrimaryKeyField: "id"
+    },
+    enabledAirbyteLegacyMerge: true,
+    airbyteLegacyMergeCutoff: "2026-11-02",
+    airbyteHeartbeat: {
+        datasetName: "afqts_airbyte_production",
+        freshnessHours: 12,
+        tableName: "airbyte_heartbeat",
+        disableFreshnessCheckDuringRange: false
+    },
+    airbyteReconciliation: {
+        enabled: true,
+        minLiveFraction: 0.8,
+        maxDeleteFraction: 0.2,
+        minSnapshotAgeMinutes: 60,
+        detectionWindowDays: 60
+    },
     dataSchema: [
         {
             entityTableName: "application_forms",
@@ -983,6 +1009,13 @@ dfeAnalyticsDataform({
                     keyName: "notify_status",
                     dataType: "string",
                     description: "The status of the delivery on GOV.UK Notify. This column is only relevant for email deliveries from 2nd March 2026.",
+                    valueMappings: {
+                        "created": "created",
+                        "delivered": "delivered",
+                        "permanent-failure": "permanent_failure",
+                        "temporary-failure": "temporary_failure",
+                        "technical-failure": "technical_failure"
+                    },
                 },
                 {
                     keyName: "prioritisation_reference_request_id",
