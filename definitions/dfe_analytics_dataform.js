@@ -1706,6 +1706,7 @@ dfeAnalyticsDataform({
         },
         {
             entityTableName: "selected_failure_reasons",
+            hasTimestamps: false,
             description: "The selected failure reasons by assessor either during prioritisation work history check or during specific assessment sections",
             keys: [
                 {
