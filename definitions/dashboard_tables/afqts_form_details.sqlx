@@ -426,6 +426,10 @@ LEFT JOIN
 ON
   application_forms.id = assessments.application_form_id
 LEFT JOIN
+  assessment_sections
+ON
+  assessment_sections.assessment_id = assessments.id
+LEFT JOIN
   further_information_requests
 ON
   assessments.id = further_information_requests.assessment_id
@@ -437,10 +441,6 @@ LEFT JOIN
   ${ref("passport_issue_country")} AS passport_country
 ON
   passport_country_of_issue_code = passport_country.country_code
-LEFT JOIN
-  assessment_sections
-ON
-  assessment_sections.assessment_id = application_forms.id
 LEFT JOIN
   ${ref("teachers_latest_afqts")} AS teacher
 ON
