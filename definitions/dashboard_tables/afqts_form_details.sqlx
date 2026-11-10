@@ -123,6 +123,7 @@ config {
         subjects_status: "Subjects submitted status",
         submitted_at: "Timestamp the application was submitted",
         end_academic_year: "Academic end year for the application based on the date the application form is submitted at. AfQTS is a continuous service. This field has been added to better group application together for reporting and cross-service purposes.",
+        recruitment_cycle_year: "The calendar year in which the recruitment cycle ends, derived from the date the application form was submitted (submitted_at). This aligns the recruitment cycle year with Apply for ITT data, enabling consistent comparisons. For example, the 2021-2022 recruitment cycle is recorded as 2022.",
         teacher_id: "ID of a teacher - specific to AQTS. It is not the same as the cross-service teacher_id and cannot be used for linking teachers across services.",
         teaching_authority_provides_written_statement: "TRUE if the teaching authority providers a written statement. Note that if there isn't an online checker for competent authority, then written statment checks need to be uploaded",
         teaching_qualification_part_of_degree: "TRUE if the teaching qualification is part of the bachelor's degree. If true, applicant needs to provide only one combined degree or qualification. If false, the applicant needs to tell us about two qualifications: their teaching and their degree",
@@ -344,6 +345,7 @@ OFFSET
   application_forms.subjects_status,
   application_forms.submitted_at,
   academic_days_date.end_academic_year,
+  recruitment_cycle.recruitment_cycle_year,
   application_forms.teacher_id,
   teaching_authority_provides_written_statement,
   teaching_qualification_part_of_degree,
@@ -453,3 +455,8 @@ LEFT JOIN
   academic_days_date
 ON
   academic_days_date.date = DATE(application_forms.submitted_at)
+LEFT JOIN
+  ${ref("recruitment_cycle_timetables_latest_apply")} AS recruitment_cycle
+ON
+  application_forms.submitted_at BETWEEN recruitment_cycle.find_opens_at
+  AND recruitment_cycle.find_closes_at

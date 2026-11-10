@@ -5,6 +5,7 @@
 
 const TableNames = [
         {schemaName: "dataform", tableName:"academic_cycles_latest_register"},
+        {schemaName: "dataform", tableName:"recruitment_cycle_timetables_latest_apply"},
 ];
 
 TableNames.forEach(table => {
