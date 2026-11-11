@@ -181,6 +181,7 @@ config {
                 created_at: "Timestamp the assessment was created",
                 subjects: "ARRAY of the subjects reviewed in the assessment",
                 status: "Status of the assessment of this application form e.g. awarded, declined, withdrawn",
+                decision_at: "Timestamp of the latest decision of the assessment of this application form",
                 updated_at: "Timestamp the assessment was updated",
                 minutes_started_to_recommended: "Minutes between an assessment starting and a recommendation being made",
                 minutes_since_started: "Minutes from the assessment starting to the time the pipeline was last run",
@@ -398,12 +399,25 @@ END
       ELSE SPLIT( REPLACE(LOWER(assessments.subjects), '_', ' '), ',' )
   END
     AS subjects,
-    CASE
-      WHEN application_forms.withdrawn_at IS NOT NULL THEN 'withdrawn'
-      WHEN application_forms.declined_at IS NOT NULL THEN 'declined'
-      WHEN application_forms.awarded_at IS NOT NULL THEN 'awarded'
-  END
-    AS status,
+    (
+    SELECT
+      decision.status
+    FROM
+      UNNEST([ STRUCT(application_forms.withdrawn_at AS timestamp,
+          'withdrawn' AS status), STRUCT(application_forms.declined_at AS timestamp,
+          'declined' AS status), STRUCT(application_forms.awarded_at AS timestamp,
+          'awarded' AS status) ]) AS decision
+    WHERE
+      decision.timestamp IS NOT NULL
+    ORDER BY
+      decision.timestamp DESC
+    LIMIT
+      1 ) AS status,
+    (
+    SELECT
+      MAX(decision_at)
+    FROM
+      UNNEST([ application_forms.withdrawn_at, application_forms.declined_at, application_forms.awarded_at ]) AS decision_at ) AS decision_at,
     assessments.updated_at,
     TIMESTAMP_DIFF(assessments.started_at, assessments.recommended_at, MINUTE) AS minutes_started_to_recommended,
     TIMESTAMP_DIFF(assessments.started_at, CURRENT_TIMESTAMP(), MINUTE) AS minutes_since_started) AS assessment,
