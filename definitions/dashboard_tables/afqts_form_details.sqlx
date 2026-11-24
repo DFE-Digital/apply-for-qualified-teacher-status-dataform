@@ -293,7 +293,7 @@ WITH
   choice_details AS (
   SELECT
     application_forms.id,
-    choice_details.first_name = SPLIT(LOWER(application_forms.given_names), ' ')[
+    SPLIT(LOWER(application_forms.given_names), ' ')[
   OFFSET
     (0)] AS first_name,
     LOWER(application_forms.family_name) AS last_name,
