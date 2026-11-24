@@ -179,6 +179,7 @@ config {
                 assessment_age_range_max: "Max age range in the assessement",
                 age_range: "Age range in the assessment",
                 created_at: "Timestamp the assessment was created",
+                started_at: "Timestamp the assessment was started",
                 subjects: "ARRAY of the subjects reviewed in the assessment",
                 status: "Status of the assessment of this application form e.g. awarded, declined, withdrawn",
                 decision_at: "Timestamp of the latest decision of the assessment of this application form",
@@ -203,7 +204,18 @@ config {
             }
         },
         selected_failure_reasons: "ARRAY of failure reasons selected by the assessor to indicate the applicant was unsuccessful",
-        declined_for_suitability: "TRUE if the application was declined for suitability reasons"
+        declined_for_suitability: "TRUE if the application was declined for suitability reasons",
+        apply: {
+            description: "ARRAY of application choices submitted by the applicant through Apply for ITT before applying through AfQTS",
+            columns: {
+                choice_id: "Unique identifier for the application choice in Apply for ITT",
+                status: "Status of the application choice",
+                course_name: "Name of the course associated with the application choice",
+                tad_subject: "TAD subject that the course is grouped under",
+                recruitment_cycle_year: "Recruitment cycle year in which the application choice was submitted",
+                sent_to_provider_at: "Timestamp when the application choice was sent to the provider in Apply for ITT"
+            }
+        }
     }
 }
 
@@ -277,7 +289,42 @@ WITH
   LEFT JOIN
     UNNEST (application_subjects) AS unnested_subjects
   GROUP BY
-    application_form_id )
+    application_form_id ),
+  choice_details AS (
+  SELECT
+    application_forms.id,
+    choice_details.first_name = SPLIT(LOWER(application_forms.given_names), ' ')[
+  OFFSET
+    (0)] AS first_name,
+    LOWER(application_forms.family_name) AS last_name,
+    application_forms.date_of_birth,
+    teacher.email,
+    MIN(sent_to_provider_at) AS first_sent_to_provider_at,
+    ARRAY_AGG(STRUCT( choice_details.id AS choice_id,
+        choice_details.status,
+        choice_details.course.name AS course_name,
+        choice_details.course.tad_subject,
+        choice_details.recruitment_cycle_year,
+        choice_details.sent_to_provider_at)) AS `apply`
+  FROM
+    ${ref("application_forms_latest_afqts")} AS application_forms
+  LEFT JOIN
+    ${ref("teachers_latest_afqts")} AS teacher
+  ON
+    teacher.id = application_forms.teacher_id
+  LEFT JOIN
+    ${ref("application_choice_details")} AS choice_details
+  ON
+    choice_details.sent_to_provider_at <= application_forms.submitted_at
+    AND ( ( choice_details.date_of_birth = application_forms.date_of_birth
+        AND choice_details.email = teacher.email)
+      OR ( choice_details.first_name = SPLIT(LOWER(application_forms.given_names), ' ')[
+      OFFSET
+        (0)]
+        AND choice_details.last_name = LOWER(application_forms.family_name)
+        AND choice_details.date_of_birth = application_forms.date_of_birth))
+  GROUP BY
+    ALL )
 SELECT
   application_forms.id AS application_form_id,
   application_forms.created_at,
@@ -362,15 +409,15 @@ OFFSET
     application_forms.written_statement_optional AS `optional`,
     application_forms.written_statement_status AS status ) AS written_statement,
   application_forms.region_id,
-  DATE_DIFF(DATE(application_forms.submitted_at), DATE (date_of_birth), YEAR) AS age,
+  DATE_DIFF(DATE(application_forms.submitted_at), DATE (application_forms.date_of_birth), YEAR) AS age,
   CASE
-    WHEN DATE_DIFF(DATE(application_forms.submitted_at), date_of_birth, YEAR) < 21 THEN '<21'
-    WHEN DATE_DIFF(DATE(application_forms.submitted_at), date_of_birth, YEAR) BETWEEN 21
+    WHEN DATE_DIFF(DATE(application_forms.submitted_at), application_forms.date_of_birth, YEAR) < 21 THEN '<21'
+    WHEN DATE_DIFF(DATE(application_forms.submitted_at), application_forms.date_of_birth, YEAR) BETWEEN 21
   AND 30 THEN '21-30'
-    WHEN DATE_DIFF(DATE(application_forms.submitted_at), date_of_birth, YEAR) BETWEEN 31 AND 40 THEN '31-40'
-    WHEN DATE_DIFF(DATE(application_forms.submitted_at), date_of_birth, YEAR) BETWEEN 41
+    WHEN DATE_DIFF(DATE(application_forms.submitted_at), application_forms.date_of_birth, YEAR) BETWEEN 31 AND 40 THEN '31-40'
+    WHEN DATE_DIFF(DATE(application_forms.submitted_at), application_forms.date_of_birth, YEAR) BETWEEN 41
   AND 50 THEN '41-50'
-    WHEN DATE_DIFF(DATE(application_forms.submitted_at), date_of_birth, YEAR) BETWEEN 51 AND 60 THEN '51-60'
+    WHEN DATE_DIFF(DATE(application_forms.submitted_at), application_forms.date_of_birth, YEAR) BETWEEN 51 AND 60 THEN '51-60'
     ELSE '61+'
 END
   AS age_range,
@@ -394,6 +441,7 @@ END
   END
     AS age_range,
     assessments.created_at AS created_at,
+    assessments.started_at,
     CASE
       WHEN assessments.subjects IS NULL THEN NULL
       ELSE SPLIT( REPLACE(LOWER(assessments.subjects), '_', ' '), ',' )
@@ -430,7 +478,8 @@ END
     UNNEST(assessment_sections.selected_failure_reasons) AS failure
   WHERE
     failure IN ('suitability',
-      'suitability_previously_declined' )) AS declined_for_suitability
+      'suitability_previously_declined' )) AS declined_for_suitability,
+  choice_details.apply
 FROM
   ${ref("application_forms_latest_afqts")} AS application_forms
 LEFT JOIN
@@ -474,3 +523,8 @@ LEFT JOIN
 ON
   application_forms.submitted_at BETWEEN recruitment_cycle.find_opens_at
   AND recruitment_cycle.find_closes_at
+LEFT JOIN
+  choice_details
+ON
+  first_sent_to_provider_at <= application_forms.submitted_at
+  AND choice_details.id = application_forms.id
