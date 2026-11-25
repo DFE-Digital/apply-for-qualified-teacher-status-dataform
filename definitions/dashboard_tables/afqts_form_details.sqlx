@@ -292,14 +292,13 @@ WITH
     application_form_id ),
   choice_details AS (
   SELECT
-    application_forms.id,
+    application_forms.id AS afqts_form_id,
     SPLIT(LOWER(application_forms.given_names), ' ')[
   OFFSET
     (0)] AS first_name,
     LOWER(application_forms.family_name) AS last_name,
     application_forms.date_of_birth,
     teacher.email,
-    MIN(sent_to_provider_at) AS first_sent_to_provider_at,
     ARRAY_AGG(STRUCT( choice_details.id AS choice_id,
         choice_details.status,
         choice_details.course.name AS course_name,
@@ -312,7 +311,7 @@ WITH
     ${ref("teachers_latest_afqts")} AS teacher
   ON
     teacher.id = application_forms.teacher_id
-  LEFT JOIN
+  INNER JOIN
     ${ref("application_choice_details")} AS choice_details
   ON
     choice_details.sent_to_provider_at <= application_forms.submitted_at
@@ -526,5 +525,4 @@ ON
 LEFT JOIN
   choice_details
 ON
-  first_sent_to_provider_at <= application_forms.submitted_at
-  AND choice_details.id = application_forms.id
+  choice_details.afqts_form_id = application_forms.id
