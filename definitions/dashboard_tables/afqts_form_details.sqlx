@@ -311,7 +311,7 @@ WITH
     ${ref("teachers_latest_afqts")} AS teacher
   ON
     teacher.id = application_forms.teacher_id
-  LEFT JOIN
+  INNER JOIN
     ${ref("application_choice_details")} AS choice_details
   ON
     choice_details.sent_to_provider_at <= application_forms.submitted_at
