@@ -292,7 +292,7 @@ WITH
     application_form_id ),
   choice_details AS (
   SELECT
-    application_forms.id,
+    application_forms.id AS afqts_form_id,
     SPLIT(LOWER(application_forms.given_names), ' ')[
   OFFSET
     (0)] AS first_name,
@@ -525,4 +525,4 @@ ON
 LEFT JOIN
   choice_details
 ON
-  choice_details.id = application_forms.id
+  choice_details.afqts_form_id = application_forms.id
